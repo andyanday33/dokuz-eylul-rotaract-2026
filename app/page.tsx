@@ -1,7 +1,11 @@
+import { Hero } from "@/components/Hero/Hero";
+import { SlidingText } from "@/components/Hero/SlidingText";
+
 export default function Home() {
   return (
-    <main className="flex flex-1 items-center justify-center">
-      <h1 className="wordmark text-4xl text-primary">Rotaract</h1>
+    <main className="flex flex-col relative h-[200vh]">
+      <Hero />
+      <SlidingText />
     </main>
   );
 }
