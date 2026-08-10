@@ -33,6 +33,7 @@
   --color-cranberry: var(--cranberry);
   --font-sans: "Open Sans", system-ui, sans-serif;
   --font-display: "Open Sans", system-ui, sans-serif;
+  --breakpoint-xs: 340px;
 }
 
 :root {
