@@ -32,27 +32,30 @@ export const SlidingText = (props: Props) => {
       scrollTrigger: {
         trigger: "#hero",
         start: "top top",
-        end: "+=100%",
+        end: "+=90%",
         scrub: 1,
-        pin: true,
         invalidateOnRefresh: true,
       },
     });
 
-    tl.to(".hero-fade", { opacity: 0, duration: 0.5 });
+    tl.to(".hero-fade", { opacity: 0 });
 
-    tl.to("#slidingText", {
-      top: 0,
-      left: 0,
-      xPercent: 0,
-      width: "8rem",
-    });
+    tl.to(
+      "#slidingText",
+      {
+        top: 0,
+        left: 0,
+        xPercent: 0,
+        width: "8rem",
+      },
+      "<",
+    );
   }, {});
 
   return (
     <div
       id={"slidingText"}
-      className="w-64 xs:w-72 sm:w-96 md:w-120 lg:w-xl xl:w-2xl aspect-989/541 fixed top-36 left-1/2"
+      className="w-64 xs:w-72 sm:w-96 md:w-120 lg:w-xl xl:w-2xl aspect-989/541 fixed top-36 left-1/2 z-50"
       style={{
         transform: "translateX(-50%)",
       }}

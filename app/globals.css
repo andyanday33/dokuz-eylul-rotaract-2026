@@ -115,6 +115,18 @@
   margin-inline: auto;
 }
 
+@layer base {
+  .marquee-track {
+    animation: marquee 20s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
 @utility rule-cranberry {
   background-image: linear-gradient(
     90deg,
