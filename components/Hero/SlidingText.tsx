@@ -43,10 +43,11 @@ export const SlidingText = (props: Props) => {
     tl.to(
       "#slidingText",
       {
-        top: 0,
-        left: 0,
+        top: "2rem",
+        left: "5vw",
         xPercent: 0,
-        width: "8rem",
+        yPercent: -50,
+        width: "6.5rem",
       },
       "<",
     );
@@ -55,7 +56,7 @@ export const SlidingText = (props: Props) => {
   return (
     <div
       id={"slidingText"}
-      className="w-64 xs:w-72 sm:w-96 md:w-120 lg:w-xl xl:w-2xl aspect-989/541 fixed top-36 left-1/2 z-50"
+      className="w-64 xs:w-72 sm:w-96 md:w-120 lg:w-xl xl:w-2xl aspect-790/318 fixed top-40 left-1/2 z-50"
       style={{
         transform: "translateX(-50%)",
       }}
@@ -63,8 +64,8 @@ export const SlidingText = (props: Props) => {
       <Image
         src="/dokuz_eylul.png"
         alt="Dokuz Eylül Rotaract Kulübü"
-        width={989}
-        height={541}
+        width={790}
+        height={318}
         priority
         quality={100}
         className="object-contain"

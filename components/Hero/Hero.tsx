@@ -1,11 +1,4 @@
-"use client";
-
-import React, { useRef } from "react";
-import Image from "next/image";
-
-type Props = {};
-
-export const Hero = (props: Props) => {
+export const Hero = () => {
   return (
     <section id="hero" className="wrapper min-h-screen flex flex-col relative">
       <div className="hero-fade flex w-full justify-center pt-30">
@@ -15,7 +8,7 @@ export const Hero = (props: Props) => {
       </div>
 
       <div className="wrapper hero-fade">
-        <div className="h-36 xs:h-40 sm:h-52 md:h-66 lg:h-80 xl:h-92" aria-hidden />
+        <div className="h-36 xs:h-40 sm:h-52 md:h-60 lg:h-72 xl:h-80" aria-hidden />
         <div className="hero-fade grid gap-10 border-t border-border pt-8 md:grid-cols-[1.2fr_1fr]">
           <h1 className="sr-only">Rotaract Kulübü — hizmetle gelen dostluk</h1>
           <p
