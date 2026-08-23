@@ -5,6 +5,7 @@ import { Marquee } from "@/components/Marquee";
 import { About } from "@/components/About";
 import { FourWayTest } from "@/components/FourWayTest";
 import { Numbers } from "@/components/Numbers";
+import { Board } from "@/components/Board";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <About />
       <Numbers />
       <FourWayTest />
+      <Board />
       <ScrollAnimations />
     </main>
   );
