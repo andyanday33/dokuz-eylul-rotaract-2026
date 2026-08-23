@@ -4,6 +4,7 @@ import { SlidingText } from "@/components/Hero/SlidingText";
 import { Marquee } from "@/components/Marquee";
 import { About } from "@/components/About";
 import { FourWayTest } from "@/components/FourWayTest";
+import { Numbers } from "@/components/Numbers";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <SlidingText />
       <Marquee />
       <About />
+      <Numbers />
       <FourWayTest />
       <ScrollAnimations />
     </main>
