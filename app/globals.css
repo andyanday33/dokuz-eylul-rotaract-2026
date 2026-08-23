@@ -127,6 +127,27 @@
   }
 }
 
+@layer base {
+  .orbit-spin {
+    animation: orbit-spin 60s linear infinite;
+  }
+
+  .orbit-spin-reverse {
+    animation: orbit-spin 90s linear infinite reverse;
+  }
+
+  .board-photo {
+    filter: grayscale(1) contrast(0.95) brightness(0.9);
+    transition: filter 0.5s, transform 0.5s;
+  }
+}
+
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @utility rule-cranberry {
   background-image: linear-gradient(
     90deg,

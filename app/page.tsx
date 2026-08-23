@@ -6,6 +6,7 @@ import { About } from "@/components/About";
 import { FourWayTest } from "@/components/FourWayTest";
 import { Numbers } from "@/components/Numbers";
 import { Board } from "@/components/Board";
+import { Committees } from "@/components/Committees";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <Numbers />
       <FourWayTest />
       <Board />
+      <Committees />
       <ScrollAnimations />
     </main>
   );

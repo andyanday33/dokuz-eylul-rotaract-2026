@@ -32,7 +32,7 @@ export const Navbar = () => {
     <header className="fixed navbar inset-x-0 top-0 z-40 border-b border-transparent">
       <nav className="wrapper flex h-16 items-center justify-between">
         <div className="h-7 w-[176px]" aria-hidden />
-        <ul className="flex items-center gap-7">
+        <ul className="hidden items-center gap-7 sm:flex">
           {NAV_LINKS.map((l) => (
             <li key={l.href}>
               <a
