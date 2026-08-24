@@ -158,7 +158,9 @@ export const Board = () => {
     if (!touchRef.current) return;
     const diff = touchRef.current.x - e.changedTouches[0].clientX;
     if (touchRef.current.locked && Math.abs(diff) > 40) {
-      diff > 0 ? next() : prev();
+      // Wheel now spins clockwise toward "next", so the next member rides up
+      // from the left — dragging left rotates back, dragging right goes forward.
+      diff > 0 ? prev() : next();
     }
     touchRef.current = null;
   };
@@ -243,7 +245,7 @@ export const Board = () => {
                 left: "50%",
                 top: "320px",
                 translate: "-50% -50%",
-                transform: `rotate(${-rotation}deg)`,
+                transform: `rotate(${rotation}deg)`,
                 transition: "transform 0.7s ease-out",
               }}
             >
@@ -252,7 +254,7 @@ export const Board = () => {
 
               {/* members on the ring */}
               {BOARD.map((m, i) => {
-                const angle = -90 + (360 / BOARD.length) * i;
+                const angle = -90 - (360 / BOARD.length) * i;
                 const rad = (angle * Math.PI) / 180;
                 const r = 46;
                 const x = 50 + r * Math.cos(rad);
@@ -265,7 +267,7 @@ export const Board = () => {
                       left: `${x}%`,
                       top: `${y}%`,
                       translate: "-50% -50%",
-                      transform: `rotate(${rotation}deg)`,
+                      transform: `rotate(${-rotation}deg)`,
                       transition: "transform 0.7s ease-out",
                     }}
                     className="absolute text-center"
@@ -354,7 +356,7 @@ export const Board = () => {
 
           <div data-board className="absolute inset-0">
             {BOARD.map((m, i) => {
-              const angle = -90 + (360 / BOARD.length) * i;
+              const angle = -90 - (360 / BOARD.length) * i;
               const rad = (angle * Math.PI) / 180;
               const r = 43;
               const left = 50 + r * Math.cos(rad);
