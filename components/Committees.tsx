@@ -1,14 +1,16 @@
 const CHAIRS = [
-  { name: "Ad Soyad", role: "Hizmet Projeleri", photo: "/chairs/placeholder.jpg" },
-  { name: "Ad Soyad", role: "Mesleki Gelişim", photo: "/chairs/placeholder.jpg" },
-  { name: "Ad Soyad", role: "Halkla İlişkiler", photo: "/chairs/placeholder.jpg" },
-  { name: "Ad Soyad", role: "Üyelik", photo: "/chairs/placeholder.jpg" },
-  { name: "Ad Soyad", role: "Sosyal Etkinlikler", photo: "/chairs/placeholder.jpg" },
+  { name: "Ad Soyad", role: "Kulüp Hizmetleri", photo: "/chairs/kulup-hizmetleri.jpg" },
+  { name: "Ad Soyad", role: "Toplum Hizmetleri", photo: "/chairs/toplum-hizmetleri.jpg" },
+  { name: "Ad Soyad", role: "Meslek Hizmetleri", photo: "/chairs/meslek-hizmetleri.jpg" },
+  { name: "Ad Soyad", role: "Uluslararası Hizmetler", photo: "/chairs/uluslararasi-hizmetler.jpg" },
+  { name: "Ad Soyad", role: "Kurumsal Tanıtım ve Sosyal Medya", photo: "/chairs/kurumsal-tanitim.jpg" },
+  { name: "Ad Soyad", role: "Vakıf", photo: "/chairs/vakif.jpg" },
+  { name: "Ad Soyad", role: "Teknoloji ve İnovasyon", photo: "/chairs/teknoloji-inovasyon.jpg" },
 ];
 
 export const Committees = () => {
   return (
-    <section id="committees" className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 sm:py-24">
+    <section id="committees" className="wrapper py-20 sm:py-24">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="eyebrow rise text-primary">05 — Komite başkanları</p>

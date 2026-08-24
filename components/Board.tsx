@@ -8,11 +8,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const BOARD = [
-  { name: "Ad Soyad", role: "Başkan", photo: "/board/placeholder.jpg" },
-  { name: "Ad Soyad", role: "Asbaşkan", photo: "/board/placeholder.jpg" },
-  { name: "Ad Soyad", role: "Sekreter", photo: "/board/placeholder.jpg" },
-  { name: "Ad Soyad", role: "Sayman", photo: "/board/placeholder.jpg" },
-  { name: "Ad Soyad", role: "Geçmiş Dönem Başkanı", photo: "/board/placeholder.jpg" },
+  { name: "Ad Soyad", role: "Başkan", photo: "/board/baskan.jpg" },
+  { name: "Ad Soyad", role: "Asbaşkan", photo: "/board/asbaskan.jpg" },
+  { name: "Ad Soyad", role: "Sekreter", photo: "/board/sekreter.jpg" },
+  { name: "Ad Soyad", role: "Sayman", photo: "/board/sayman.jpg" },
+  { name: "Ad Soyad", role: "Geçmiş Dönem Başkanı", photo: "/board/gdb.jpg" },
 ];
 
 export const Board = () => {
@@ -165,7 +165,7 @@ export const Board = () => {
 
   return (
     <section id="board" className="border-y border-border bg-card">
-      <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 sm:py-24">
+      <div className="wrapper py-20 sm:py-24">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow rise text-primary">04 — Yönetim kurulu</p>
