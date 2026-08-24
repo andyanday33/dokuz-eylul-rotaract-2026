@@ -8,6 +8,7 @@ import { Numbers } from "@/components/Numbers";
 import { PresidentsMessage } from "@/components/PresidentsMessage";
 import { Board } from "@/components/Board";
 import { Committees } from "@/components/Committees";
+import { AreasOfFocus } from "@/components/AreasOfFocus";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
       <PresidentsMessage />
       <Board />
       <Committees />
+      <AreasOfFocus />
       <ScrollAnimations />
     </main>
   );

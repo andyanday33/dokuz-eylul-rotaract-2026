@@ -155,3 +155,21 @@
     color-mix(in oklab, var(--cranberry) 25%, transparent) 100%
   );
 }
+
+/* Ghost numeral used in the Areas of Focus ledger */
+@utility focus-index {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklab, var(--cranberry) 60%, transparent);
+  transition: -webkit-text-stroke-color 0.5s ease, color 0.5s ease;
+}
+
+/* Desktop hover: the swept row flips the numeral to a solid negative */
+@media (min-width: 768px) {
+  .focus-row:hover .focus-index {
+    -webkit-text-stroke-color: var(--primary-foreground);
+  }
+}
