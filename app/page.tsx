@@ -10,6 +10,7 @@ import { Board } from "@/components/Board";
 import { Committees } from "@/components/Committees";
 import { AreasOfFocus } from "@/components/AreasOfFocus";
 import { Join } from "@/components/Join";
+import { Footer } from "@/components/Footer";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
       <Committees />
       <AreasOfFocus />
       <Join />
+      <Footer />
       <ScrollAnimations />
     </main>
   );
