@@ -160,7 +160,8 @@ export const Board = () => {
     if (touchRef.current.locked && Math.abs(diff) > 40) {
       // Wheel now spins clockwise toward "next", so the next member rides up
       // from the left — dragging left rotates back, dragging right goes forward.
-      diff > 0 ? prev() : next();
+      if (diff > 0) prev();
+      else next();
     }
     touchRef.current = null;
   };
