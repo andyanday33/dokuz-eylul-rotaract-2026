@@ -135,6 +135,83 @@
   margin-inline: auto;
 }
 
+/* Masthead geometry.
+
+   The floating wordmark is position:fixed, so it cannot measure the gap the
+   hero reserves for it in flow. Both sides read these variables instead, so
+   the reserved band and the logo sitting in it can't drift apart when a
+   breakpoint changes one but not the other.
+
+   --masthead-dateline is where the gap starts: the height of the dateline
+   above it — its padding, one eyebrow line box, and the rule. The eyebrow is
+   0.6875rem at the inherited line-height of 1.5, hence 1.03125rem.
+   --masthead-band is the gap's own height, mirrored by the spacer in Hero.
+   --masthead-logo-w drives the wordmark's width, and its height follows from
+   the 790x318 artwork.
+
+   --masthead-logo-y is only the position of the FIRST PAINT, before the JS in
+   SlidingText measures the two rules and places the logo exactly. It is an
+   estimate: --masthead-foot approximates the tagline block plus its bottom
+   padding, which is the one part of the sum CSS cannot know. Being within a
+   few pixels is all it needs to be, so that hydration does not visibly move
+   the logo; do not treat it as the source of truth.
+
+   The height is resolved here rather than by centring the element on its own
+   midpoint, because that would need a percentage translate on the Y axis and
+   GSAP re-derives those from the computed matrix — it reads the value back as
+   pixels and applies it a second time on top of the CSS. Keeping Y free of
+   percentages leaves yPercent to mean only the animation's end state. */
+@layer base {
+  :root {
+    --masthead-dateline: calc(6rem + 1.03125rem + 0.75rem + 1px);
+    --masthead-band: 10rem;
+    --masthead-logo-w: 16rem;
+    --masthead-logo-h: calc(var(--masthead-logo-w) * 318 / 790);
+    --masthead-foot: 21.5rem;
+    --masthead-logo-y: calc(
+      (var(--masthead-dateline) + 100vh - var(--masthead-foot)) / 2 -
+        var(--masthead-logo-h) / 2
+    );
+  }
+
+  @media (width >= 340px) {
+    :root {
+      --masthead-band: 11rem;
+      --masthead-logo-w: 18rem;
+    }
+  }
+
+  @media (width >= 640px) {
+    :root {
+      --masthead-dateline: calc(7rem + 1.03125rem + 0.75rem + 1px);
+      --masthead-band: 14rem;
+      --masthead-logo-w: 24rem;
+    }
+  }
+
+  @media (width >= 768px) {
+    :root {
+      --masthead-band: 16rem;
+      --masthead-logo-w: 30rem;
+      --masthead-foot: 14.5rem;
+    }
+  }
+
+  @media (width >= 1024px) {
+    :root {
+      --masthead-band: 18rem;
+      --masthead-logo-w: 36rem;
+    }
+  }
+
+  @media (width >= 1280px) {
+    :root {
+      --masthead-band: 20rem;
+      --masthead-logo-w: 42rem;
+    }
+  }
+}
+
 /* Map-style casing: paper knocked out tight around each glyph, so a caption
    stays readable over linework without laying a panel across the drawing.
    The zero-offset blurs fill the glyph body too, which is what keeps a

@@ -15,6 +15,10 @@ type Props = {
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
+/** The rules the wordmark is centred between, marked up in Hero. */
+const RULE_TOP = '[data-masthead-rule="top"]';
+const RULE_FOOT = '[data-masthead-rule="foot"]';
+
 export const SlidingText = ({ src, alt }: Props) => {
   // Hacky way to reset sliding text position by refreshing
   // the page on resize, shouldn't affect the normal user
@@ -33,6 +37,53 @@ export const SlidingText = ({ src, alt }: Props) => {
   }, []);
 
   useGSAP(() => {
+    /**
+     * Sit the wordmark exactly between the dateline rule and the rule above
+     * the tagline. Neither position is expressible in CSS: the tagline block
+     * is pushed to the bottom of a min-h-screen section by `mt-auto`, so the
+     * lower rule moves with the viewport height, and its distance from the
+     * bottom depends on how the copy happens to wrap in the current locale.
+     *
+     * Positions are read in document space and rebased onto the hero's own
+     * top, because what we want is where the logo sits when the hero is
+     * aligned to the top of the viewport — the animation's start — which is
+     * not necessarily where the page is scrolled to when this runs.
+     */
+    let placed = NaN;
+
+    const place = () => {
+      const logo = document.querySelector<HTMLElement>("#slidingText");
+      const hero = document.querySelector<HTMLElement>("#hero");
+      const head = document.querySelector<HTMLElement>(RULE_TOP);
+      const foot = document.querySelector<HTMLElement>(RULE_FOOT);
+      if (!logo || !hero || !head || !foot) return;
+
+      const scrolled = window.scrollY;
+      const gapTop = head.getBoundingClientRect().bottom + scrolled;
+      const gapBottom = foot.getBoundingClientRect().top + scrolled;
+      const heroTop = hero.getBoundingClientRect().top + scrolled;
+      const top = (gapTop + gapBottom) / 2 - heroTop - logo.offsetHeight / 2;
+
+      if (Math.abs(top - placed) < 0.5) return;
+      placed = top;
+      gsap.set(logo, { top });
+      ScrollTrigger.refresh();
+    };
+
+    place();
+
+    /**
+     * One measurement at hydration is too early. The font swap reflows the
+     * tagline and the viewport settling moves the min-h-screen floor, and both
+     * shift the lower rule afterwards — so watch the two boxes that decide the
+     * gap rather than guessing when they have stopped moving.
+     */
+    const observer = new ResizeObserver(place);
+    for (const sel of ["#hero", RULE_FOOT]) {
+      const el = document.querySelector(sel);
+      if (el) observer.observe(el);
+    }
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: "#hero",
@@ -45,6 +96,8 @@ export const SlidingText = ({ src, alt }: Props) => {
 
     tl.to(".hero-fade", { opacity: 0 });
 
+    // yPercent belongs to the end state only — the start keeps the Y axis free
+    // of percentages so GSAP has nothing to re-derive. See globals.css.
     tl.to(
       "#slidingText",
       {
@@ -56,12 +109,14 @@ export const SlidingText = ({ src, alt }: Props) => {
       },
       "<",
     );
+
+    return () => observer.disconnect();
   }, {});
 
   return (
     <div
       id={"slidingText"}
-      className="w-64 xs:w-72 sm:w-96 md:w-120 lg:w-xl xl:w-2xl aspect-790/318 fixed top-40 left-1/2 z-50"
+      className="w-(--masthead-logo-w) aspect-790/318 fixed top-(--masthead-logo-y) left-1/2 z-50"
       style={{
         transform: "translateX(-50%)",
       }}

@@ -14,7 +14,10 @@ export const Hero = async () => {
 
       {/* Dateline */}
       <div className="hero-fade wrapper">
-        <div className="flex items-center justify-between border-b border-foreground/20 pb-3 pt-24 sm:pt-28">
+        <div
+          data-masthead-rule="top"
+          className="flex items-center justify-between border-b border-foreground/20 pb-3 pt-24 sm:pt-28"
+        >
           <p className="eyebrow text-foreground/60">{hero.datelineLeft}</p>
           <p className="eyebrow hidden text-foreground/55 sm:block">
             {hero.datelineRight}
@@ -24,12 +27,15 @@ export const Hero = async () => {
 
       {/* Reserved space where the floating logo hovers */}
       <div className="hero-fade wrapper" aria-hidden>
-        <div className="h-40 xs:h-44 sm:h-56 md:h-64 lg:h-72 xl:h-80" />
+        <div className="h-(--masthead-band)" />
       </div>
 
       {/* Masthead tagline + call to action */}
       <div className="hero-fade wrapper mt-auto pb-14">
-        <div className="grid gap-10 border-t border-foreground/20 pt-8 md:grid-cols-[1.25fr_1fr] md:items-end">
+        <div
+          data-masthead-rule="foot"
+          className="grid gap-10 border-t border-foreground/20 pt-8 md:grid-cols-[1.25fr_1fr] md:items-end"
+        >
           <div>
             <h1 className="sr-only">{hero.srTitle}</h1>
             <p className="font-editorial max-w-2xl text-[8vw] italic leading-[1.08] sm:text-4xl lg:text-5xl">
