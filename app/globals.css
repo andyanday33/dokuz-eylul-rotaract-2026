@@ -30,6 +30,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-selection: var(--selection);
+  --color-selection-foreground: var(--selection-foreground);
   --color-cranberry: var(--cranberry);
   --color-paper: var(--paper);
   --color-ink: var(--ink);
@@ -66,6 +68,8 @@
   --border: oklch(0.9 0.012 350);
   --input: oklch(0.9 0.012 350);
   --ring: var(--cranberry);
+  --selection: var(--cranberry);
+  --selection-foreground: oklch(0.99 0.003 17);
 }
 
 .dark {
@@ -86,6 +90,9 @@
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
   --ring: var(--cranberry);
+  /* Lifted a touch so the cranberry keeps its bite against the inky ground */
+  --selection: oklch(0.62 0.2 0.4);
+  --selection-foreground: oklch(0.15 0.02 350);
 }
 
 @layer base {
@@ -98,6 +105,12 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-selection);
+    color: var(--color-selection-foreground);
+    text-shadow: none;
   }
 }
 
