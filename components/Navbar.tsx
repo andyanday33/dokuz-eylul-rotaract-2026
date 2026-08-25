@@ -16,9 +16,8 @@ const NAV_LINKS = [
 export const Navbar = () => {
   useGSAP(() => {
     gsap.to(".navbar", {
-      backgroundColor:
-        "color-mix(in oklab, var(--background) 96%, transparent)",
-      borderBottomColor: "var(--border)",
+      backgroundColor: "color-mix(in oklab, var(--paper) 92%, transparent)",
+      borderBottomColor: "color-mix(in oklab, var(--foreground) 15%, transparent)",
       backdropFilter: "blur(12px)",
       scrollTrigger: {
         trigger: "#hero",

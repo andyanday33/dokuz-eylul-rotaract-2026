@@ -4,6 +4,7 @@ import React from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Grain } from "./Editorial";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -167,19 +168,23 @@ export const Board = () => {
   };
 
   return (
-    <section id="board" className="border-y border-border bg-card">
-      <div className="wrapper py-20 sm:py-24">
+    <section
+      id="board"
+      className="relative overflow-hidden bg-paper text-foreground"
+    >
+      <Grain />
+      <div className="wrapper relative z-10 py-20 sm:py-24">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow rise text-primary">04 — Yönetim kurulu</p>
             <h2
-              data-split
-              className="wordmark mt-3 max-w-2xl text-3xl leading-[0.95] sm:text-4xl"
+              data-chars
+              className="font-editorial mt-3 max-w-2xl text-4xl italic leading-[1.1] sm:text-5xl"
             >
               Beş kişi, tek bir görev
             </h2>
           </div>
-          <p className="rise max-w-md text-sm text-muted-foreground">
+          <p className="rise max-w-md text-sm font-light text-foreground/60">
             Yönetim kurulu üyeleri kulübün stratejik yönünü belirler ve her
             üyenin sorumluluk almasını sağlar.
           </p>
@@ -251,7 +256,7 @@ export const Board = () => {
               }}
             >
               {/* orbit ring */}
-              <div className="pointer-events-none absolute inset-0 rounded-full border border-dashed border-border" />
+              <div className="pointer-events-none absolute inset-0 rounded-full border border-dashed border-foreground/25" />
 
               {/* members on the ring */}
               {BOARD.map((m, i) => {
@@ -277,7 +282,7 @@ export const Board = () => {
                       className={`mx-auto overflow-hidden rounded-full border-2 transition-all duration-500 ${
                         i === active
                           ? "h-24 w-24 border-primary ring-2 ring-primary/30"
-                          : "h-14 w-14 border-border opacity-50"
+                          : "h-14 w-14 border-foreground/20 opacity-50"
                       }`}
                     >
                       <img
@@ -294,24 +299,24 @@ export const Board = () => {
             </div>
 
             {/* Fade-out edges */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-card to-transparent" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-card to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-paper to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-paper to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-paper to-transparent" />
           </div>
 
           {/* Active member info + controls */}
           <div className="mt-4 text-center">
-            <h3 className="text-lg font-bold leading-tight">
+            <h3 className="font-editorial text-xl italic leading-tight">
               {BOARD[active].name}
             </h3>
-            <p className="eyebrow mt-1 text-muted-foreground">
+            <p className="eyebrow mt-1 text-foreground/55">
               {BOARD[active].role}
             </p>
 
             <div className="mt-5 flex items-center justify-center gap-6">
               <button
                 onClick={prev}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-border transition-colors hover:border-primary hover:text-primary"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/20 transition-colors hover:border-primary hover:text-primary"
                 aria-label="Önceki üye"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -323,7 +328,7 @@ export const Board = () => {
               </span>
               <button
                 onClick={next}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-border transition-colors hover:border-primary hover:text-primary"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/20 transition-colors hover:border-primary hover:text-primary"
                 aria-label="Sonraki üye"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -339,7 +344,7 @@ export const Board = () => {
           {/* orbit rings */}
           <div
             id="orbit-outer"
-            className="pointer-events-none absolute inset-0 rounded-full border border-dashed orbit-spin"
+            className="pointer-events-none absolute inset-0 rounded-full border border-dashed border-foreground/25 orbit-spin"
           />
           <div
             id="orbit-inner"
@@ -351,8 +356,12 @@ export const Board = () => {
             className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
           >
             <p className="eyebrow text-primary">2026—27</p>
-            <p className="wordmark text-3xl leading-none">YÖNETİM</p>
-            <p className="wordmark text-3xl leading-none">KURULU</p>
+            <p className="font-editorial text-4xl italic leading-tight">
+              Yönetim
+            </p>
+            <p className="font-editorial text-4xl italic leading-tight">
+              Kurulu
+            </p>
           </div>
 
           <div data-board className="absolute inset-0">
@@ -368,7 +377,7 @@ export const Board = () => {
                   style={{ left: `${left}%`, top: `${top}%` }}
                   className="group absolute w-36 -mt-16 -translate-x-1/2 text-center lg:w-40 lg:-mt-18"
                 >
-                  <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border border-border ring-1 ring-transparent transition-all duration-500 group-hover:border-primary group-hover:ring-primary/40 lg:h-36 lg:w-36">
+                  <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border border-foreground/20 ring-1 ring-transparent transition-all duration-500 group-hover:border-primary group-hover:ring-primary/40 lg:h-36 lg:w-36">
                     <img
                       src={m.photo}
                       alt={`${m.name} portresi`}
@@ -378,10 +387,10 @@ export const Board = () => {
                       className="board-photo h-full w-full object-cover group-hover:scale-105 group-hover:[filter:grayscale(0)_contrast(1.05)_brightness(1)]"
                     />
                   </div>
-                  <h3 className="mt-3 text-base font-bold leading-tight transition-colors group-hover:text-primary">
+                  <h3 className="font-editorial mt-3 text-lg italic leading-tight transition-colors group-hover:text-primary">
                     {m.name}
                   </h3>
-                  <p className="eyebrow mt-0.5 text-xs text-muted-foreground">
+                  <p className="eyebrow mt-1 text-xs text-foreground/55">
                     {m.role}
                   </p>
                 </article>

@@ -31,8 +31,12 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-cranberry: var(--cranberry);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
   --font-sans: "Open Sans", system-ui, sans-serif;
   --font-display: "Open Sans", system-ui, sans-serif;
+  --font-editorial: var(--font-bodoni), ui-serif, "Bodoni MT", Didot, Georgia,
+    serif;
   --breakpoint-xs: 340px;
 }
 
@@ -40,6 +44,9 @@
   --radius: 0.25rem;
   /* Rotary brand: Cranberry PMS 214C #d41367 */
   --cranberry: oklch(0.5432 0.2213 0.4);
+  /* Editorial grounds: warm aged paper + inky plum-black */
+  --paper: oklch(0.945 0.016 85);
+  --ink: oklch(0.16 0.02 350);
   --background: oklch(0.9895 0.0032 17);
   --foreground: oklch(0.19 0.02 350);
   --card: oklch(1 0 0);
