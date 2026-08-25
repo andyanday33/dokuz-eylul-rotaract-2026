@@ -12,19 +12,25 @@
         "label": "Hakkımızda"
       },
       {
-        "href": "#projeler",
-        "label": "Projeler"
+        "href": "#president",
+        "label": "Başkanın mesajı"
       },
       {
-        "href": "#etkinlikler",
-        "label": "Etkinlikler"
+        "href": "#board",
+        "label": "Yönetim kurulu"
       },
       {
-        "href": "#iletisim",
-        "label": "İletişim"
+        "href": "#focus",
+        "label": "Öncelikli alanlar"
+      },
+      {
+        "href": "#join",
+        "label": "Bize katıl"
       }
     ],
-    "languageLabel": "Dil seçimi"
+    "languageLabel": "Dil seçimi",
+    "menu": "Menü",
+    "menuClose": "Kapat"
   },
   "hero": {
     "logo": "/dokuz_eylul.png",
@@ -181,43 +187,50 @@
   },
   "areasOfFocus": {
     "index": "06",
-    "label": "Odak alanları",
+    "label": "Yedi öncelikli alan",
     "meta": "Seven Areas of Focus",
-    "heading": "Yedi amaç. Tek bir pusula.",
-    "intro": "Her proje, Rotary’nin yedi odak alanından birine bağlanır. Üstüne gel, hangi amaca hizmet ettiğini gör.",
+    "heading": "Her projemiz bu yedi öncelikli alandan birine bağlanır.",
+    "altLang": "en",
     "items": [
       {
-        "n": "01",
+        "id": "peace",
+        "alt": "Promoting Peace",
         "title": "Barışı Destekleme",
         "body": "Çatışmaların önlenmesi ve barış süreçlerinin güçlendirilmesi için projeler geliştiriyoruz."
       },
       {
-        "n": "02",
+        "id": "disease",
+        "alt": "Fighting Disease",
         "title": "Hastalıkla Mücadele",
         "body": "Bulaşıcı hastalıkların önlenmesi ve sağlık hizmetlerine erişimin artırılması için çalışıyoruz."
       },
       {
-        "n": "03",
+        "id": "water",
+        "alt": "Clean Water and Sanitation",
         "title": "Temiz Su ve Hijyen",
         "body": "Temiz su, sanitasyon ve hijyen olanaklarına erişimi iyileştiren projeler yürütüyoruz."
       },
       {
-        "n": "04",
+        "id": "maternal",
+        "alt": "Maternal and Child Health",
         "title": "Anne ve Çocuk Sağlığı",
         "body": "Anne ve çocuk ölümlerinin azaltılması, sağlıklı yaşam koşullarının desteklenmesi için uğraşıyoruz."
       },
       {
-        "n": "05",
+        "id": "education",
+        "alt": "Supporting Education",
         "title": "Eğitimi Destekleme",
         "body": "Kaliteli eğitime erişimi artırarak toplulukları güçlendiriyor ve fırsat eşitliği sağlıyoruz."
       },
       {
-        "n": "06",
+        "id": "economy",
+        "alt": "Growing Local Economies",
         "title": "Yerel Ekonomileri Büyütme",
         "body": "Girişimcilik ve istihdam fırsatlarını destekleyerek yerel ekonomilerin kalkınmasına katkıda bulunuyoruz."
       },
       {
-        "n": "07",
+        "id": "environment",
+        "alt": "Protecting the Environment",
         "title": "Çevreyi Koruma",
         "body": "Doğal kaynakların sürdürülebilir kullanımını ve çevre bilincinin yaygınlaştırılmasını destekliyoruz."
       }

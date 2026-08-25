@@ -12,19 +12,25 @@
         "label": "About us"
       },
       {
-        "href": "#projeler",
-        "label": "Projects"
+        "href": "#president",
+        "label": "President’s message"
       },
       {
-        "href": "#etkinlikler",
-        "label": "Events"
+        "href": "#board",
+        "label": "Board"
       },
       {
-        "href": "#iletisim",
-        "label": "Contact"
+        "href": "#focus",
+        "label": "Areas of focus"
+      },
+      {
+        "href": "#join",
+        "label": "Join us"
       }
     ],
-    "languageLabel": "Choose language"
+    "languageLabel": "Choose language",
+    "menu": "Menu",
+    "menuClose": "Close"
   },
   "hero": {
     "logo": "/dokuz_eylul_en.png",
@@ -182,42 +188,49 @@
   "areasOfFocus": {
     "index": "06",
     "label": "Areas of focus",
-    "meta": "Seven Areas of Focus",
-    "heading": "Seven causes. One compass.",
-    "intro": "Every project connects to one of Rotary's seven areas of focus. Hover a row to see which cause it serves.",
+    "meta": "Yedi öncelikli alan",
+    "heading": "Every project we run belongs to one of these seven.",
+    "altLang": "tr",
     "items": [
       {
-        "n": "01",
+        "id": "peace",
+        "alt": "Barışı Destekleme",
         "title": "Promoting Peace",
         "body": "We develop projects that prevent conflict and strengthen the processes that build peace."
       },
       {
-        "n": "02",
+        "id": "disease",
+        "alt": "Hastalıkla Mücadele",
         "title": "Fighting Disease",
         "body": "We work to prevent communicable disease and widen access to health services."
       },
       {
-        "n": "03",
+        "id": "water",
+        "alt": "Temiz Su ve Hijyen",
         "title": "Clean Water and Sanitation",
         "body": "We run projects that improve access to clean water, sanitation and hygiene facilities."
       },
       {
-        "n": "04",
+        "id": "maternal",
+        "alt": "Anne ve Çocuk Sağlığı",
         "title": "Maternal and Child Health",
         "body": "We work to reduce maternal and child mortality and to support healthier living conditions."
       },
       {
-        "n": "05",
+        "id": "education",
+        "alt": "Eğitimi Destekleme",
         "title": "Supporting Education",
         "body": "We strengthen communities and level the field by widening access to quality education."
       },
       {
-        "n": "06",
+        "id": "economy",
+        "alt": "Yerel Ekonomileri Büyütme",
         "title": "Growing Local Economies",
         "body": "We support entrepreneurship and employment opportunities to help local economies develop."
       },
       {
-        "n": "07",
+        "id": "environment",
+        "alt": "Çevreyi Koruma",
         "title": "Protecting the Environment",
         "body": "We support the sustainable use of natural resources and a wider awareness of the environment."
       }

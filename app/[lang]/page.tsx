@@ -21,7 +21,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col relative">
-      <Navbar nav={dict.nav} />
+      <Navbar nav={dict.nav} email={dict.join.email} place={dict.about.meta} />
       <Hero />
       <SlidingText src={dict.hero.logo} alt={dict.hero.logoAlt} />
       <Marquee />

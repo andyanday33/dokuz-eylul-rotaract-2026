@@ -53,11 +53,11 @@ export const LanguageSwitcher = ({ label }: { label: string }) => {
               lang={locale}
               aria-current={active ? "true" : undefined}
               onClick={() => remember(locale)}
-              className={
+              className={`${
                 active
                   ? "text-primary underline decoration-primary/50 underline-offset-4"
                   : "transition-colors hover:text-primary"
-              }
+              } focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary`}
             >
               <span aria-hidden>{LOCALE_LABELS[locale].short}</span>
               <span className="sr-only">{LOCALE_LABELS[locale].name}</span>

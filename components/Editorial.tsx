@@ -36,11 +36,15 @@ export function Nameplate({
   index,
   label,
   meta,
+  metaLang,
   dark = false,
 }: {
   index: string;
   label: string;
   meta?: string;
+  /** Language of `meta` when it is not the page's own — `uppercase` cases by
+      language, so Turkish left undeclared on an English page loses its İ. */
+  metaLang?: string;
   dark?: boolean;
 }) {
   return (
@@ -54,6 +58,7 @@ export function Nameplate({
       </p>
       {meta ? (
         <p
+          lang={metaLang}
           className={`eyebrow rise ${
             dark ? "text-paper/45" : "text-foreground/45"
           }`}

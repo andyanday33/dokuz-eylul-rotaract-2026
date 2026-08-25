@@ -19,7 +19,12 @@ export const About = async () => {
       </span>
 
       <div className="wrapper relative z-10 py-24 sm:py-36">
-        <Nameplate index={about.index} label={about.label} meta={about.meta} />
+        <Nameplate
+          index={about.index}
+          label={about.label}
+          meta={about.meta}
+          metaLang="tr"
+        />
 
         <h2
           data-chars

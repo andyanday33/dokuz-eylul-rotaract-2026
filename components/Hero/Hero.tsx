@@ -19,7 +19,9 @@ export const Hero = async () => {
           className="flex items-center justify-between border-b border-foreground/20 pb-3 pt-24 sm:pt-28"
         >
           <p className="eyebrow text-foreground/60">{hero.datelineLeft}</p>
-          <p className="eyebrow hidden text-foreground/55 sm:block">
+          {/* Turkish place name in both locales, and `uppercase` cases by
+              language — undeclared on the English page, İzmir loses its İ. */}
+          <p lang="tr" className="eyebrow hidden text-foreground/55 sm:block">
             {hero.datelineRight}
           </p>
         </div>

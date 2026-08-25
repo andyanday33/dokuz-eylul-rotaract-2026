@@ -25,7 +25,9 @@ export const ScrollAnimations = () => {
     });
 
     document.querySelectorAll<HTMLElement>("[data-chars]").forEach((el) => {
-      const split = new SplitText(el, { type: "chars" });
+      // Split to words as well as chars: chars alone are free-standing inline
+      // blocks, so the browser will break a line in the middle of a word.
+      const split = new SplitText(el, { type: "words,chars" });
       gsap.from(split.chars, {
         opacity: 0,
         y: 18,
