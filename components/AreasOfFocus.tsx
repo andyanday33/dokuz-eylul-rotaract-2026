@@ -1,44 +1,9 @@
+import { getDictionary } from "@/i18n/dictionaries";
 import { Grain, Nameplate } from "./Editorial";
 
-const AREAS_OF_FOCUS = [
-  {
-    n: "01",
-    title: "Barışı Destekleme",
-    body: "Çatışmaların önlenmesi ve barış süreçlerinin güçlendirilmesi için projeler geliştiriyoruz.",
-  },
-  {
-    n: "02",
-    title: "Hastalıkla Mücadele",
-    body: "Bulaşıcı hastalıkların önlenmesi ve sağlık hizmetlerine erişimin artırılması için çalışıyoruz.",
-  },
-  {
-    n: "03",
-    title: "Temiz Su ve Hijyen",
-    body: "Temiz su, sanitasyon ve hijyen olanaklarına erişimi iyileştiren projeler yürütüyoruz.",
-  },
-  {
-    n: "04",
-    title: "Anne ve Çocuk Sağlığı",
-    body: "Anne ve çocuk ölümlerinin azaltılması, sağlıklı yaşam koşullarının desteklenmesi için uğraşıyoruz.",
-  },
-  {
-    n: "05",
-    title: "Eğitimi Destekleme",
-    body: "Kaliteli eğitime erişimi artırarak toplulukları güçlendiriyor ve fırsat eşitliği sağlıyoruz.",
-  },
-  {
-    n: "06",
-    title: "Yerel Ekonomileri Büyütme",
-    body: "Girişimcilik ve istihdam fırsatlarını destekleyerek yerel ekonomilerin kalkınmasına katkıda bulunuyoruz.",
-  },
-  {
-    n: "07",
-    title: "Çevreyi Koruma",
-    body: "Doğal kaynakların sürdürülebilir kullanımını ve çevre bilincinin yaygınlaştırılmasını destekliyoruz.",
-  },
-];
+export const AreasOfFocus = async () => {
+  const { areasOfFocus } = await getDictionary();
 
-export const AreasOfFocus = () => {
   return (
     <section
       id="focus"
@@ -47,23 +12,26 @@ export const AreasOfFocus = () => {
       <Grain />
 
       <div className="wrapper relative z-10 py-24 sm:py-32">
-        <Nameplate index="06" label="Odak alanları" meta="Seven Areas of Focus" />
+        <Nameplate
+          index={areasOfFocus.index}
+          label={areasOfFocus.label}
+          meta={areasOfFocus.meta}
+        />
 
         <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <h2
             data-chars
             className="font-editorial max-w-2xl text-[11vw] italic leading-[1.05] tracking-[-0.015em] sm:text-5xl lg:text-6xl"
           >
-            Yedi amaç. Tek bir pusula.
+            {areasOfFocus.heading}
           </h2>
           <p className="rise max-w-md text-sm font-light leading-relaxed text-foreground/60">
-            Her proje, Rotary&apos;nin yedi odak alanından birine bağlanır.
-            Üstüne gel, hangi amaca hizmet ettiğini gör.
+            {areasOfFocus.intro}
           </p>
         </div>
 
         <ul data-stagger className="mt-14">
-          {AREAS_OF_FOCUS.map((a) => (
+          {areasOfFocus.items.map((a) => (
             <li
               key={a.n}
               className="focus-row group relative isolate overflow-hidden border-t border-foreground/15 last:border-b"

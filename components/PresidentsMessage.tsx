@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { Dictionary } from "@/i18n/config";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -12,7 +13,19 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-export const PresidentsMessage = () => {
+/** Opening paragraph carries the drop cap; the rest of the letter is plain. */
+const DROP_CAP =
+  "first-letter:font-editorial first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:text-[5.5rem] first-letter:font-medium first-letter:not-italic first-letter:leading-[0.66] first-letter:text-primary sm:first-letter:text-[7rem]";
+
+/** The president's own name and portrait are the same in every language. */
+const PRESIDENT_NAME = "Mehmet Emre Uçar";
+const PRESIDENT_NAME_DISPLAY = "Mehmet Emre UÇAR";
+
+export const PresidentsMessage = ({
+  president,
+}: {
+  president: Dictionary["president"];
+}) => {
   const scope = React.useRef<HTMLElement>(null);
   const portrait = React.useRef<HTMLDivElement>(null);
 
@@ -87,7 +100,7 @@ export const PresidentsMessage = () => {
         aria-hidden
         className="font-editorial pointer-events-none absolute -bottom-[6vw] left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[42vw] italic leading-none text-background/[0.035]"
       >
-        Başkan
+        {president.watermark}
       </span>
 
       {/* Vertical margin dateline */}
@@ -95,17 +108,17 @@ export const PresidentsMessage = () => {
         aria-hidden
         className="eyebrow absolute left-4 top-1/2 hidden -translate-y-1/2 rotate-180 text-background/40 [writing-mode:vertical-rl] lg:block"
       >
-        Dönem Başkanı — 2026 / 27
+        {president.marginDateline}
       </span>
 
       <div className="wrapper relative z-10 py-24 sm:py-36">
-        <p className="eyebrow rise text-primary">03 — Başkanın mesajı</p>
+        <p className="eyebrow rise text-primary">{president.eyebrow}</p>
 
         <h2
           data-stagger
           className="font-editorial mt-6 max-w-[15ch] text-[15vw] italic leading-[1.15] tracking-[-0.01em] sm:text-7xl lg:text-[7.5rem]"
         >
-          Var olmakla geçen bir yıl
+          {president.heading}
         </h2>
 
         <div className="rule rule-cranberry mt-10 h-0.5 w-full" />
@@ -117,7 +130,7 @@ export const PresidentsMessage = () => {
               <div className="relative aspect-4/5 overflow-hidden border border-background/15 bg-black shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)]">
                 <Image
                   src="/president/portrait.jpeg"
-                  alt="Kulüp başkanının portresi"
+                  alt={president.portraitAlt}
                   fill
                   sizes="(min-width: 640px) 384px, 90vw"
                   className="object-cover grayscale contrast-[1.05] brightness-95 transition-all duration-900 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100"
@@ -126,9 +139,9 @@ export const PresidentsMessage = () => {
 
               <figcaption className="mt-4 flex items-baseline justify-between border-t border-background/15 pt-4">
                 <p className="font-editorial text-2xl italic">
-                  Mehmet Emre UÇAR
+                  {PRESIDENT_NAME_DISPLAY}
                 </p>
-                <p className="eyebrow text-primary">26—27</p>
+                <p className="eyebrow text-primary">{president.captionTerm}</p>
               </figcaption>
             </figure>
 
@@ -155,7 +168,7 @@ export const PresidentsMessage = () => {
                   }}
                 >
                   <textPath href="#seal-arc" startOffset="0">
-                    · Rotaract · Başkanın Mesajı · Hizmet ·
+                    {president.sealText}
                   </textPath>
                 </text>
               </svg>
@@ -172,37 +185,18 @@ export const PresidentsMessage = () => {
               className="space-y-6 text-lg font-light leading-relaxed text-background/70"
             >
               <p className="font-editorial text-xl italic text-background/85 sm:text-2xl">
-                Sevgili Rotaract Ailem,
-                <br />
-                Değerli Ziyaretçilerimiz,
+                {president.salutation.map((line, i) => (
+                  <React.Fragment key={line}>
+                    {i > 0 ? <br /> : null}
+                    {line}
+                  </React.Fragment>
+                ))}
               </p>
-              <p className="first-letter:font-editorial first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:text-[5.5rem] first-letter:font-medium first-letter:not-italic first-letter:leading-[0.66] first-letter:text-primary sm:first-letter:text-[7rem]">
-                Dokuz Eylül Rotaract Kulübü’nün 2026–2027 Dönem Başkanı olarak
-                sizleri kulübümüz adına sevgi ve heyecanla selamlıyorum.
-              </p>
-              <p>
-                Dokuz Eylül Rotaract Kulübü dostlukların kurulduğu, liderlerin
-                yetiştiği, fikirlerin cesaretle hayata geçirildiği ve topluma
-                kalıcı değer katma hedefiyle hareket eden güçlü bir ailedir.
-                Geçmiş dönemlerden devraldığımız bu kültür, bugün sahip
-                olduğumuz en büyük mirastır.
-              </p>
-              <p>
-                Bu dönem önceliğimiz, gerçekten iz bırakan projeler üretmek,
-                üyelerimizin kişisel ve mesleki gelişimlerine katkı sağlamak ve
-                toplum üzerinde sürdürülebilir bir etki oluşturabilmektir.
-                Bizler için başarı; dokunduğumuz hayatlar, kurduğumuz dostluklar
-                ve birlikte büyüttüğümüz değerlerle ölçülmektedir.
-              </p>
-              <p>
-                Liderliğin yalnızca önde yürümek değil, gerektiğinde en arkada
-                kalarak kimsenin geride kalmadığından emin olmak olduğuna
-                inanıyorum. Bu anlayışla; adaletin, şeffaflığın, güvenin ve
-                ortak aklın hâkim olduğu bir kulüp kültürü oluşturmayı
-                hedefliyoruz. Her üyemizin kendini değerli hissettiği, her
-                fikrin özgürce ifade edilebildiği ve her emeğin karşılık bulduğu
-                bir dönem inşa etmek en büyük önceliklerimizden biridir.
-              </p>
+              {president.openingParagraphs.map((text, i) => (
+                <p key={i} className={i === 0 ? DROP_CAP : undefined}>
+                  {text}
+                </p>
+              ))}
             </div>
 
             {/* Bleeding pull-quote */}
@@ -210,46 +204,25 @@ export const PresidentsMessage = () => {
               data-chars
               className="font-editorial relative z-20 my-10 -rotate-2 text-balance text-5xl italic leading-[1.05] text-primary sm:text-6xl lg:-ml-28 lg:text-7xl"
             >
-              “Neden olmasın?”
+              {president.pullQuote}
             </blockquote>
 
             <div
               data-stagger
               className="space-y-6 text-lg font-light leading-relaxed text-background/70"
             >
-              <p>
-                Rotaract’ın en güçlü yönü, farklı bakış açılarını ortak bir amaç
-                etrafında buluşturabilmesidir. Çünkü biliyoruz ki büyük işler,
-                birlikte düşünebilen, birlikte üretebilen ve birlikte hareket
-                edebilen insanların eseridir. Bu nedenle kulübümüz içerisinde
-                kurduğumuz güçlü bağları, bölgemiz, Rotary ve Interact ailemizle
-                olan iş birlikleriyle daha da güçlendirmeyi amaçlıyoruz.
-              </p>
-              <p>
-                Bu yolculuk boyunca; öğrenmekten, gelişmekten ve hayal kurmaktan
-                vazgeçmeyeceğiz. “Neden olmasın?” diyebilen insanların dünyayı
-                değiştirebildiğine inanıyor; cesur fikirlerin, samimi
-                dostlukların ve ortak emeğin bizi çok daha güçlü yarınlara
-                taşıyacağını biliyoruz.
-              </p>
-              <p>
-                Bugüne kadar kulübümüze emek veren tüm geçmiş dönem
-                başkanlarımıza, yönetim kurullarımıza, üyelerimize ve Rotary
-                ailemize gönülden teşekkür ediyorum. Onların bıraktığı sağlam
-                temeller üzerinde, Dokuz Eylül Rotaract Kulübü’nün hikâyesine
-                yeni ve anlamlı bir sayfa eklemek için büyük bir heyecanla
-                çalışacağız.
-              </p>
+              {president.closingParagraphs.map((text) => (
+                <p key={text}>{text}</p>
+              ))}
               <p className="font-editorial text-2xl italic text-background sm:text-3xl">
-                Yolumuzun; umut, üretkenlik, dostluk ve kalıcı etkiyle dolu
-                olması dileğiyle…
+                {president.valediction}
               </p>
             </div>
 
             {/* Signature */}
             <div className="relative mt-12 max-w-md">
               <p className="text-lg font-light text-background/70">
-                Sevgi ve saygılarımla,
+                {president.signOff}
               </p>
               <svg
                 viewBox="0 0 320 120"
@@ -271,9 +244,9 @@ export const PresidentsMessage = () => {
               </svg>
               <p className="mt-2 border-t border-background/15 pt-3 text-sm text-background/60">
                 <span className="font-semibold text-background">
-                  Mehmet Emre Uçar
+                  {PRESIDENT_NAME}
                 </span>{" "}
-                · 2026–2027 Dönem Başkanı · Dokuz Eylül Rotaract Kulübü
+                · {president.signatureCredit}
               </p>
             </div>
           </div>
@@ -289,10 +262,12 @@ export const PresidentsMessage = () => {
               className="font-editorial flex items-center gap-8 pr-8 text-3xl italic leading-normal text-background/80 sm:text-4xl"
               aria-hidden={k > 0}
             >
-              Hizmetle gelen dostluk
-              <span className="text-primary">✦</span>
-              her hafta, istisnasız
-              <span className="text-primary">✦</span>
+              {president.manifesto.map((phrase) => (
+                <React.Fragment key={phrase}>
+                  {phrase}
+                  <span className="text-primary">✦</span>
+                </React.Fragment>
+              ))}
             </span>
           ))}
         </div>

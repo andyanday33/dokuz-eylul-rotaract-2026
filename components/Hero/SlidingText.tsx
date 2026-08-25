@@ -6,11 +6,16 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 
-type Props = {};
+type Props = {
+  /** Localised wordmark. Every variant is cropped to its artwork, so they all
+      share the 790x318 box the fixed aspect ratio below is built on. */
+  src: string;
+  alt: string;
+};
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-export const SlidingText = (props: Props) => {
+export const SlidingText = ({ src, alt }: Props) => {
   // Hacky way to reset sliding text position by refreshing
   // the page on resize, shouldn't affect the normal user
   // tl.scrollTrigger.refresh is not working properly.
@@ -62,8 +67,8 @@ export const SlidingText = (props: Props) => {
       }}
     >
       <Image
-        src="/dokuz_eylul.png"
-        alt="Dokuz Eylül Rotaract Kulübü"
+        src={src}
+        alt={alt}
         width={790}
         height={318}
         priority

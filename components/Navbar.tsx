@@ -3,17 +3,12 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type { Dictionary } from "@/i18n/config";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const NAV_LINKS = [
-  { href: "#hakkimizda", label: "Hakkımızda" },
-  { href: "#projeler", label: "Projeler" },
-  { href: "#etkinlikler", label: "Etkinlikler" },
-  { href: "#iletisim", label: "İletişim" },
-];
-
-export const Navbar = () => {
+export const Navbar = ({ nav }: { nav: Dictionary["nav"] }) => {
   useGSAP(() => {
     gsap.to(".navbar", {
       backgroundColor: "color-mix(in oklab, var(--paper) 92%, transparent)",
@@ -31,18 +26,23 @@ export const Navbar = () => {
     <header className="fixed navbar inset-x-0 top-0 z-40 border-b border-transparent">
       <nav className="wrapper flex h-16 items-center justify-between">
         <div className="h-7 w-[176px]" aria-hidden />
-        <ul className="hidden items-center gap-7 sm:flex">
-          {NAV_LINKS.map((l) => (
-            <li key={l.href}>
-              <a
-                href={l.href}
-                className="eyebrow text-muted-foreground transition-colors hover:text-primary"
-              >
-                {l.label}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="flex items-center gap-5 sm:gap-7">
+          <ul className="hidden items-center gap-7 sm:flex">
+            {nav.links.map((l) => (
+              <li key={l.href}>
+                <a
+                  href={l.href}
+                  className="eyebrow text-muted-foreground transition-colors hover:text-primary"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          {/* Hairline rule, as between columns of a masthead */}
+          <span aria-hidden className="hidden h-4 w-px bg-foreground/20 sm:block" />
+          <LanguageSwitcher label={nav.languageLabel} />
+        </div>
       </nav>
     </header>
   );

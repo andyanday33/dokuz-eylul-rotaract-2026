@@ -1,0 +1,238 @@
+{
+  "meta": {
+    "title": "Dokuz Eylül Rotaract Kulübü",
+    "description": "Dokuz Eylül Rotaract Kulübü — hizmetle gelen dostluk.",
+    "localeName": "Türkçe",
+    "localeShort": "TR"
+  },
+  "nav": {
+    "links": [
+      {
+        "href": "#hakkimizda",
+        "label": "Hakkımızda"
+      },
+      {
+        "href": "#projeler",
+        "label": "Projeler"
+      },
+      {
+        "href": "#etkinlikler",
+        "label": "Etkinlikler"
+      },
+      {
+        "href": "#iletisim",
+        "label": "İletişim"
+      }
+    ],
+    "languageLabel": "Dil seçimi"
+  },
+  "hero": {
+    "logo": "/dokuz_eylul.png",
+    "logoAlt": "Dokuz Eylül Rotaract Kulübü",
+    "datelineLeft": "Rotaract · 2440. Bölge · Grup 4",
+    "datelineRight": "Dokuz Eylül · İzmir · MMXXVI",
+    "srTitle": "Rotaract Kulübü — hizmetle gelen dostluk",
+    "taglineLead": "Dostluğu, mahallenin ölçebileceği bir hizmete",
+    "taglineAccent": "dönüştürüyoruz.",
+    "meetingNote": "Her ayın birinci ve üçüncü perşembesi 19.00’da Eski Kütüphane’de buluşuyoruz. Konuklar her zaman davetlidir.",
+    "cta": "Kulübe katıl"
+  },
+  "marquee": {
+    "items": [
+      "Kişisel çıkarların ötesinde hizmet",
+      "Eylem insanları",
+      "Dostluk",
+      "Liderlik",
+      "Toplum"
+    ]
+  },
+  "about": {
+    "index": "01",
+    "label": "Biz kimiz",
+    "meta": "Dokuz Eylül · İzmir",
+    "watermark": "Biz",
+    "heading": "İşi konuşmaktansa yapmayı seçenler için bir kulüp",
+    "pillars": [
+      {
+        "n": "01",
+        "title": "Profesyonel Gelişim",
+        "body": "Liderlik becerileri, iş dünyası bilgisi ve kişisel gelişim fırsatları sunarak genç profesyonellerin kariyerlerine yön vermelerine yardımcı oluyoruz."
+      },
+      {
+        "n": "02",
+        "title": "Toplum Hizmeti",
+        "body": "Yerel ve uluslararası projelerde gönüllü çalışarak topluma somut katkılar sağlıyor, değişimi birlikte inşa ediyoruz."
+      },
+      {
+        "n": "03",
+        "title": "Uluslararası Anlayış",
+        "body": "Farklı kültürlerden insanlarla bağ kurarak dünya barışına ve anlayışına katkıda bulunuyor, sınırları aşan dostluklar kuruyoruz."
+      }
+    ]
+  },
+  "numbers": {
+    "eyebrow": "— Rakamlarla",
+    "stats": [
+      {
+        "big": "1000+",
+        "label": "Geçen yıl gönüllü saati"
+      },
+      {
+        "big": "30+",
+        "label": "Aktif üye"
+      },
+      {
+        "big": "10+",
+        "label": "Paydaş kuruluş"
+      }
+    ]
+  },
+  "fourWayTest": {
+    "eyebrow": "02 — Dörtlü Öz Denetim",
+    "meta": "The Four-Way Test · Est. 1932",
+    "heading": "Düşündüğümüz, söylediğimiz ve yaptığımız her şeyde…",
+    "colophon": "Dört soru — tek bir vicdan",
+    "items": [
+      {
+        "q": "Doğru mu?",
+        "a": "Her eylemimizde dürüstlüğü ve şeffaflığı ön planda tutuyoruz.",
+        "stamp": "Doğru"
+      },
+      {
+        "q": "İlgili herkese adil mi?",
+        "a": "Kararlarımızda eşitliği ve adaleti gözetiyor, kimseyi dışlamıyoruz.",
+        "stamp": "Adil"
+      },
+      {
+        "q": "İyi niyet ve dostluk yaratacak mı?",
+        "a": "Projelerimizle toplumda güven ve kalıcı dostluklar inşa ediyoruz.",
+        "stamp": "Dostça"
+      },
+      {
+        "q": "İlgili herkes için yararlı olacak mı?",
+        "a": "Hizmetlerimizin herkese somut fayda sağlamasını hedefliyoruz.",
+        "stamp": "Yararlı"
+      }
+    ]
+  },
+  "president": {
+    "eyebrow": "03 — Başkanın mesajı",
+    "heading": "Var olmakla geçen bir yıl",
+    "watermark": "Başkan",
+    "marginDateline": "Dönem Başkanı — 2026 / 27",
+    "portraitAlt": "Kulüp başkanının portresi",
+    "sealText": " · Rotaract · Başkanın Mesajı · Hizmet ·",
+    "captionTerm": "26—27",
+    "salutation": [
+      "Sevgili Rotaract Ailem,",
+      "Değerli Ziyaretçilerimiz,"
+    ],
+    "openingParagraphs": [
+      "Dokuz Eylül Rotaract Kulübü’nün 2026–2027 Dönem Başkanı olarak sizleri kulübümüz adına sevgi ve heyecanla selamlıyorum.",
+      "Dokuz Eylül Rotaract Kulübü dostlukların kurulduğu, liderlerin yetiştiği, fikirlerin cesaretle hayata geçirildiği ve topluma kalıcı değer katma hedefiyle hareket eden güçlü bir ailedir. Geçmiş dönemlerden devraldığımız bu kültür, bugün sahip olduğumuz en büyük mirastır.",
+      "Bu dönem önceliğimiz, gerçekten iz bırakan projeler üretmek, üyelerimizin kişisel ve mesleki gelişimlerine katkı sağlamak ve toplum üzerinde sürdürülebilir bir etki oluşturabilmektir. Bizler için başarı; dokunduğumuz hayatlar, kurduğumuz dostluklar ve birlikte büyüttüğümüz değerlerle ölçülmektedir.",
+      "Liderliğin yalnızca önde yürümek değil, gerektiğinde en arkada kalarak kimsenin geride kalmadığından emin olmak olduğuna inanıyorum. Bu anlayışla; adaletin, şeffaflığın, güvenin ve ortak aklın hâkim olduğu bir kulüp kültürü oluşturmayı hedefliyoruz. Her üyemizin kendini değerli hissettiği, her fikrin özgürce ifade edilebildiği ve her emeğin karşılık bulduğu bir dönem inşa etmek en büyük önceliklerimizden biridir."
+    ],
+    "pullQuote": "“Neden olmasın?”",
+    "closingParagraphs": [
+      "Rotaract’ın en güçlü yönü, farklı bakış açılarını ortak bir amaç etrafında buluşturabilmesidir. Çünkü biliyoruz ki büyük işler, birlikte düşünebilen, birlikte üretebilen ve birlikte hareket edebilen insanların eseridir. Bu nedenle kulübümüz içerisinde kurduğumuz güçlü bağları, bölgemiz, Rotary ve Interact ailemizle olan iş birlikleriyle daha da güçlendirmeyi amaçlıyoruz.",
+      "Bu yolculuk boyunca; öğrenmekten, gelişmekten ve hayal kurmaktan vazgeçmeyeceğiz. “Neden olmasın?” diyebilen insanların dünyayı değiştirebildiğine inanıyor; cesur fikirlerin, samimi dostlukların ve ortak emeğin bizi çok daha güçlü yarınlara taşıyacağını biliyoruz.",
+      "Bugüne kadar kulübümüze emek veren tüm geçmiş dönem başkanlarımıza, yönetim kurullarımıza, üyelerimize ve Rotary ailemize gönülden teşekkür ediyorum. Onların bıraktığı sağlam temeller üzerinde, Dokuz Eylül Rotaract Kulübü’nün hikâyesine yeni ve anlamlı bir sayfa eklemek için büyük bir heyecanla çalışacağız."
+    ],
+    "valediction": "Yolumuzun; umut, üretkenlik, dostluk ve kalıcı etkiyle dolu olması dileğiyle…",
+    "signOff": "Sevgi ve saygılarımla,",
+    "signatureCredit": "2026–2027 Dönem Başkanı · Dokuz Eylül Rotaract Kulübü",
+    "manifesto": [
+      "Hizmetle gelen dostluk",
+      "her hafta, istisnasız"
+    ]
+  },
+  "board": {
+    "eyebrow": "04 — Yönetim kurulu",
+    "heading": "Beş kişi, tek bir görev",
+    "intro": "Yönetim kurulu üyeleri kulübün stratejik yönünü belirler ve her üyenin sorumluluk almasını sağlar.",
+    "arrowLabel": "Çark saat yönünde döner",
+    "rimMark": "YÖNETİM KURULU 2026—27 · ",
+    "portraitAlt": "{name} portresi",
+    "prevLabel": "Önceki üye",
+    "nextLabel": "Sonraki üye",
+    "roles": {
+      "president": "Başkan",
+      "vicePresident": "Asbaşkan",
+      "secretary": "Sekreter",
+      "treasurer": "Sayman",
+      "pastPresident": "Geçmiş Dönem Başkanı"
+    }
+  },
+  "committees": {
+    "eyebrow": "05 — Komite başkanları",
+    "heading": "İşin sahiplendiği yer",
+    "intro": "Her komite, kulübün günlük işleyişini ve projelerini yürüten bir sorumluluk alanıdır.",
+    "portraitAlt": "{name} portresi",
+    "roles": {
+      "club": "Kulüp Hizmetleri",
+      "community": "Toplum Hizmetleri",
+      "vocational": "Meslek Hizmetleri",
+      "international": "Uluslararası Hizmetler",
+      "publicImage": "Kurumsal Tanıtım ve Sosyal Medya",
+      "foundation": "Vakıf",
+      "technology": "Teknoloji ve İnovasyon"
+    }
+  },
+  "areasOfFocus": {
+    "index": "06",
+    "label": "Odak alanları",
+    "meta": "Seven Areas of Focus",
+    "heading": "Yedi amaç. Tek bir pusula.",
+    "intro": "Her proje, Rotary’nin yedi odak alanından birine bağlanır. Üstüne gel, hangi amaca hizmet ettiğini gör.",
+    "items": [
+      {
+        "n": "01",
+        "title": "Barışı Destekleme",
+        "body": "Çatışmaların önlenmesi ve barış süreçlerinin güçlendirilmesi için projeler geliştiriyoruz."
+      },
+      {
+        "n": "02",
+        "title": "Hastalıkla Mücadele",
+        "body": "Bulaşıcı hastalıkların önlenmesi ve sağlık hizmetlerine erişimin artırılması için çalışıyoruz."
+      },
+      {
+        "n": "03",
+        "title": "Temiz Su ve Hijyen",
+        "body": "Temiz su, sanitasyon ve hijyen olanaklarına erişimi iyileştiren projeler yürütüyoruz."
+      },
+      {
+        "n": "04",
+        "title": "Anne ve Çocuk Sağlığı",
+        "body": "Anne ve çocuk ölümlerinin azaltılması, sağlıklı yaşam koşullarının desteklenmesi için uğraşıyoruz."
+      },
+      {
+        "n": "05",
+        "title": "Eğitimi Destekleme",
+        "body": "Kaliteli eğitime erişimi artırarak toplulukları güçlendiriyor ve fırsat eşitliği sağlıyoruz."
+      },
+      {
+        "n": "06",
+        "title": "Yerel Ekonomileri Büyütme",
+        "body": "Girişimcilik ve istihdam fırsatlarını destekleyerek yerel ekonomilerin kalkınmasına katkıda bulunuyoruz."
+      },
+      {
+        "n": "07",
+        "title": "Çevreyi Koruma",
+        "body": "Doğal kaynakların sürdürülebilir kullanımını ve çevre bilincinin yaygınlaştırılmasını destekliyoruz."
+      }
+    ]
+  },
+  "join": {
+    "eyebrow": "07 — Bize katıl",
+    "watermark": "Katıl",
+    "heading": "Bir saat getir. Bir çevreyle ayrıl.",
+    "body": "Üyelik, bölgemizdeki 18–30 yaş arası herkese açıktır. Önce bir toplantıya gelin — form yok, ücret yok, sadece gelin.",
+    "email": "merhaba@rotaractkulubu.org"
+  },
+  "footer": {
+    "tagline": "Hizmetle gelen dostluk.",
+    "motto": "Kişisel çıkarların ötesinde hizmet",
+    "credit": "Dokuz Eylül Rotaract Kulübü. {link} tarafından geliştirildi."
+  }
+}

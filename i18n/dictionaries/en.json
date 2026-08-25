@@ -1,0 +1,238 @@
+{
+  "meta": {
+    "title": "Dokuz Eylül Rotaract Club",
+    "description": "Dokuz Eylül Rotaract Club — friendship through service.",
+    "localeName": "English",
+    "localeShort": "EN"
+  },
+  "nav": {
+    "links": [
+      {
+        "href": "#hakkimizda",
+        "label": "About us"
+      },
+      {
+        "href": "#projeler",
+        "label": "Projects"
+      },
+      {
+        "href": "#etkinlikler",
+        "label": "Events"
+      },
+      {
+        "href": "#iletisim",
+        "label": "Contact"
+      }
+    ],
+    "languageLabel": "Choose language"
+  },
+  "hero": {
+    "logo": "/dokuz_eylul_en.png",
+    "logoAlt": "Dokuz Eylül Rotaract Club",
+    "datelineLeft": "Rotaract · District 2440 · Group 4",
+    "datelineRight": "Dokuz Eylül · İzmir · MMXXVI",
+    "srTitle": "Rotaract Club — friendship through service",
+    "taglineLead": "We turn friendship into service the neighbourhood can",
+    "taglineAccent": "measure.",
+    "meetingNote": "We meet at 19.00 on the first and third Thursday of every month at the Old Library. Guests are always welcome.",
+    "cta": "Join the club"
+  },
+  "marquee": {
+    "items": [
+      "Service above self",
+      "People of action",
+      "Fellowship",
+      "Leadership",
+      "Community"
+    ]
+  },
+  "about": {
+    "index": "01",
+    "label": "Who we are",
+    "meta": "Dokuz Eylül · İzmir",
+    "watermark": "Us",
+    "heading": "A club for people who would rather do the work than talk about it",
+    "pillars": [
+      {
+        "n": "01",
+        "title": "Professional Development",
+        "body": "We help young professionals shape their careers by offering leadership skills, business insight and opportunities for personal growth."
+      },
+      {
+        "n": "02",
+        "title": "Community Service",
+        "body": "By volunteering on local and international projects we make a tangible contribution to the community and build change together."
+      },
+      {
+        "n": "03",
+        "title": "International Understanding",
+        "body": "By connecting with people from different cultures we contribute to world peace and understanding, and build friendships across borders."
+      }
+    ]
+  },
+  "numbers": {
+    "eyebrow": "— By the numbers",
+    "stats": [
+      {
+        "big": "1000+",
+        "label": "Volunteer hours last year"
+      },
+      {
+        "big": "30+",
+        "label": "Active members"
+      },
+      {
+        "big": "10+",
+        "label": "Partner organisations"
+      }
+    ]
+  },
+  "fourWayTest": {
+    "eyebrow": "02 — The Four-Way Test",
+    "meta": "The Four-Way Test · Est. 1932",
+    "heading": "Of the things we think, say or do…",
+    "colophon": "Four questions — one conscience",
+    "items": [
+      {
+        "q": "Is it the truth?",
+        "a": "We put honesty and transparency first in everything we do.",
+        "stamp": "True"
+      },
+      {
+        "q": "Is it fair to all concerned?",
+        "a": "We weigh equality and fairness in our decisions, and leave no one out.",
+        "stamp": "Fair"
+      },
+      {
+        "q": "Will it build goodwill and better friendships?",
+        "a": "Through our projects we build trust and lasting friendships in the community.",
+        "stamp": "Goodwill"
+      },
+      {
+        "q": "Will it be beneficial to all concerned?",
+        "a": "We aim for our service to bring concrete benefit to everyone involved.",
+        "stamp": "Beneficial"
+      }
+    ]
+  },
+  "president": {
+    "eyebrow": "03 — President's message",
+    "heading": "A year spent showing up",
+    "watermark": "President",
+    "marginDateline": "Club President — 2026 / 27",
+    "portraitAlt": "Portrait of the club president",
+    "sealText": " · Rotaract · President's Message · Service ·",
+    "captionTerm": "26—27",
+    "salutation": [
+      "Dear Rotaract family,",
+      "Dear visitors,"
+    ],
+    "openingParagraphs": [
+      "As President of the Dokuz Eylül Rotaract Club for 2026–2027, I greet you with affection and excitement on behalf of our club.",
+      "The Dokuz Eylül Rotaract Club is a strong family where friendships are formed, leaders are raised, ideas are put into practice with courage, and every step is taken to add lasting value to the community. This culture, inherited from the terms before us, is the greatest legacy we hold today.",
+      "Our priority this term is to create projects that genuinely leave a mark, to contribute to the personal and professional growth of our members, and to build a sustainable impact on the community. For us, success is measured by the lives we touch, the friendships we form and the values we grow together.",
+      "I believe leadership is not only walking in front, but also standing at the very back when needed to make sure no one is left behind. With that in mind, we aim to build a club culture governed by fairness, transparency, trust and collective judgement. Building a term in which every member feels valued, every idea can be voiced freely and every effort is recognised is one of our greatest priorities."
+    ],
+    "pullQuote": "“Why not?”",
+    "closingParagraphs": [
+      "Rotaract's greatest strength is its ability to bring different perspectives together around a shared purpose. Because we know that great work is the product of people who can think together, create together and act together. That is why we intend to strengthen the bonds we have built inside our club even further through collaboration with our district and with our Rotary and Interact family.",
+      "Throughout this journey we will never stop learning, growing or dreaming. We believe that people who can ask “Why not?” are the ones who change the world, and we know that bold ideas, sincere friendships and shared effort will carry us towards far stronger tomorrows.",
+      "I offer my heartfelt thanks to all our past presidents, boards, members and our Rotary family who have given their effort to our club until today. On the solid foundations they left behind, we will work with great enthusiasm to add a new and meaningful page to the story of the Dokuz Eylül Rotaract Club."
+    ],
+    "valediction": "May our path be full of hope, productivity, friendship and lasting impact…",
+    "signOff": "With love and respect,",
+    "signatureCredit": "President 2026–2027 · Dokuz Eylül Rotaract Club",
+    "manifesto": [
+      "Friendship through service",
+      "every week, without exception"
+    ]
+  },
+  "board": {
+    "eyebrow": "04 — Board of directors",
+    "heading": "Five people, one duty",
+    "intro": "The board sets the club's strategic direction and makes sure every member takes on responsibility.",
+    "arrowLabel": "The wheel turns clockwise",
+    "rimMark": "BOARD OF DIRECTORS 2026—27 · ",
+    "portraitAlt": "Portrait of {name}",
+    "prevLabel": "Previous member",
+    "nextLabel": "Next member",
+    "roles": {
+      "president": "President",
+      "vicePresident": "Vice President",
+      "secretary": "Secretary",
+      "treasurer": "Treasurer",
+      "pastPresident": "Immediate Past President"
+    }
+  },
+  "committees": {
+    "eyebrow": "05 — Committee chairs",
+    "heading": "Where the work is owned",
+    "intro": "Each committee is an area of responsibility that carries the club's day-to-day running and its projects.",
+    "portraitAlt": "Portrait of {name}",
+    "roles": {
+      "club": "Club Service",
+      "community": "Community Service",
+      "vocational": "Vocational Service",
+      "international": "International Service",
+      "publicImage": "Public Image and Social Media",
+      "foundation": "The Foundation",
+      "technology": "Technology and Innovation"
+    }
+  },
+  "areasOfFocus": {
+    "index": "06",
+    "label": "Areas of focus",
+    "meta": "Seven Areas of Focus",
+    "heading": "Seven causes. One compass.",
+    "intro": "Every project connects to one of Rotary's seven areas of focus. Hover a row to see which cause it serves.",
+    "items": [
+      {
+        "n": "01",
+        "title": "Promoting Peace",
+        "body": "We develop projects that prevent conflict and strengthen the processes that build peace."
+      },
+      {
+        "n": "02",
+        "title": "Fighting Disease",
+        "body": "We work to prevent communicable disease and widen access to health services."
+      },
+      {
+        "n": "03",
+        "title": "Clean Water and Sanitation",
+        "body": "We run projects that improve access to clean water, sanitation and hygiene facilities."
+      },
+      {
+        "n": "04",
+        "title": "Maternal and Child Health",
+        "body": "We work to reduce maternal and child mortality and to support healthier living conditions."
+      },
+      {
+        "n": "05",
+        "title": "Supporting Education",
+        "body": "We strengthen communities and level the field by widening access to quality education."
+      },
+      {
+        "n": "06",
+        "title": "Growing Local Economies",
+        "body": "We support entrepreneurship and employment opportunities to help local economies develop."
+      },
+      {
+        "n": "07",
+        "title": "Protecting the Environment",
+        "body": "We support the sustainable use of natural resources and a wider awareness of the environment."
+      }
+    ]
+  },
+  "join": {
+    "eyebrow": "07 — Join us",
+    "watermark": "Join",
+    "heading": "Bring an hour. Leave with a circle.",
+    "body": "Membership is open to anyone aged 18–30 in our district. Come to a meeting first — no form, no fee, just turn up.",
+    "email": "merhaba@rotaractkulubu.org"
+  },
+  "footer": {
+    "tagline": "Friendship through service.",
+    "motto": "Service above self",
+    "credit": "Dokuz Eylül Rotaract Club. Built by {link}."
+  }
+}

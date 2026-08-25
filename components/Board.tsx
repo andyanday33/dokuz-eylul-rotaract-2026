@@ -4,22 +4,20 @@ import React from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { fill, type Dictionary } from "@/i18n/config";
 import { Grain } from "./Editorial";
 import { RotaryWheel } from "./RotaryWheel";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
+/** Names and photos are the same in every language; only the role is keyed. */
 const BOARD = [
-  { name: "Ad Soyad", role: "Başkan", photo: "/board/baskan.jpg" },
-  { name: "Ad Soyad", role: "Asbaşkan", photo: "/board/asbaskan.jpg" },
-  { name: "Ad Soyad", role: "Sekreter", photo: "/board/sekreter.jpg" },
-  { name: "Ad Soyad", role: "Sayman", photo: "/board/sayman.jpg" },
-  { name: "Ad Soyad", role: "Geçmiş Dönem Başkanı", photo: "/board/gdb.jpg" },
-];
-
-/** Repeated around the wheel's rim band; the trailing separator is what
-    makes the wrap read continuously rather than butting two words together. */
-const RIM_MARK = "YÖNETİM KURULU 2026—27 · ";
+  { role: "president", name: "Ad Soyad", photo: "/board/baskan.jpg" },
+  { role: "vicePresident", name: "Ad Soyad", photo: "/board/asbaskan.jpg" },
+  { role: "secretary", name: "Ad Soyad", photo: "/board/sekreter.jpg" },
+  { role: "treasurer", name: "Ad Soyad", photo: "/board/sayman.jpg" },
+  { role: "pastPresident", name: "Ad Soyad", photo: "/board/gdb.jpg" },
+] as const;
 
 /** Where member i sits on the orbit, in degrees, twelve o'clock first. */
 const seatAngle = (i: number) => -90 - (360 / BOARD.length) * i;
@@ -30,7 +28,12 @@ const seat = (i: number, r: number) => {
   return { x: 50 + r * Math.cos(a), y: 50 + r * Math.sin(a) };
 };
 
-export const Board = () => {
+export const Board = ({ board }: { board: Dictionary["board"] }) => {
+  const members = BOARD.map((m) => ({
+    ...m,
+    title: board.roles[m.role],
+    alt: fill(board.portraitAlt, { name: m.name }),
+  }));
   const [active, setActive] = React.useState(0);
   const [rotation, setRotation] = React.useState(0);
   const step = 360 / BOARD.length;
@@ -90,8 +93,8 @@ export const Board = () => {
     });
     gsap.set(`${plate} [data-fade]`, { opacity: 0 });
 
-    const members = gsap.utils.toArray("[data-board] article");
-    gsap.set(members, { opacity: 0, scale: 0.8 });
+    const busts = gsap.utils.toArray("[data-board] article");
+    gsap.set(busts, { opacity: 0, scale: 0.8 });
 
     const ink = { duration: 0.5, strokeDashoffset: 0, ease: "power2.inOut" };
 
@@ -114,7 +117,7 @@ export const Board = () => {
       .to(`${plate} [data-draw="hub"]`, { ...ink, duration: 0.4 }, "-=0.2")
       .to(`${plate} [data-fade]`, { opacity: 1, duration: 0.6 }, "-=0.3")
       .to(
-        members,
+        busts,
         {
           opacity: 1,
           scale: 1,
@@ -189,17 +192,16 @@ export const Board = () => {
       <div className="wrapper relative z-10 py-20 sm:py-24">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow rise text-primary">04 — Yönetim kurulu</p>
+            <p className="eyebrow rise text-primary">{board.eyebrow}</p>
             <h2
               data-chars
               className="font-editorial mt-3 max-w-2xl text-4xl italic leading-[1.1] sm:text-5xl"
             >
-              Beş kişi, tek bir görev
+              {board.heading}
             </h2>
           </div>
           <p className="rise max-w-md text-sm font-light text-foreground/60">
-            Yönetim kurulu üyeleri kulübün stratejik yönünü belirler ve her
-            üyenin sorumluluk almasını sağlar.
+            {board.intro}
           </p>
         </div>
         <div className="rule rule-cranberry mt-8 h-[2px] w-full" />
@@ -232,7 +234,7 @@ export const Board = () => {
                 startOffset="50%"
                 textAnchor="middle"
               >
-                Çark saat yönünde döner
+                {board.arrowLabel}
               </textPath>
             </text>
             <path
@@ -275,11 +277,11 @@ export const Board = () => {
             >
               {/* the wheel itself — its cogs are what you see arcing overhead */}
               <div className="pointer-events-none absolute inset-[4%]">
-                <RotaryWheel className="h-full w-full" mark={RIM_MARK} />
+                <RotaryWheel className="h-full w-full" mark={board.rimMark} />
               </div>
 
               {/* members mounted on the cog tips */}
-              {BOARD.map((m, i) => {
+              {members.map((m, i) => {
                 const { x, y } = seat(i, 46);
                 return (
                   <button
@@ -303,7 +305,7 @@ export const Board = () => {
                     >
                       <img
                         src={m.photo}
-                        alt={`${m.name} portresi`}
+                        alt={m.alt}
                         width={200}
                         height={200}
                         className="h-full w-full object-cover"
@@ -323,17 +325,17 @@ export const Board = () => {
           {/* Active member info + controls */}
           <div className="mt-4 text-center">
             <h3 className="font-editorial text-xl italic leading-tight">
-              {BOARD[active].name}
+              {members[active].name}
             </h3>
             <p className="eyebrow mt-1 text-foreground/55">
-              {BOARD[active].role}
+              {members[active].title}
             </p>
 
             <div className="mt-5 flex items-center justify-center gap-6">
               <button
                 onClick={prev}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/20 transition-colors hover:border-primary hover:text-primary"
-                aria-label="Önceki üye"
+                aria-label={board.prevLabel}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M10 12L6 8L10 4" />
@@ -345,7 +347,7 @@ export const Board = () => {
               <button
                 onClick={next}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/20 transition-colors hover:border-primary hover:text-primary"
-                aria-label="Sonraki üye"
+                aria-label={board.nextLabel}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M6 4L10 8L6 12" />
@@ -380,11 +382,11 @@ export const Board = () => {
 
           {/* the wheel, turning clockwise under its own weight */}
           <div className="orbit-spin-slow pointer-events-none absolute inset-[26%]">
-            <RotaryWheel className="h-full w-full" mark={RIM_MARK} />
+            <RotaryWheel className="h-full w-full" mark={board.rimMark} />
           </div>
 
           <div data-board className="absolute inset-0">
-            {BOARD.map((m, i) => {
+            {members.map((m, i) => {
               const { x: left, y: top } = seat(i, 43);
               return (
                 <article
@@ -396,7 +398,7 @@ export const Board = () => {
                   <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border border-foreground/20 shadow-[0_0_0_9px_var(--paper)] ring-1 ring-transparent transition-all duration-500 group-hover:border-primary group-hover:ring-primary/40 lg:h-36 lg:w-36">
                     <img
                       src={m.photo}
-                      alt={`${m.name} portresi`}
+                      alt={m.alt}
                       loading="lazy"
                       width={400}
                       height={400}
@@ -409,7 +411,7 @@ export const Board = () => {
                     {m.name}
                   </h3>
                   <p className="eyebrow paper-cased mt-1 text-xs text-foreground/55">
-                    {m.role}
+                    {m.title}
                   </p>
                 </article>
               );
