@@ -153,8 +153,19 @@
       "her hafta, istisnasız"
     ]
   },
+  "presidents": {
+    "index": "04",
+    "label": "Geçmiş dönem başkanları",
+    "heading": "Her dönem bir isim devralır.",
+    "seeAll": "Tüm başkanlar",
+    "pageTitle": "Başkanlar",
+    "pageIntro": "Bir Rotary dönemi temmuzda başlar, haziranda biter. Çizelge kulübün {year} yılındaki kuruluşundan bugüne uzanır.",
+    "current": "Görevde",
+    "founded": "Kuruluş",
+    "back": "Ana sayfa"
+  },
   "board": {
-    "eyebrow": "04 — Yönetim kurulu",
+    "eyebrow": "05 — Yönetim kurulu",
     "heading": "Beş kişi, tek bir görev",
     "intro": "Yönetim kurulu üyeleri kulübün stratejik yönünü belirler ve her üyenin sorumluluk almasını sağlar.",
     "arrowLabel": "Çark saat yönünde döner",
@@ -171,7 +182,7 @@
     }
   },
   "committees": {
-    "eyebrow": "05 — Komite başkanları",
+    "eyebrow": "06 — Komite başkanları",
     "heading": "İşin sahiplendiği yer",
     "intro": "Her komite, kulübün günlük işleyişini ve projelerini yürüten bir sorumluluk alanıdır.",
     "portraitAlt": "{name} portresi",
@@ -186,7 +197,7 @@
     }
   },
   "areasOfFocus": {
-    "index": "06",
+    "index": "07",
     "label": "Yedi öncelikli alan",
     "meta": "Seven Areas of Focus",
     "heading": "Her projemiz bu yedi öncelikli alandan birine bağlanır.",
@@ -237,7 +248,7 @@
     ]
   },
   "join": {
-    "eyebrow": "07 — Bize katıl",
+    "eyebrow": "08 — Bize katıl",
     "watermark": "Katıl",
     "heading": "Bir saat getir. Bir çevreyle ayrıl.",
     "body": "Üyelik, bölgemizdeki 18–30 yaş arası herkese açıktır. Önce bir toplantıya gelin — form yok, ücret yok, sadece gelin.",

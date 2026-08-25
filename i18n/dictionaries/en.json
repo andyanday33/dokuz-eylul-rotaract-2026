@@ -153,8 +153,19 @@
       "every week, without exception"
     ]
   },
+  "presidents": {
+    "index": "04",
+    "label": "Past presidents",
+    "heading": "Each term, one name takes over.",
+    "seeAll": "All presidents",
+    "pageTitle": "Presidents",
+    "pageIntro": "A Rotary year starts in July and ends in June. The scale runs from the club's founding in {year} to the present.",
+    "current": "In office",
+    "founded": "Founded",
+    "back": "Home"
+  },
   "board": {
-    "eyebrow": "04 — Board of directors",
+    "eyebrow": "05 — Board of directors",
     "heading": "Five people, one duty",
     "intro": "The board sets the club's strategic direction and makes sure every member takes on responsibility.",
     "arrowLabel": "The wheel turns clockwise",
@@ -171,7 +182,7 @@
     }
   },
   "committees": {
-    "eyebrow": "05 — Committee chairs",
+    "eyebrow": "06 — Committee chairs",
     "heading": "Where the work is owned",
     "intro": "Each committee is an area of responsibility that carries the club's day-to-day running and its projects.",
     "portraitAlt": "Portrait of {name}",
@@ -186,7 +197,7 @@
     }
   },
   "areasOfFocus": {
-    "index": "06",
+    "index": "07",
     "label": "Areas of focus",
     "meta": "Yedi öncelikli alan",
     "heading": "Every project we run belongs to one of these seven.",
@@ -237,7 +248,7 @@
     ]
   },
   "join": {
-    "eyebrow": "07 — Join us",
+    "eyebrow": "08 — Join us",
     "watermark": "Join",
     "heading": "Bring an hour. Leave with a circle.",
     "body": "Membership is open to anyone aged 18–30 in our district. Come to a meeting first — no form, no fee, just turn up.",

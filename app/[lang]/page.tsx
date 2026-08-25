@@ -6,6 +6,7 @@ import { About } from "@/components/About";
 import { FourWayTest } from "@/components/FourWayTest";
 import { Numbers } from "@/components/Numbers";
 import { PresidentsMessage } from "@/components/PresidentsMessage";
+import { PastPresidents } from "@/components/PastPresidents";
 import { Board } from "@/components/Board";
 import { Committees } from "@/components/Committees";
 import { AreasOfFocus } from "@/components/AreasOfFocus";
@@ -29,6 +30,7 @@ export default async function Home() {
       <Numbers />
       <FourWayTest fourWayTest={dict.fourWayTest} />
       <PresidentsMessage president={dict.president} />
+      <PastPresidents />
       <Board board={dict.board} />
       <Committees />
       <AreasOfFocus />

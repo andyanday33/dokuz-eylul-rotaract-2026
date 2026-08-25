@@ -4,7 +4,7 @@ import React from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "next/image";
+import { Wordmark } from "../Wordmark";
 
 type Props = {
   /** Localised wordmark. Every variant is cropped to its artwork, so they all
@@ -84,6 +84,26 @@ export const SlidingText = ({ src, alt }: Props) => {
       if (el) observer.observe(el);
     }
 
+    // The end of the travel is the same size every other masthead renders the
+    // wordmark at; read it rather than repeating the number here.
+    const parkedWidth =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--masthead-logo-parked")
+        .trim() || "6.5rem";
+
+    // The wordmark becomes clickable only once it has arrived in the masthead.
+    ScrollTrigger.create({
+      trigger: "#hero",
+      start: "top top",
+      end: "+=90%",
+      onLeave: () =>
+        document.querySelector(".wordmark-parkable")?.classList.add("is-parked"),
+      onEnterBack: () =>
+        document
+          .querySelector(".wordmark-parkable")
+          ?.classList.remove("is-parked"),
+    });
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: "#hero",
@@ -105,7 +125,7 @@ export const SlidingText = ({ src, alt }: Props) => {
         left: "5vw",
         xPercent: 0,
         yPercent: -50,
-        width: "6.5rem",
+        width: parkedWidth,
       },
       "<",
     );
@@ -121,14 +141,12 @@ export const SlidingText = ({ src, alt }: Props) => {
         transform: "translateX(-50%)",
       }}
     >
-      <Image
+      <Wordmark
+        href="#hero"
         src={src}
         alt={alt}
-        width={790}
-        height={318}
         priority
-        quality={100}
-        className="object-contain"
+        className="wordmark-parkable"
       />
     </div>
   );

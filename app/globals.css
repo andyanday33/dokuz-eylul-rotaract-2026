@@ -33,6 +33,7 @@
   --color-selection: var(--selection);
   --color-selection-foreground: var(--selection-foreground);
   --color-cranberry: var(--cranberry);
+  --color-wine: var(--wine);
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --font-sans: "Open Sans", system-ui, sans-serif;
@@ -49,6 +50,10 @@
   /* Editorial grounds: warm aged paper + inky plum-black */
   --paper: oklch(0.945 0.016 85);
   --ink: oklch(0.16 0.02 350);
+  /* The brand at a darker value — a ground that belongs to the cranberry
+     family without spending the full-strength cranberry, which the Join
+     section owns as its call to action. */
+  --wine: oklch(0.34 0.14 0.4);
   --background: oklch(0.9895 0.0032 17);
   --foreground: oklch(0.19 0.02 350);
   --card: oklch(1 0 0);
@@ -166,6 +171,9 @@
     --masthead-dateline: calc(6rem + 1.03125rem + 0.75rem + 1px);
     --masthead-band: 10rem;
     --masthead-logo-w: 16rem;
+    /* Where the wordmark ends up once the hero animation has run, and the
+       size every other page's masthead renders it at. */
+    --masthead-logo-parked: 6.5rem;
     --masthead-logo-h: calc(var(--masthead-logo-w) * 318 / 790);
     --masthead-foot: 21.5rem;
     --masthead-logo-y: calc(
@@ -260,6 +268,19 @@
   .board-photo {
     filter: grayscale(1) contrast(0.95) brightness(0.9);
     transition: filter 0.5s, transform 0.5s;
+  }
+}
+
+@layer base {
+  /* The hero wordmark is a graphic until it has finished travelling to the
+     masthead; only then is it something to click. Keyboard users can reach it
+     throughout — pointer-events does not remove it from the focus order. */
+  .wordmark-parkable {
+    pointer-events: none;
+  }
+
+  .wordmark-parkable.is-parked {
+    pointer-events: auto;
   }
 }
 

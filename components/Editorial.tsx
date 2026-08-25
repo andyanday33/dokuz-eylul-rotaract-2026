@@ -31,13 +31,19 @@ export function Vignette() {
   );
 }
 
-/** Newspaper nameplate: numbered eyebrow + optional dateline, ruled below. */
+/**
+ * Newspaper nameplate: numbered eyebrow + optional dateline, ruled below.
+ *
+ * `tone` names the ground it sits on. It matters for more than taste: the
+ * label is cranberry by default, which disappears on a ground from the
+ * cranberry family, so the ground has to be declared rather than assumed.
+ */
 export function Nameplate({
   index,
   label,
   meta,
   metaLang,
-  dark = false,
+  tone = "paper",
 }: {
   index: string;
   label: string;
@@ -45,24 +51,33 @@ export function Nameplate({
   /** Language of `meta` when it is not the page's own — `uppercase` cases by
       language, so Turkish left undeclared on an English page loses its İ. */
   metaLang?: string;
-  dark?: boolean;
+  tone?: "paper" | "ink" | "wine";
 }) {
+  const rule = {
+    paper: "border-foreground",
+    ink: "border-paper/80",
+    wine: "border-paper/70",
+  }[tone];
+
+  // Cranberry reads on paper and on ink, but vanishes on a ground from its
+  // own family, so wine takes a light label instead.
+  const labelInk = tone === "wine" ? "text-paper" : "text-primary";
+
+  const metaInk = {
+    paper: "text-foreground/45",
+    ink: "text-paper/45",
+    wine: "text-paper/75",
+  }[tone];
+
   return (
     <div
-      className={`flex flex-wrap items-end justify-between gap-3 border-b-2 pb-4 ${
-        dark ? "border-paper/80" : "border-foreground"
-      }`}
+      className={`flex flex-wrap items-end justify-between gap-3 border-b-2 pb-4 ${rule}`}
     >
-      <p className="eyebrow rise text-primary">
+      <p className={`eyebrow rise ${labelInk}`}>
         {index} — {label}
       </p>
       {meta ? (
-        <p
-          lang={metaLang}
-          className={`eyebrow rise ${
-            dark ? "text-paper/45" : "text-foreground/45"
-          }`}
-        >
+        <p lang={metaLang} className={`eyebrow rise ${metaInk}`}>
           {meta}
         </p>
       ) : null}

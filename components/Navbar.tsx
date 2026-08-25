@@ -34,7 +34,8 @@ export const Navbar = ({
   return (
     <header className="fixed navbar inset-x-0 top-0 z-40 border-b border-transparent">
       <nav className="wrapper flex h-16 items-center justify-between">
-        <div className="h-7 w-[176px]" aria-hidden />
+        {/* holds the space the travelling wordmark parks in */}
+        <div className="h-7 w-(--masthead-logo-parked)" aria-hidden />
         <div className="flex items-center gap-5 sm:gap-7">
           <ul className="hidden items-center gap-6 xl:flex">
             {nav.links.map((l) => (
