@@ -255,12 +255,8 @@
     animation: orbit-spin 60s linear infinite;
   }
 
-  .orbit-spin-reverse {
-    animation: orbit-spin 90s linear infinite reverse;
-  }
-
-  /* A cast gear should feel heavy — the Rotary wheel turns slower than the
-     hairline orbits it sits inside. */
+  /* The board's ring turns under the portraits. Its dashes are what you see
+     travelling; slow enough that you only notice if you stay a while. */
   .orbit-spin-slow {
     animation: orbit-spin 120s linear infinite;
   }
@@ -306,7 +302,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .orbit-spin,
-  .orbit-spin-reverse,
   .orbit-spin-slow,
   .marquee-track,
   .menu-rise {

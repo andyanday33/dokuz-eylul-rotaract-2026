@@ -6,7 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fill, type Dictionary } from "@/i18n/config";
 import { Grain } from "./Editorial";
-import { RotaryWheel } from "./RotaryWheel";
+import { CURRENT_PRESIDENT, shortTerm } from "@/data/presidents";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -80,23 +80,17 @@ export const Board = ({ board }: { board: Dictionary["board"] }) => {
         "-=0.1",
       );
 
-    // Desktop: the plate inks itself in, outside-in, the way it would be drawn
+    // Desktop: the ring and its centre mark fade up, then the busts arrive.
+    // The ring is no longer inked on stroke by stroke — that animation works
+    // by overwriting strokeDasharray with the path length, which leaves the
+    // circle solid once it lands, and this one has to stay dashed.
     const plate = "#board-plate";
-    const strokes = gsap.utils.toArray<SVGGeometryElement>(
-      `${plate} [data-draw]`,
-    );
-    if (!strokes.length) return;
-
-    strokes.forEach((el) => {
-      const len = el.getTotalLength();
-      gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
-    });
-    gsap.set(`${plate} [data-fade]`, { opacity: 0 });
-
     const busts = gsap.utils.toArray("[data-board] article");
-    gsap.set(busts, { opacity: 0, scale: 0.8 });
+    const fades = gsap.utils.toArray(`${plate} [data-fade]`);
+    if (!busts.length) return;
 
-    const ink = { duration: 0.5, strokeDashoffset: 0, ease: "power2.inOut" };
+    gsap.set(fades, { opacity: 0 });
+    gsap.set(busts, { opacity: 0, scale: 0.8 });
 
     gsap
       .timeline({
@@ -106,16 +100,7 @@ export const Board = ({ board }: { board: Dictionary["board"] }) => {
           toggleActions: "play none none none",
         },
       })
-      .to(`${plate} [data-draw="orbit"]`, { ...ink, duration: 0.7 })
-      .to(`${plate} [data-draw="cogs"]`, { ...ink, duration: 1.1 }, "-=0.45")
-      .to(`${plate} [data-draw="rim"]`, ink, "-=0.6")
-      .to(
-        `${plate} [data-draw="spoke"]`,
-        { ...ink, duration: 0.4, stagger: 0.06 },
-        "-=0.3",
-      )
-      .to(`${plate} [data-draw="hub"]`, { ...ink, duration: 0.4 }, "-=0.2")
-      .to(`${plate} [data-fade]`, { opacity: 1, duration: 0.6 }, "-=0.3")
+      .to(fades, { opacity: 1, duration: 0.8, ease: "power2.out" })
       .to(
         busts,
         {
@@ -126,7 +111,7 @@ export const Board = ({ board }: { board: Dictionary["board"] }) => {
           ease: "back.out(1.6)",
           clearProps: "transform",
         },
-        "-=0.5",
+        "-=0.45",
       );
   }, {});
 
@@ -275,12 +260,10 @@ export const Board = ({ board }: { board: Dictionary["board"] }) => {
                 transition: "transform 0.7s ease-out",
               }}
             >
-              {/* the wheel itself — its cogs are what you see arcing overhead */}
-              <div className="pointer-events-none absolute inset-[4%]">
-                <RotaryWheel className="h-full w-full" mark={board.rimMark} />
-              </div>
+              {/* the ring the members ride, arcing overhead */}
+              <div className="pointer-events-none absolute inset-[4%] rounded-full border border-dashed border-foreground/25" />
 
-              {/* members mounted on the cog tips */}
+              {/* members mounted on the ring */}
               {members.map((m, i) => {
                 const { x, y } = seat(i, 46);
                 return (
@@ -362,27 +345,40 @@ export const Board = ({ board }: { board: Dictionary["board"] }) => {
           id="board-plate"
           className="relative mx-auto hidden aspect-square w-full max-w-[560px] sm:block lg:max-w-[680px]"
         >
-          {/* the circle the members ride, struck like a construction line */}
-          <svg
-            viewBox="0 0 100 100"
-            aria-hidden
-            className="pointer-events-none absolute inset-0 h-full w-full"
-          >
-            <circle
-              data-draw="orbit"
-              cx="50"
-              cy="50"
-              r="43"
-              fill="none"
-              className="stroke-foreground/30"
-              strokeWidth="0.28"
-              strokeDasharray="0.7 1.5"
-            />
-          </svg>
+          {/* The ring the members ride. The fade lives on the wrapper and the
+              turn on the svg, so the entrance and the rotation are not both
+              writing to the same transform. */}
+          <div data-fade className="pointer-events-none absolute inset-0">
+            <svg
+              viewBox="0 0 100 100"
+              aria-hidden
+              className="orbit-spin-slow h-full w-full"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="43"
+                fill="none"
+                className="stroke-foreground/30"
+                strokeWidth="0.28"
+                strokeDasharray="0.7 1.5"
+              />
+            </svg>
+          </div>
 
-          {/* the wheel, turning clockwise under its own weight */}
-          <div className="orbit-spin-slow pointer-events-none absolute inset-[26%]">
-            <RotaryWheel className="h-full w-full" mark={board.rimMark} />
+          {/* Centre mark. The board serves the same Rotary year as the
+              president, so the term is read off the roll rather than written
+              down again here. */}
+          <div
+            data-fade
+            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
+          >
+            <p className="font-editorial text-3xl italic leading-tight lg:text-4xl">
+              {board.centreLabel}
+            </p>
+            <p className="eyebrow mt-2 tabular-nums text-primary">
+              {shortTerm(CURRENT_PRESIDENT.term)}
+            </p>
           </div>
 
           <div data-board className="absolute inset-0">
