@@ -403,10 +403,12 @@ export const Board = () => {
                       className="board-photo h-full w-full object-cover group-hover:scale-105 group-hover:[filter:grayscale(0)_contrast(1.05)_brightness(1)]"
                     />
                   </div>
-                  <h3 className="font-editorial mt-3 text-lg italic leading-tight transition-colors group-hover:text-primary">
+                  {/* Cased rather than backed by a panel: a field big enough
+                      to clear the orbit line would also lie across the wheel. */}
+                  <h3 className="font-editorial paper-cased mt-3 text-lg italic leading-tight transition-colors group-hover:text-primary">
                     {m.name}
                   </h3>
-                  <p className="eyebrow mt-1 text-xs text-foreground/55">
+                  <p className="eyebrow paper-cased mt-1 text-xs text-foreground/55">
                     {m.role}
                   </p>
                 </article>

@@ -135,6 +135,24 @@
   margin-inline: auto;
 }
 
+/* Map-style casing: paper knocked out tight around each glyph, so a caption
+   stays readable over linework without laying a panel across the drawing.
+   The zero-offset blurs fill the glyph body too, which is what keeps a
+   semi-transparent fill from letting the line show through the letters. */
+@utility paper-cased {
+  text-shadow:
+    0 0 2px var(--paper),
+    0 0 4px var(--paper),
+    1.5px 0 0 var(--paper),
+    -1.5px 0 0 var(--paper),
+    0 1.5px 0 var(--paper),
+    0 -1.5px 0 var(--paper),
+    1px 1px 0 var(--paper),
+    -1px 1px 0 var(--paper),
+    1px -1px 0 var(--paper),
+    -1px -1px 0 var(--paper);
+}
+
 @layer base {
   .marquee-track {
     animation: marquee 20s linear infinite;
