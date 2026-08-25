@@ -156,6 +156,12 @@
     animation: orbit-spin 90s linear infinite reverse;
   }
 
+  /* A cast gear should feel heavy — the Rotary wheel turns slower than the
+     hairline orbits it sits inside. */
+  .orbit-spin-slow {
+    animation: orbit-spin 120s linear infinite;
+  }
+
   .board-photo {
     filter: grayscale(1) contrast(0.95) brightness(0.9);
     transition: filter 0.5s, transform 0.5s;
@@ -165,6 +171,15 @@
 @keyframes orbit-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-spin,
+  .orbit-spin-reverse,
+  .orbit-spin-slow,
+  .marquee-track {
+    animation: none;
   }
 }
 

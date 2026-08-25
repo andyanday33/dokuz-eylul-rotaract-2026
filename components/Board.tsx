@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Grain } from "./Editorial";
+import { RotaryWheel } from "./RotaryWheel";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -15,6 +16,19 @@ const BOARD = [
   { name: "Ad Soyad", role: "Sayman", photo: "/board/sayman.jpg" },
   { name: "Ad Soyad", role: "Geçmiş Dönem Başkanı", photo: "/board/gdb.jpg" },
 ];
+
+/** Repeated around the wheel's rim band; the trailing separator is what
+    makes the wrap read continuously rather than butting two words together. */
+const RIM_MARK = "YÖNETİM KURULU 2026—27 · ";
+
+/** Where member i sits on the orbit, in degrees, twelve o'clock first. */
+const seatAngle = (i: number) => -90 - (360 / BOARD.length) * i;
+
+/** Polar → percentage coordinates inside a square box. */
+const seat = (i: number, r: number) => {
+  const a = (seatAngle(i) * Math.PI) / 180;
+  return { x: 50 + r * Math.cos(a), y: 50 + r * Math.sin(a) };
+};
 
 export const Board = () => {
   const [active, setActive] = React.useState(0);
@@ -63,54 +77,53 @@ export const Board = () => {
         "-=0.1",
       );
 
-    // Desktop orbital layout entrance
-    const orbitOuter = document.querySelector("#orbit-outer");
-    const orbitInner = document.querySelector("#orbit-inner");
-    const centerMark = document.querySelector("#center-mark");
-    const members = gsap.utils.toArray("[data-board] article");
+    // Desktop: the plate inks itself in, outside-in, the way it would be drawn
+    const plate = "#board-plate";
+    const strokes = gsap.utils.toArray<SVGGeometryElement>(
+      `${plate} [data-draw]`,
+    );
+    if (!strokes.length) return;
 
-    gsap.set([orbitOuter, orbitInner], { scale: 0, opacity: 0 });
-    gsap.set(centerMark, { opacity: 0, scale: 0.8 });
-    gsap.set(members, { opacity: 0, scale: 0, y: 20 });
-
-    const orbitTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "[data-board]",
-        start: "top 85%",
-        toggleActions: "play none none none",
-      },
+    strokes.forEach((el) => {
+      const len = el.getTotalLength();
+      gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
     });
+    gsap.set(`${plate} [data-fade]`, { opacity: 0 });
 
-    orbitTl
-      .to(orbitOuter, {
-        scale: 1,
-        opacity: 1,
-        duration: 0.6,
-        ease: "back.out(1.4)",
-        clearProps: "transform",
+    const members = gsap.utils.toArray("[data-board] article");
+    gsap.set(members, { opacity: 0, scale: 0.8 });
+
+    const ink = { duration: 0.5, strokeDashoffset: 0, ease: "power2.inOut" };
+
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: plate,
+          start: "top 82%",
+          toggleActions: "play none none none",
+        },
       })
+      .to(`${plate} [data-draw="orbit"]`, { ...ink, duration: 0.7 })
+      .to(`${plate} [data-draw="cogs"]`, { ...ink, duration: 1.1 }, "-=0.45")
+      .to(`${plate} [data-draw="rim"]`, ink, "-=0.6")
       .to(
-        orbitInner,
-        { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.4)", clearProps: "transform" },
+        `${plate} [data-draw="spoke"]`,
+        { ...ink, duration: 0.4, stagger: 0.06 },
         "-=0.3",
       )
-      .to(
-        centerMark,
-        { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out", clearProps: "transform" },
-        "-=0.3",
-      )
+      .to(`${plate} [data-draw="hub"]`, { ...ink, duration: 0.4 }, "-=0.2")
+      .to(`${plate} [data-fade]`, { opacity: 1, duration: 0.6 }, "-=0.3")
       .to(
         members,
         {
           opacity: 1,
           scale: 1,
-          y: 0,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: "back.out(1.7)",
+          duration: 0.45,
+          stagger: 0.07,
+          ease: "back.out(1.6)",
           clearProps: "transform",
         },
-        "-=0.2",
+        "-=0.5",
       );
   }, {});
 
@@ -242,9 +255,14 @@ export const Board = () => {
 
         {/* ===== MOBILE: arc wheel peeking from top ===== */}
         <div ref={swipeRef} className="sm:hidden" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-          {/* Clip container — shows top portion of the wheel */}
+          {/* Clip container — shows the top arc of the wheel. Height and the
+              centre offset below are tuned together: the flanking members sit
+              74px below centre and the hub crown 75px, so they enter the frame
+              together. Both are off-canvas on a phone anyway (the ring is
+              wider than the viewport), so the clip stops just above them and
+              what's left is a clean sweep of cogs. */}
           <div className="relative mx-auto h-[240px] w-full overflow-hidden">
-            {/* The wheel: a large circle positioned so center is well below clip area */}
+            {/* The wheel: a large circle whose centre sits below the clip */}
             <div
               className="absolute h-[520px] w-[520px]"
               style={{
@@ -255,16 +273,14 @@ export const Board = () => {
                 transition: "transform 0.7s ease-out",
               }}
             >
-              {/* orbit ring */}
-              <div className="pointer-events-none absolute inset-0 rounded-full border border-dashed border-foreground/25" />
+              {/* the wheel itself — its cogs are what you see arcing overhead */}
+              <div className="pointer-events-none absolute inset-[4%]">
+                <RotaryWheel className="h-full w-full" mark={RIM_MARK} />
+              </div>
 
-              {/* members on the ring */}
+              {/* members mounted on the cog tips */}
               {BOARD.map((m, i) => {
-                const angle = -90 - (360 / BOARD.length) * i;
-                const rad = (angle * Math.PI) / 180;
-                const r = 46;
-                const x = 50 + r * Math.cos(rad);
-                const y = 50 + r * Math.sin(rad);
+                const { x, y } = seat(i, 46);
                 return (
                   <button
                     key={m.role}
@@ -279,7 +295,7 @@ export const Board = () => {
                     className="absolute text-center"
                   >
                     <div
-                      className={`mx-auto overflow-hidden rounded-full border-2 transition-all duration-500 ${
+                      className={`mx-auto overflow-hidden rounded-full border-2 shadow-[0_0_0_7px_var(--paper)] transition-all duration-500 ${
                         i === active
                           ? "h-24 w-24 border-primary ring-2 ring-primary/30"
                           : "h-14 w-14 border-foreground/20 opacity-50"
@@ -339,45 +355,45 @@ export const Board = () => {
           </div>
         </div>
 
-        {/* ===== DESKTOP: orbital arrangement ===== */}
-        <div className="relative mx-auto hidden aspect-square w-full max-w-[560px] sm:block lg:max-w-[680px]">
-          {/* orbit rings */}
-          <div
-            id="orbit-outer"
-            className="pointer-events-none absolute inset-0 rounded-full border border-dashed border-foreground/25 orbit-spin"
-          />
-          <div
-            id="orbit-inner"
-            className="pointer-events-none absolute inset-[14%] rounded-full border border-dashed border-primary/30 orbit-spin"
-          />
-          {/* centre mark */}
-          <div
-            id="center-mark"
-            className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
+        {/* ===== DESKTOP: the wheel as a draughtsman's plate ===== */}
+        <div
+          id="board-plate"
+          className="relative mx-auto hidden aspect-square w-full max-w-[560px] sm:block lg:max-w-[680px]"
+        >
+          {/* the circle the members ride, struck like a construction line */}
+          <svg
+            viewBox="0 0 100 100"
+            aria-hidden
+            className="pointer-events-none absolute inset-0 h-full w-full"
           >
-            <p className="eyebrow text-primary">2026—27</p>
-            <p className="font-editorial text-4xl italic leading-tight">
-              Yönetim
-            </p>
-            <p className="font-editorial text-4xl italic leading-tight">
-              Kurulu
-            </p>
+            <circle
+              data-draw="orbit"
+              cx="50"
+              cy="50"
+              r="43"
+              fill="none"
+              className="stroke-foreground/30"
+              strokeWidth="0.28"
+              strokeDasharray="0.7 1.5"
+            />
+          </svg>
+
+          {/* the wheel, turning clockwise under its own weight */}
+          <div className="orbit-spin-slow pointer-events-none absolute inset-[26%]">
+            <RotaryWheel className="h-full w-full" mark={RIM_MARK} />
           </div>
 
           <div data-board className="absolute inset-0">
             {BOARD.map((m, i) => {
-              const angle = -90 - (360 / BOARD.length) * i;
-              const rad = (angle * Math.PI) / 180;
-              const r = 43;
-              const left = 50 + r * Math.cos(rad);
-              const top = 50 + r * Math.sin(rad);
+              const { x: left, y: top } = seat(i, 43);
               return (
                 <article
                   key={m.role}
                   style={{ left: `${left}%`, top: `${top}%` }}
                   className="group absolute w-36 -mt-16 -translate-x-1/2 text-center lg:w-40 lg:-mt-18"
                 >
-                  <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border border-foreground/20 ring-1 ring-transparent transition-all duration-500 group-hover:border-primary group-hover:ring-primary/40 lg:h-36 lg:w-36">
+                  {/* the paper halo knocks the orbit line out behind each bust */}
+                  <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border border-foreground/20 shadow-[0_0_0_9px_var(--paper)] ring-1 ring-transparent transition-all duration-500 group-hover:border-primary group-hover:ring-primary/40 lg:h-36 lg:w-36">
                     <img
                       src={m.photo}
                       alt={`${m.name} portresi`}
