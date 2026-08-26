@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 import type { Dictionary } from "@/i18n/config";
 import { Grain } from "./Editorial";
@@ -120,11 +121,25 @@ export const SiteMenu = ({
                 </li>
               ))}
             </ul>
+
+            {/* Every link above scrolls this page; this one leaves it. Set at
+                label scale rather than heading scale so the difference is
+                visible before it is clicked, and it closes the dialog first so
+                the modal state does not outlive the route it belongs to. */}
+            <Link
+              href="/giris"
+              onClick={() => dialog.current?.close()}
+              className="menu-rise mt-8 flex items-center justify-between gap-6 text-primary transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              style={{ animationDelay: `${60 + nav.links.length * 55}ms` }}
+            >
+              <span className="eyebrow">{nav.memberArea}</span>
+              <span aria-hidden>&rarr;</span>
+            </Link>
           </nav>
 
           <div
             className="menu-rise wrapper relative z-10 flex shrink-0 flex-col gap-2 border-t border-foreground/15 py-6"
-            style={{ animationDelay: `${60 + nav.links.length * 55}ms` }}
+            style={{ animationDelay: `${115 + nav.links.length * 55}ms` }}
           >
             <a
               href={`mailto:${email}`}

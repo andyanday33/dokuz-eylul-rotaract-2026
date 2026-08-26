@@ -6,6 +6,7 @@ import {
   isLocale,
   type Locale,
 } from "@/i18n/config";
+import { updateSession } from "@/lib/supabase/session";
 
 /**
  * Parses an `Accept-Language` header into tags ordered by quality, best first.
@@ -39,8 +40,21 @@ const negotiate = (request: NextRequest): Locale => {
   return DEFAULT_LOCALE;
 };
 
-export function proxy(request: NextRequest) {
+/** The private half of the site: no locale segment, session cookies instead. */
+const MEMBERS_PATHS = ["/uye", "/giris", "/auth"];
+
+const isMembersPath = (pathname: string) =>
+  MEMBERS_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // The members area is Turkish-only and deliberately outside `/[lang]`, so it
+  // wants the opposite of locale negotiation: left alone by the redirect below,
+  // and handed its auth cookies instead. Without this branch `/uye` would be
+  // sent to `/tr/uye`, which does not exist.
+  if (isMembersPath(pathname)) return updateSession(request);
+
   if (isLocale(pathname.split("/")[1])) return;
 
   const url = request.nextUrl.clone();

@@ -1,6 +1,7 @@
 "use client";
 
 import gsap from "gsap";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Dictionary } from "@/i18n/config";
@@ -50,6 +51,16 @@ export const Navbar = ({
             ))}
           </ul>
           {/* Hairline rule, as between columns of a masthead */}
+          <span aria-hidden className="hidden h-4 w-px bg-foreground/20 xl:block" />
+          {/* The one link here that leaves the page rather than scrolling it,
+              so it is set in the accent and stood off behind its own rule
+              instead of joining the run of section links. */}
+          <Link
+            href="/giris"
+            className="eyebrow hidden text-primary transition-opacity hover:opacity-70 xl:block"
+          >
+            {nav.memberArea}
+          </Link>
           <span aria-hidden className="hidden h-4 w-px bg-foreground/20 xl:block" />
           <LanguageSwitcher label={nav.languageLabel} />
           {/* Hairline rule, mirroring the one before the switcher */}

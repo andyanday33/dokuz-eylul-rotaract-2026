@@ -1,19 +1,8 @@
 import type { Metadata } from "next";
-import { Open_Sans, Bodoni_Moda } from "next/font/google";
 import { LOCALES } from "@/i18n/config";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
-import "../globals.css";
-
-const openSans = Open_Sans({
-  subsets: ["latin"],
-});
-
-const bodoni = Bodoni_Moda({
-  subsets: ["latin", "latin-ext"],
-  style: ["normal", "italic"],
-  variable: "--font-bodoni",
-  display: "swap",
-});
+import { bodoni, openSans } from "@/lib/fonts";
+import "../../globals.css";
 
 export async function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
