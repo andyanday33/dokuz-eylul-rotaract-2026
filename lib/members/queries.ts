@@ -97,3 +97,31 @@ export const countGoing = async (eventIds: string[]) => {
     counts.set(event_id, (counts.get(event_id) ?? 0) + 1);
   return counts;
 };
+
+/** One event, or null — including when RLS decides the reader is nobody. */
+export const getEvent = async (id: string) => {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("events")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle<ClubEvent>();
+  return data;
+};
+
+/**
+ * Everyone's answer for one event.
+ *
+ * The whole club may read this — `attendance_read` has said so since 0001, and
+ * the counts on the list page already lean on it. Who is coming to a club
+ * meeting is not a secret from the club.
+ */
+export const listEventAttendance = async (eventId: string) => {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("attendance")
+    .select("*")
+    .eq("event_id", eventId)
+    .returns<Attendance[]>();
+  return data ?? [];
+};

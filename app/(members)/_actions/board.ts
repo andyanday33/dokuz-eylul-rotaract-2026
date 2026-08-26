@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireBoard } from "@/lib/auth/dal";
-import { isEventType } from "@/lib/members/event-types";
+import { isEventType, type EventType } from "@/lib/members/event-types";
 import { siteUrl } from "@/lib/site-url";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -126,48 +126,96 @@ export async function createAnnouncement(
   };
 }
 
+type EventValues = {
+  title: string;
+  type: EventType;
+  starts_at: string;
+  location: string | null;
+  map_url: string | null;
+  description: string | null;
+};
+
+/**
+ * One reading of the event form, shared by adding and editing.
+ *
+ * The two pages post the same fields, so they have to agree about what counts
+ * as valid and how a wall-clock time becomes a timestamp. Written twice, they
+ * would agree until the day somebody changed one of them.
+ */
+const readEvent = (formData: FormData): EventValues | { error: string } => {
+  const title = String(formData.get("title") ?? "").trim();
+  const startsAt = String(formData.get("starts_at") ?? "");
+  const type = String(formData.get("type") ?? "");
+  const location = String(formData.get("location") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const map = mapLink(String(formData.get("map_url") ?? "").trim());
+
+  if (!title || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(startsAt))
+    return { error: "Başlık ve tarih gerekli." };
+
+  // The select only offers valid values, so reaching this means the form was
+  // not the sender. Checked here rather than left to `events_type_check`,
+  // which would answer with a Postgres constraint name.
+  if (!isEventType(type)) return { error: "Etkinlik türü geçersiz." };
+  if ("error" in map) return { error: map.error };
+
+  return {
+    title,
+    type,
+    // Browsers may or may not append seconds; normalise either way.
+    starts_at: `${startsAt.slice(0, 16)}:00${ISTANBUL}`,
+    location: location || null,
+    map_url: map.url,
+    description: description || null,
+  };
+};
+
 export async function createEvent(
   _previous: FormState,
   formData: FormData,
 ): Promise<FormState> {
   const board = await requireBoard();
 
-  const title = String(formData.get("title") ?? "").trim();
-  const startsAt = String(formData.get("starts_at") ?? "");
-  const location = String(formData.get("location") ?? "").trim();
-  const description = String(formData.get("description") ?? "").trim();
-  const type = String(formData.get("type") ?? "");
-  const map = mapLink(String(formData.get("map_url") ?? "").trim());
-
-  if (!title || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(startsAt))
-    return { status: "error", message: "Başlık ve tarih gerekli." };
-
-  // The select only offers valid values, so reaching this means the form was
-  // not the sender. Checked here rather than left to `events_type_check`,
-  // which would answer with a Postgres constraint name.
-  if (!isEventType(type))
-    return { status: "error", message: "Etkinlik türü geçersiz." };
-
-  if ("error" in map) return { status: "error", message: map.error };
+  const values = readEvent(formData);
+  if ("error" in values) return { status: "error", message: values.error };
 
   const { error } = await createAdminClient()
     .from("events")
-    .insert({
-      title,
-      type,
-      // Browsers may or may not append seconds; normalise either way.
-      starts_at: `${startsAt.slice(0, 16)}:00${ISTANBUL}`,
-      location: location || null,
-      map_url: map.url,
-      description: description || null,
-      created_by: board.id,
-    });
+    .insert({ ...values, created_by: board.id });
 
   if (error) return { status: "error", message: error.message };
 
   revalidatePath("/uye/etkinlikler");
   revalidatePath("/uye");
   return { status: "ok", message: "Etkinlik eklendi." };
+}
+
+export async function updateEvent(
+  _previous: FormState,
+  formData: FormData,
+): Promise<FormState> {
+  await requireBoard();
+
+  const id = String(formData.get("id") ?? "");
+  if (!UUID.test(id))
+    return { status: "error", message: "Etkinlik bulunamadı." };
+
+  const values = readEvent(formData);
+  if ("error" in values) return { status: "error", message: values.error };
+
+  // `created_by` is left alone: it records who put the event on the calendar,
+  // not who last touched it.
+  const { error } = await createAdminClient()
+    .from("events")
+    .update(values)
+    .eq("id", id);
+
+  if (error) return { status: "error", message: error.message };
+
+  revalidatePath("/uye/etkinlikler");
+  revalidatePath(`/uye/etkinlikler/${id}`);
+  revalidatePath("/uye");
+  return { status: "ok", message: "Değişiklikler kaydedildi." };
 }
 
 const UUID =

@@ -175,7 +175,12 @@ export default async function EtkinliklerPage({
                 </div>
 
                 <h2 className="font-editorial mt-2 text-2xl italic leading-tight sm:text-3xl">
-                  {event.title}
+                  <Link
+                    href={`${PATH}/${event.id}`}
+                    className="transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  >
+                    {event.title}
+                  </Link>
                 </h2>
 
                 <EventLocation
@@ -231,9 +236,12 @@ export default async function EtkinliklerPage({
                 key={event.id}
                 className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-4"
               >
-                <span className="font-editorial text-lg italic">
+                <Link
+                  href={`${PATH}/${event.id}`}
+                  className="font-editorial text-lg italic transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                >
                   {event.title}
-                </span>
+                </Link>
                 <div className="flex items-center gap-3">
                   <span className="eyebrow text-foreground/35">
                     {eventTypeLabel(event.type)}
