@@ -83,8 +83,8 @@ export default async function GirisPage({
                 Üye alanı
               </h1>
               <p className="mt-6 text-sm font-light leading-relaxed text-foreground/70">
-                Bu bölüm kulüp üyelerine açık. Şifre yok — giriş bağlantısını
-                e-postana gönderiyoruz.
+                Bu bölüm kulüp üyelerine açık. Şifre yok — e-postana altı
+                haneli bir giriş kodu gönderiyoruz.
               </p>
 
               {error && (

@@ -9,12 +9,14 @@
  *   npm run signin:link -- ad@ornek.com
  *
  * `generateLink` mints the same token the email would have carried and hands
- * it back instead of posting it, so this costs no quota. The URL is built here
- * rather than taken from `action_link`, because Supabase's own link goes via
- * the Auth server and returns the session in a URL fragment — invisible to the
- * server, and so useless to this app. Pointing `hashed_token` at
- * `/auth/confirm` is the same flow the emails use once their templates are
- * fixed, which also makes this a way to test that route in isolation.
+ * it back instead of posting it, so this costs no quota. It returns both forms
+ * of that one token: the six-digit code sign-in actually asks for, and a hash
+ * that `/auth/confirm` will trade for a session.
+ *
+ * The code is the one to use — it exercises the real form. The URL is a
+ * one-click fallback, built here rather than taken from `action_link`, because
+ * Supabase's own link goes via the Auth server and returns the session in a
+ * URL fragment: invisible to the server, and so useless to this app.
  *
  * Development only: it needs the secret key, and anyone holding the printed
  * link is one click from being signed in as that member. Do not paste it into
@@ -58,9 +60,14 @@ if (error) {
   );
 }
 
+const code = data?.properties?.email_otp;
 const tokenHash = data?.properties?.hashed_token;
-if (!tokenHash) die("Supabase returned no hashed_token — nothing to build a link from.");
+if (!code && !tokenHash) die("Supabase returned no token — nothing to sign in with.");
 
-console.log(`\n  Signing in as ${email}. The link is single-use:\n`);
-console.log(`  ${site}/auth/confirm?token_hash=${tokenHash}&type=magiclink\n`);
-console.log("  No email was sent, so this cost none of the project's quota.\n");
+console.log(`\n  Signing in as ${email}. Single-use, either way:\n`);
+if (code) console.log(`  Code:  ${code}          → type this at /giris`);
+if (tokenHash)
+  console.log(
+    `  Link:  ${site}/auth/confirm?token_hash=${tokenHash}&type=magiclink`,
+  );
+console.log("\n  No email was sent, so this cost none of the project's quota.\n");

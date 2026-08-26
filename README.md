@@ -68,26 +68,40 @@ Under **Authentication → URL Configuration**:
 - **Redirect URLs**: add `http://localhost:3000/auth/**`, and the same for
   every deployed origin.
 
-Under **Authentication → Email Templates**, change the **Magic Link** and
-**Invite user** templates to link at this app rather than at the Auth server.
-This is required, not cosmetic: the default templates hand the session back in
-a URL fragment, which the server never sees, so a server-rendered app cannot
-use it. Both should point at `/auth/confirm` with the token hash:
+Two templates under **Authentication → Email Templates** do two different
+jobs, and both must be changed from their defaults.
+
+**Magic Link** is what sign-in uses, and it must send a *code*, not a link.
+Supabase has no separate OTP template — magic links and codes share one
+implementation, and the template variable alone decides which arrives.
+`{{ .Token }}` is the six-digit code; `{{ .TokenHash }}` is a link. Replace the
+body with something like:
 
 ```html
-<!-- Magic Link -->
-<a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email">
-  Giriş yap
-</a>
+<h2>Dokuz Eylül Rotaract — giriş kodu</h2>
+<p>Giriş kodun:</p>
+<p style="font-size:28px;letter-spacing:8px;"><strong>{{ .Token }}</strong></p>
+<p>Bu kodu sen istemediysen görmezden gel.</p>
+```
 
-<!-- Invite user -->
+**Invite user** stays a link, because the point of an invitation is that
+somebody who has never signed in can click it. The default links at the Auth
+server, which hands the session back in a URL fragment the server never sees,
+so it has to be pointed here instead:
+
+```html
 <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=invite">
   Daveti kabul et
 </a>
 ```
 
-If sign-in ever starts failing at `/giris?hata=baglanti` and nowhere else,
-check whether these templates were reset.
+Code lifetime is **Authentication → Sign In / Providers → Email → Email OTP
+expiration**; an hour is the default and shorter is better for a code somebody
+is copying by hand.
+
+If sign-in starts failing for everyone at once, this Magic Link template is the
+first thing to check — a reset one sends a link, and nothing is left listening
+for it. If invitations break while codes keep working, it is the other one.
 
 #### Custom SMTP is required, not optional
 
@@ -120,10 +134,10 @@ before the templates are fixed. It needs the secret key, so it only runs from
 the repo — and anyone holding the printed link is one click from being signed
 in as that member, so don't paste it anywhere shared.
 
-#### Why email only
+#### Why codes, and why email only
 
-Email links are the only way in — no social provider, no password.
-`signInWithOtp` is called with `shouldCreateUser: false`, so a link is only
+Emailed codes are the only way in — no social provider, no password.
+`signInWithOtp` is called with `shouldCreateUser: false`, so a code is only
 ever sent to an address the board has already invited, and nobody can mint
 themselves an account by typing one into the form. Leave everything under
 **Authentication → Providers** disabled.
@@ -159,7 +173,7 @@ in and see nothing.
 app/(site)/[lang]/     public site, localised
 app/(members)/         /giris and /uye/** — Turkish only, session-gated
   _actions/            server actions; each one re-checks who is calling
-app/auth/confirm/      where magic links and invitations land
+app/auth/confirm/      where invitation links land
 lib/auth/dal.ts        getMember / requireMember / requireBoard
 lib/supabase/          server, admin (service role) and session clients
 lib/members/           row types and the reads behind each page
