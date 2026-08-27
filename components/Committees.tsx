@@ -1,21 +1,17 @@
 import { fill, getDictionary } from "@/i18n/dictionaries";
+import { getCommitteeChairs } from "@/lib/cms/queries";
 import { Grain } from "./Editorial";
 
-/** Names and photos are the same in every language; only the role is keyed. */
-const CHAIRS = [
-  { role: "club", name: "Ad Soyad", photo: "/chairs/kulup-hizmetleri.jpg" },
-  { role: "community", name: "Ad Soyad", photo: "/chairs/toplum-hizmetleri.jpg" },
-  { role: "vocational", name: "Ad Soyad", photo: "/chairs/meslek-hizmetleri.jpg" },
-  { role: "international", name: "Ad Soyad", photo: "/chairs/uluslararasi-hizmetler.jpg" },
-  { role: "publicImage", name: "Ad Soyad", photo: "/chairs/kurumsal-tanitim.jpg" },
-  { role: "foundation", name: "Ad Soyad", photo: "/chairs/vakif.jpg" },
-  { role: "technology", name: "Ad Soyad", photo: "/chairs/teknoloji-inovasyon.jpg" },
-] as const;
+/** Stands in until a portrait has been uploaded for a chair. */
+const PLACEHOLDER = "/chairs/placeholder.jpg";
 
 export const Committees = async () => {
   const { committees } = await getDictionary();
-  const chairs = CHAIRS.map((c) => ({
+  // Who holds a chair is CMS content; what the chair is called is a
+  // translation, so the role key is what joins the two.
+  const chairs = (await getCommitteeChairs()).map((c) => ({
     ...c,
+    photo: c.photo ?? PLACEHOLDER,
     title: committees.roles[c.role],
     alt: fill(committees.portraitAlt, { name: c.name }),
   }));

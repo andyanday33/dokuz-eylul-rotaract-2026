@@ -5,21 +5,18 @@ import { Grain } from "@/components/Editorial";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { PresidentTimeline } from "@/components/PresidentTimeline";
 import { Wordmark } from "@/components/Wordmark";
-import {
-  CURRENT_PRESIDENT,
-  FOUNDING_TERM,
-  PRESIDENTS,
-  rollSpan,
-} from "@/data/presidents";
+import { foundingTerm, foundingYear, rollSpan } from "@/lib/presidents";
+import { getPresidents } from "@/lib/cms/queries";
 import { fill, getDictionary, getLocale } from "@/i18n/dictionaries";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { presidents, meta } = await getDictionary();
+  // Memoised per request, so asking here and again in the page body below is
+  // one query rather than two.
+  const roll = await getPresidents();
   return {
     title: `${presidents.pageTitle} — ${meta.title}`,
-    description: fill(presidents.pageIntro, {
-      year: FOUNDING_TERM.slice(0, 4),
-    }),
+    description: fill(presidents.pageIntro, { year: foundingYear(roll) }),
   };
 }
 
@@ -34,6 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PresidentsPage() {
   const dict = await getDictionary();
   const lang = await getLocale();
+  const roll = await getPresidents();
   const { presidents } = dict;
 
   return (
@@ -74,7 +72,7 @@ export default async function PresidentsPage() {
           <div className="flex flex-wrap items-end justify-between gap-3 border-b-2 border-foreground pb-4">
             <p className="eyebrow text-primary">{presidents.label}</p>
             <p className="eyebrow tabular-nums text-foreground/45">
-              {rollSpan()}
+              {rollSpan(roll)}
             </p>
           </div>
 
@@ -83,16 +81,16 @@ export default async function PresidentsPage() {
           </h1>
 
           <p className="mt-6 max-w-xl text-sm font-light leading-relaxed text-foreground/65">
-            {fill(presidents.pageIntro, { year: FOUNDING_TERM.slice(0, 4) })}
+            {fill(presidents.pageIntro, { year: foundingYear(roll) })}
           </p>
 
           {/* oldest first: the scale reads forward, the way time does, and
               ends on whoever is in office now */}
           <PresidentTimeline
-            entries={[...PRESIDENTS].reverse()}
-            currentTerm={CURRENT_PRESIDENT.term}
+            entries={[...roll].reverse()}
+            currentTerm={roll[0]?.term ?? ""}
             currentLabel={presidents.current}
-            foundingTerm={FOUNDING_TERM}
+            foundingTerm={foundingTerm(roll)}
             foundingLabel={presidents.founded}
           />
         </div>

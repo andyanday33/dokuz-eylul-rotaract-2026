@@ -17,14 +17,31 @@ const GRAIN =
 const DROP_CAP =
   "first-letter:font-editorial first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:text-[5.5rem] first-letter:font-medium first-letter:not-italic first-letter:leading-[0.66] first-letter:text-primary sm:first-letter:text-[7rem]";
 
-/** The president's own name and portrait are the same in every language. */
-const PRESIDENT_NAME = "Mehmet Emre Uçar";
-const PRESIDENT_NAME_DISPLAY = "Mehmet Emre UÇAR";
+/**
+ * "Mehmet Emre Uçar" -> "Mehmet Emre UÇAR", the way a name is set under a
+ * portrait here. Cased in Turkish explicitly: the default rules would turn the
+ * "ı" in a surname like "Çalışkan" into "I" rather than "I"'s dotless twin,
+ * and a surname is exactly where that shows.
+ */
+const surnameInCaps = (name: string) => {
+  const parts = name.trim().split(/\s+/);
+  const surname = parts.pop();
+  if (!surname) return name;
+  return [...parts, surname.toLocaleUpperCase("tr")].join(" ");
+};
 
 export const PresidentsMessage = ({
   president,
+  name,
 }: {
   president: Dictionary["president"];
+  /**
+   * Whoever is at the head of the roll. The letter itself is translated copy
+   * and lives in the dictionaries; the name signing it is a fact about a
+   * person, so it comes from the same place the roll does — otherwise the two
+   * would disagree the first time a term changed hands.
+   */
+  name: string;
 }) => {
   const scope = React.useRef<HTMLElement>(null);
   const portrait = React.useRef<HTMLDivElement>(null);
@@ -139,7 +156,7 @@ export const PresidentsMessage = ({
 
               <figcaption className="mt-4 flex items-baseline justify-between border-t border-background/15 pt-4">
                 <p className="font-editorial text-2xl italic">
-                  {PRESIDENT_NAME_DISPLAY}
+                  {surnameInCaps(name)}
                 </p>
                 <p className="eyebrow text-primary">{president.captionTerm}</p>
               </figcaption>
@@ -244,7 +261,7 @@ export const PresidentsMessage = ({
               </svg>
               <p className="mt-2 border-t border-background/15 pt-3 text-sm text-background/60">
                 <span className="font-semibold text-background">
-                  {PRESIDENT_NAME}
+                  {name}
                 </span>{" "}
                 · {president.signatureCredit}
               </p>

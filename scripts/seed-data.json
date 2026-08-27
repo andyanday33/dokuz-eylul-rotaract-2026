@@ -1,0 +1,271 @@
+{
+  "roll": [
+    {
+      "term": "2026–27",
+      "name": "Mehmet Emre Uçar"
+    },
+    {
+      "term": "2025–26",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2024–25",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2023–24",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2022–23",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2021–22",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2020–21",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2019–20",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2018–19",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2017–18",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2016–17",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2015–16",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2014–15",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2013–14",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2012–13",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2011–12",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2010–11",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2009–10",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2008–09",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2007–08",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2006–07",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2005–06",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2004–05",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2003–04",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2002–03",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2001–02",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "2000–01",
+      "name": "Ad Soyad"
+    },
+    {
+      "term": "1999–00",
+      "name": "Ad Soyad"
+    }
+  ],
+  "board": [
+    {
+      "role": "president",
+      "name": "Ad Soyad",
+      "photo": "/board/baskan.jpg",
+      "order": 0
+    },
+    {
+      "role": "vicePresident",
+      "name": "Ad Soyad",
+      "photo": "/board/asbaskan.jpg",
+      "order": 1
+    },
+    {
+      "role": "secretary",
+      "name": "Ad Soyad",
+      "photo": "/board/sekreter.jpg",
+      "order": 2
+    },
+    {
+      "role": "treasurer",
+      "name": "Ad Soyad",
+      "photo": "/board/sayman.jpg",
+      "order": 3
+    },
+    {
+      "role": "pastPresident",
+      "name": "Ad Soyad",
+      "photo": "/board/gdb.jpg",
+      "order": 4
+    }
+  ],
+  "chairs": [
+    {
+      "role": "club",
+      "name": "Ad Soyad",
+      "photo": "/chairs/kulup-hizmetleri.jpg",
+      "order": 0
+    },
+    {
+      "role": "community",
+      "name": "Ad Soyad",
+      "photo": "/chairs/toplum-hizmetleri.jpg",
+      "order": 1
+    },
+    {
+      "role": "vocational",
+      "name": "Ad Soyad",
+      "photo": "/chairs/meslek-hizmetleri.jpg",
+      "order": 2
+    },
+    {
+      "role": "international",
+      "name": "Ad Soyad",
+      "photo": "/chairs/uluslararasi-hizmetler.jpg",
+      "order": 3
+    },
+    {
+      "role": "publicImage",
+      "name": "Ad Soyad",
+      "photo": "/chairs/kurumsal-tanitim.jpg",
+      "order": 4
+    },
+    {
+      "role": "foundation",
+      "name": "Ad Soyad",
+      "photo": "/chairs/vakif.jpg",
+      "order": 5
+    },
+    {
+      "role": "technology",
+      "name": "Ad Soyad",
+      "photo": "/chairs/teknoloji-inovasyon.jpg",
+      "order": 6
+    }
+  ],
+  "areas": [
+    {
+      "key": "peace",
+      "tr": {
+        "title": "Barışı Destekleme",
+        "body": "Çatışmaların önlenmesi ve barış süreçlerinin güçlendirilmesi için projeler geliştiriyoruz."
+      },
+      "en": {
+        "title": "Promoting Peace",
+        "body": "We develop projects that prevent conflict and strengthen the processes that build peace."
+      }
+    },
+    {
+      "key": "disease",
+      "tr": {
+        "title": "Hastalıkla Mücadele",
+        "body": "Bulaşıcı hastalıkların önlenmesi ve sağlık hizmetlerine erişimin artırılması için çalışıyoruz."
+      },
+      "en": {
+        "title": "Fighting Disease",
+        "body": "We work to prevent communicable disease and widen access to health services."
+      }
+    },
+    {
+      "key": "water",
+      "tr": {
+        "title": "Temiz Su ve Hijyen",
+        "body": "Temiz su, sanitasyon ve hijyen olanaklarına erişimi iyileştiren projeler yürütüyoruz."
+      },
+      "en": {
+        "title": "Clean Water and Sanitation",
+        "body": "We run projects that improve access to clean water, sanitation and hygiene facilities."
+      }
+    },
+    {
+      "key": "maternal",
+      "tr": {
+        "title": "Anne ve Çocuk Sağlığı",
+        "body": "Anne ve çocuk ölümlerinin azaltılması, sağlıklı yaşam koşullarının desteklenmesi için uğraşıyoruz."
+      },
+      "en": {
+        "title": "Maternal and Child Health",
+        "body": "We work to reduce maternal and child mortality and to support healthier living conditions."
+      }
+    },
+    {
+      "key": "education",
+      "tr": {
+        "title": "Eğitimi Destekleme",
+        "body": "Kaliteli eğitime erişimi artırarak toplulukları güçlendiriyor ve fırsat eşitliği sağlıyoruz."
+      },
+      "en": {
+        "title": "Supporting Education",
+        "body": "We strengthen communities and level the field by widening access to quality education."
+      }
+    },
+    {
+      "key": "economy",
+      "tr": {
+        "title": "Yerel Ekonomileri Büyütme",
+        "body": "Girişimcilik ve istihdam fırsatlarını destekleyerek yerel ekonomilerin kalkınmasına katkıda bulunuyoruz."
+      },
+      "en": {
+        "title": "Growing Local Economies",
+        "body": "We support entrepreneurship and employment opportunities to help local economies develop."
+      }
+    },
+    {
+      "key": "environment",
+      "tr": {
+        "title": "Çevreyi Koruma",
+        "body": "Doğal kaynakların sürdürülebilir kullanımını ve çevre bilincinin yaygınlaştırılmasını destekliyoruz."
+      },
+      "en": {
+        "title": "Protecting the Environment",
+        "body": "We support the sustainable use of natural resources and a wider awareness of the environment."
+      }
+    }
+  ]
+}

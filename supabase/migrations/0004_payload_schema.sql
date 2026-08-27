@@ -1,0 +1,15 @@
+-- Payload's home in this database.
+--
+-- Payload manages its own tables and runs its own migrations. Pointing it at
+-- `public` would put two migration histories in one namespace — Payload's,
+-- generated from `payload.config.ts`, and the hand-written files in this
+-- directory — where a table name collision is a matter of time.
+--
+-- A separate schema also keeps Payload out of Supabase's auto-generated REST
+-- API, which only exposes the schemas listed under "Exposed schemas" in the
+-- API settings (`public` and `graphql_public` by default). Do not add this one
+-- to that list: the site reads Payload through Payload's own API, and the
+-- publishable key would otherwise reach editor accounts and password hashes.
+--
+-- Payload's adapter creates the tables inside it; this only creates the room.
+create schema if not exists payload;

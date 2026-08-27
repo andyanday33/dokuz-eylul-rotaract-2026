@@ -202,51 +202,7 @@
     "label": "Areas of focus",
     "meta": "Yedi öncelikli alan",
     "heading": "Every project we run belongs to one of these seven.",
-    "altLang": "tr",
-    "items": [
-      {
-        "id": "peace",
-        "alt": "Barışı Destekleme",
-        "title": "Promoting Peace",
-        "body": "We develop projects that prevent conflict and strengthen the processes that build peace."
-      },
-      {
-        "id": "disease",
-        "alt": "Hastalıkla Mücadele",
-        "title": "Fighting Disease",
-        "body": "We work to prevent communicable disease and widen access to health services."
-      },
-      {
-        "id": "water",
-        "alt": "Temiz Su ve Hijyen",
-        "title": "Clean Water and Sanitation",
-        "body": "We run projects that improve access to clean water, sanitation and hygiene facilities."
-      },
-      {
-        "id": "maternal",
-        "alt": "Anne ve Çocuk Sağlığı",
-        "title": "Maternal and Child Health",
-        "body": "We work to reduce maternal and child mortality and to support healthier living conditions."
-      },
-      {
-        "id": "education",
-        "alt": "Eğitimi Destekleme",
-        "title": "Supporting Education",
-        "body": "We strengthen communities and level the field by widening access to quality education."
-      },
-      {
-        "id": "economy",
-        "alt": "Yerel Ekonomileri Büyütme",
-        "title": "Growing Local Economies",
-        "body": "We support entrepreneurship and employment opportunities to help local economies develop."
-      },
-      {
-        "id": "environment",
-        "alt": "Çevreyi Koruma",
-        "title": "Protecting the Environment",
-        "body": "We support the sustainable use of natural resources and a wider awareness of the environment."
-      }
-    ]
+    "altLang": "tr"
   },
   "join": {
     "eyebrow": "08 — Join us",

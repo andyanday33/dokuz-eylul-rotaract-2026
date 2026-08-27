@@ -202,51 +202,7 @@
     "label": "Yedi öncelikli alan",
     "meta": "Seven Areas of Focus",
     "heading": "Her projemiz bu yedi öncelikli alandan birine bağlanır.",
-    "altLang": "en",
-    "items": [
-      {
-        "id": "peace",
-        "alt": "Promoting Peace",
-        "title": "Barışı Destekleme",
-        "body": "Çatışmaların önlenmesi ve barış süreçlerinin güçlendirilmesi için projeler geliştiriyoruz."
-      },
-      {
-        "id": "disease",
-        "alt": "Fighting Disease",
-        "title": "Hastalıkla Mücadele",
-        "body": "Bulaşıcı hastalıkların önlenmesi ve sağlık hizmetlerine erişimin artırılması için çalışıyoruz."
-      },
-      {
-        "id": "water",
-        "alt": "Clean Water and Sanitation",
-        "title": "Temiz Su ve Hijyen",
-        "body": "Temiz su, sanitasyon ve hijyen olanaklarına erişimi iyileştiren projeler yürütüyoruz."
-      },
-      {
-        "id": "maternal",
-        "alt": "Maternal and Child Health",
-        "title": "Anne ve Çocuk Sağlığı",
-        "body": "Anne ve çocuk ölümlerinin azaltılması, sağlıklı yaşam koşullarının desteklenmesi için uğraşıyoruz."
-      },
-      {
-        "id": "education",
-        "alt": "Supporting Education",
-        "title": "Eğitimi Destekleme",
-        "body": "Kaliteli eğitime erişimi artırarak toplulukları güçlendiriyor ve fırsat eşitliği sağlıyoruz."
-      },
-      {
-        "id": "economy",
-        "alt": "Growing Local Economies",
-        "title": "Yerel Ekonomileri Büyütme",
-        "body": "Girişimcilik ve istihdam fırsatlarını destekleyerek yerel ekonomilerin kalkınmasına katkıda bulunuyoruz."
-      },
-      {
-        "id": "environment",
-        "alt": "Protecting the Environment",
-        "title": "Çevreyi Koruma",
-        "body": "Doğal kaynakların sürdürülebilir kullanımını ve çevre bilincinin yaygınlaştırılmasını destekliyoruz."
-      }
-    ]
+    "altLang": "en"
   },
   "join": {
     "eyebrow": "08 — Bize katıl",

@@ -1,0 +1,178 @@
+/**
+ * Moves the site's founding content into Payload — once.
+ *
+ * Everything here used to be a literal in the source: the roll of presidents
+ * in `data/presidents.ts`, the board and the committee chairs in the
+ * components that draw them, the seven areas of focus in both dictionaries.
+ * `scripts/seed-data.json` is that content, lifted verbatim, and this script
+ * is what puts it in the database the first time.
+ *
+ * It is idempotent by identity rather than by wiping: a president is its term,
+ * a seat is its role, an area is its key, a portrait is its filename. Running
+ * it twice creates nothing the second time, and — the point of the rule — it
+ * never overwrites an edit someone has since made in the panel. That makes it
+ * safe to run against production after a deploy, which is what makes it a way
+ * to introduce fixed content later rather than a one-off.
+ *
+ *   npm run cms:seed
+ */
+import { readFileSync } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { getPayload, type CollectionSlug, type Where } from "payload";
+import config from "@payload-config";
+import {
+  BOARD_ROLES,
+  COMMITTEE_ROLES,
+  FOCUS_AREAS,
+  type BoardRole,
+  type CommitteeRole,
+  type FocusArea,
+} from "../cms/roles";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+type Seat<Role extends string> = {
+  role: Role;
+  name: string;
+  photo: string;
+  order: number;
+};
+type Copy = { title: string; body: string };
+
+type SeedFile = {
+  roll: { term: string; name: string }[];
+  board: Seat<string>[];
+  chairs: Seat<string>[];
+  areas: { key: string; tr: Copy; en: Copy }[];
+};
+
+const seed = JSON.parse(
+  readFileSync(path.join(root, "scripts/seed-data.json"), "utf8"),
+) as SeedFile;
+
+/**
+ * Narrows a key out of the seed file to one the site can render.
+ *
+ * The seed file is a snapshot of content that has already moved on; the role
+ * vocabularies in `cms/roles.ts` have not. If the two ever disagree, that is
+ * worth stopping for — a silently skipped seat is a hole in the board that
+ * nobody would notice until the page was already live.
+ */
+const narrow = <T extends string>(
+  roles: readonly T[],
+  value: string,
+  what: string,
+): T => {
+  if (!(roles as readonly string[]).includes(value))
+    throw new Error(`Unknown ${what} "${value}" in seed-data.json — see cms/roles.ts`);
+  return value as T;
+};
+
+const payload = await getPayload({ config });
+
+let created = 0;
+let kept = 0;
+
+/** The id of an existing document matching `where`, or null. */
+const findId = async (collection: CollectionSlug, where: Where) => {
+  const { docs } = await payload.find({ collection, where, limit: 1 });
+  return docs[0]?.id ?? null;
+};
+
+/**
+ * Uploads a portrait out of `public/`, or returns the one already there.
+ *
+ * The portraits were committed to the repo before there was anywhere else to
+ * put them. Copying them into Payload is what lets an editor replace one
+ * without a deploy; the files stay in `public/` as the placeholders they now
+ * are — see `PLACEHOLDER` in the board and committee components.
+ */
+const uploadPortrait = async (publicPath: string) => {
+  const filename = path.basename(publicPath);
+  const existing = await payload.find({
+    collection: "media",
+    where: { filename: { equals: filename } },
+    limit: 1,
+  });
+  if (existing.docs[0]) return existing.docs[0].id;
+
+  const doc = await payload.create({
+    collection: "media",
+    data: {},
+    filePath: path.join(root, "public", publicPath.replace(/^\//, "")),
+  });
+  return doc.id;
+};
+
+/** The row to create for a seat, or null if that seat is already filled. */
+const seatRow = async <Role extends string>(
+  collection: CollectionSlug,
+  { role, name, photo, order }: Seat<Role>,
+) =>
+  (await findId(collection, { role: { equals: role } }))
+    ? null
+    : { role, name, order, photo: await uploadPortrait(photo) };
+
+// ---- The roll of presidents -------------------------------------------------
+for (const { term, name } of seed.roll) {
+  if (await findId("presidents", { term: { equals: term } })) {
+    kept++;
+    continue;
+  }
+  await payload.create({ collection: "presidents", data: { term, name } });
+  created++;
+}
+
+// ---- The board --------------------------------------------------------------
+for (const seat of seed.board) {
+  const role = narrow(BOARD_ROLES, seat.role, "board role");
+  const data = await seatRow("board-members", { ...seat, role } as Seat<BoardRole>);
+  if (!data) {
+    kept++;
+    continue;
+  }
+  await payload.create({ collection: "board-members", data });
+  created++;
+}
+
+// ---- The committee chairs ---------------------------------------------------
+for (const seat of seed.chairs) {
+  const role = narrow(COMMITTEE_ROLES, seat.role, "committee role");
+  const data = await seatRow("committee-chairs", { ...seat, role } as Seat<CommitteeRole>);
+  if (!data) {
+    kept++;
+    continue;
+  }
+  await payload.create({ collection: "committee-chairs", data });
+  created++;
+}
+
+// ---- Rotary's seven areas of focus ------------------------------------------
+// Written twice: created in Turkish, which is the site's source language, then
+// updated in English. Payload stores one document per area with a value per
+// locale, so the second write adds a translation rather than a row.
+for (const area of seed.areas) {
+  const key: FocusArea = narrow(FOCUS_AREAS, area.key, "area of focus");
+  if (await findId("areas-of-focus", { key: { equals: key } })) {
+    kept++;
+    continue;
+  }
+  const doc = await payload.create({
+    collection: "areas-of-focus",
+    locale: "tr",
+    data: { key, ...area.tr },
+  });
+  await payload.update({
+    collection: "areas-of-focus",
+    id: doc.id,
+    locale: "en",
+    data: area.en,
+  });
+  created++;
+}
+
+payload.logger.info(`Seed complete — ${created} created, ${kept} already present.`);
+
+// Payload keeps its connection pool open; nothing else is waiting on this.
+process.exit(0);

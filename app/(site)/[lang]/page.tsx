@@ -14,11 +14,18 @@ import { Join } from "@/components/Join";
 import { Footer } from "@/components/Footer";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { getDictionary } from "@/i18n/dictionaries";
+import { getBoard, getPresidents } from "@/lib/cms/queries";
 
 export default async function Home() {
   // Server sections read the dictionary themselves via the `[lang]` root
   // param; the animated client sections are handed just the slice they render.
   const dict = await getDictionary();
+
+  // The board wheel is a Client Component, so its content is fetched here and
+  // handed down. The term on its centre mark is the sitting president's — the
+  // board serves the same Rotary year — read off the head of the roll rather
+  // than written down a second time.
+  const [seats, roll] = await Promise.all([getBoard(), getPresidents()]);
 
   return (
     <main className="flex flex-col relative">
@@ -29,9 +36,12 @@ export default async function Home() {
       <About />
       <Numbers />
       <FourWayTest fourWayTest={dict.fourWayTest} />
-      <PresidentsMessage president={dict.president} />
+      <PresidentsMessage
+        president={dict.president}
+        name={roll[0]?.name ?? ""}
+      />
       <PastPresidents />
-      <Board board={dict.board} />
+      <Board board={dict.board} seats={seats} term={roll[0]?.term ?? ""} />
       <Committees />
       <AreasOfFocus />
       <Join />

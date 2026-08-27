@@ -1,4 +1,5 @@
-import { getDictionary } from "@/i18n/dictionaries";
+import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { getAreasOfFocus } from "@/lib/cms/queries";
 import { Grain, Nameplate } from "./Editorial";
 
 /**
@@ -15,6 +16,9 @@ import { Grain, Nameplate } from "./Editorial";
  */
 export const AreasOfFocus = async () => {
   const { areasOfFocus } = await getDictionary();
+  // Each entry carries both languages: the cause in the language of the page,
+  // and the same cause in the other, which is the small-caps line above it.
+  const areas = await getAreasOfFocus(await getLocale());
 
   return (
     <section
@@ -39,7 +43,7 @@ export const AreasOfFocus = async () => {
         </h2>
 
         <ul data-stagger className="mt-16 sm:mt-20">
-          {areasOfFocus.items.map((a) => (
+          {areas.map((a) => (
             <li
               key={a.id}
               className="group grid gap-3 border-t border-foreground/15 py-8 last:border-b md:grid-cols-[1.5fr_1fr] md:items-end md:gap-12 sm:py-10"

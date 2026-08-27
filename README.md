@@ -1,36 +1,108 @@
 # Dokuz Eylül Rotaract Kulübü
 
-The club's website. Two halves, deliberately separate:
+The club's website. Three parts, deliberately separate:
 
-- **The public site**, under `app/(site)/[lang]`, in Turkish and English. It
-  talks to no database and needs no configuration — `npm run dev` is enough.
+- **The public site**, under `app/(site)/[lang]`, in Turkish and English.
+- **The CMS**, at `/admin`. Payload, holding the content that changes without
+  the site changing — the roll of presidents, the board, the committee chairs,
+  the seven areas of focus.
 - **The members area**, under `app/(members)`, Turkish only and outside the
   locale segment: `/giris` to sign in, `/uye` and below once you are in. It is
   backed by Supabase and needs the setup described further down.
 
-Next.js 16 (App Router, Turbopack), React 19, Tailwind v4, GSAP. Node 20.9+.
+The CMS and the members area share one Postgres and nothing else. Payload keeps
+its tables in a `payload` schema; the members area's live in `public` under
+hand-written SQL, RLS policies and column grants. Neither can migrate over the
+other, and no editor account reaches `/uye`.
+
+Next.js 16 (App Router, Turbopack), React 19, Tailwind v4, GSAP, Payload 3.
+Node 20.9+.
 
 ## Running the public site
 
 ```bash
 npm install
-npm run dev          # http://localhost:3000 → redirects to /tr or /en
+cp .env.example .env  # DATABASE_URL and PAYLOAD_SECRET are the two it needs
+npm run dev           # http://localhost:3000 → redirects to /tr or /en
 ```
 
 `/` negotiates a locale from the `NEXT_LOCALE` cookie, then `Accept-Language`,
 then falls back to Turkish. See `proxy.ts`.
 
-Copy is not in the components — it lives in `i18n/dictionaries/tr.json` and
-`en.json`. Turkish is the source of truth for the shape: a key present there
-and missing from English is a type error, not a blank on the page.
+Copy is in two places, split by what changes it. **Wording** — headings,
+eyebrows, labels, the president's message — lives in `i18n/dictionaries/tr.json`
+and `en.json`, because changing it is a design decision and belongs in a diff.
+Turkish is the source of truth for the shape: a key present there and missing
+from English is a type error, not a blank on the page. **Facts about people** —
+who holds a seat, who served which term — lives in the CMS, because those
+change on their own schedule and nobody should need a deploy to record one.
+
+## The CMS
+
+`/admin`, backed by the `payload` schema of the same Supabase Postgres as the
+members area. Four collections carry the public site, plus uploads and the
+editor accounts themselves:
+
+| Collection | Feeds |
+| --- | --- |
+| Presidents | the roll on the home page and all of `/[lang]/presidents` |
+| Board members | the wheel |
+| Committee chairs | the accordion below it |
+| Areas of focus | the seven-item index, in both languages |
+
+### Setting it up
+
+1. **`DATABASE_URL`.** Supabase → **Connect** → **Session pooler**, port 5432.
+   Not the transaction pooler on 6543: Drizzle uses prepared statements, which
+   it does not support. This project has no direct-connection host.
+2. **`PAYLOAD_SECRET`.** Any long unguessable string; it signs the editor
+   cookie. Changing it signs everyone out of `/admin`.
+3. **The schema.** Run `supabase/migrations/0004_payload_schema.sql` — one
+   `create schema` statement. Payload creates the tables inside it itself.
+4. **The tables.** `npm run dev` pushes the schema straight from
+   `payload.config.ts`; for a deployed database, `npm run cms:migrate`.
+5. **The content.** `npm run cms:seed` writes the roll, both role lists and the
+   areas of focus, and uploads the portraits out of `public/`. It matches on
+   identity — a term, a role, a key, a filename — so running it again creates
+   nothing and overwrites no edit.
+6. **The first editor.** Open `/admin`; an empty `editors` collection offers to
+   create one. After that, editors invite each other from the panel.
+
+Do **not** add `payload` to Supabase's exposed schemas. The site reads Payload
+through Payload, and exposing it would put editor accounts and password hashes
+behind the publishable key.
+
+### Working on it
+
+```bash
+npm run cms:types       # regenerate cms/payload-types.ts after a field change
+npm run cms:importmap   # regenerate the admin import map after a custom component
+npm run cms:migrate:create   # a migration for a schema change
+```
+
+Two conventions worth knowing before adding a collection:
+
+- **A role is a key, not a title.** `cms/roles.ts` holds the board's five seats,
+  the seven committees and the seven areas of focus; the translated titles stay
+  in the dictionaries, joined by that key. The lists are typed against the
+  dictionary, so renaming a key there breaks the build rather than the page.
+  Adding a seat is a code change in both places — deliberately, since it needs
+  a translation before it can render at all.
+- **Reads go through `lib/cms/queries.ts`.** The Local API, not `fetch` against
+  Payload's own REST routes, and returning the site's shapes rather than
+  Payload's — a portrait is a URL string by the time a component sees it.
+  Each query is memoised per request, so two sections asking for the roll is
+  one query. Writes revalidate the affected paths from a collection hook, so an
+  edit lands on the site without a deploy.
 
 ## Setting up the members area
 
-Everything in this section is only needed if you are working on `/uye`.
-`next build` and the public site both run fine without a Supabase project —
-the environment variables are read when a client is constructed, not when the
-module is imported, so the failure lands on the first members request rather
-than at startup.
+Everything in this section is only needed if you are working on `/uye`. The
+public site and `next build` both run without the Supabase *keys* — they are
+read when a client is constructed, not when the module is imported, so the
+failure lands on the first members request rather than at startup. They do
+need `DATABASE_URL`, since the public pages are rendered ahead of time and
+read their content out of Payload while they are.
 
 ### 1. Environment
 
@@ -173,15 +245,23 @@ in and see nothing.
 app/(site)/[lang]/     public site, localised
 app/(members)/         /giris and /uye/** — Turkish only, session-gated
   _actions/            server actions; each one re-checks who is calling
+app/(payload)/         the admin panel and Payload's API — generated, not edited
 app/auth/confirm/      where invitation links land
+payload.config.ts      collections, localisation, the Postgres adapter
+cms/collections/       one file per collection
+cms/roles.ts           the fixed role keys, typed against the dictionaries
+cms/hooks/             revalidation
+lib/cms/               the Payload client and the site's reads
+lib/presidents.ts      the arithmetic of a Rotary year
 lib/auth/dal.ts        getMember / requireMember / requireBoard
 lib/supabase/          server, admin (service role) and session clients
 lib/members/           row types and the reads behind each page
 supabase/migrations/   schema, grants and RLS policies
-scripts/               bootstrap-board.mjs, signin-link.mjs — dev tooling
+scripts/               bootstrap-board.mjs, signin-link.mjs, seed-cms.ts
 i18n/                  locale config and the two dictionaries
 components/            public-site sections
-proxy.ts               locale negotiation, and session refresh under /uye
+proxy.ts               locale negotiation, session refresh under /uye,
+                       and a pass-through for /admin and /api
 ```
 
 Two things worth knowing before editing the members area:
@@ -200,3 +280,14 @@ Two things worth knowing before editing the members area:
 Set the same environment variables on the host, add the deployed origin to
 Supabase's redirect allow-list, and update the Site URL. `NEXT_PUBLIC_SITE_URL`
 is only needed where the incoming host header is not what the browser used.
+
+Two things the CMS adds:
+
+- **Run `npm run cms:migrate` before the build.** The build reads content, so
+  the tables have to exist by then. `push` is a development convenience and is
+  off in production.
+- **Uploads need somewhere to live.** `cms/collections/Media.ts` writes to
+  `media/` on local disk, which a serverless host discards between
+  invocations. Before deploying there, add `@payloadcms/storage-s3` and point
+  it at Supabase Storage's S3 endpoint; nothing else in that collection
+  changes.

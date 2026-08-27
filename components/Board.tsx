@@ -6,37 +6,50 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fill, type Dictionary } from "@/i18n/config";
 import { Grain } from "./Editorial";
-import { CURRENT_PRESIDENT, shortTerm } from "@/data/presidents";
+import { shortTerm } from "@/lib/presidents";
+import type { Seat } from "@/lib/cms/queries";
+import type { BoardRole } from "@/cms/roles";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/** Names and photos are the same in every language; only the role is keyed. */
-const BOARD = [
-  { role: "president", name: "Ad Soyad", photo: "/board/baskan.jpg" },
-  { role: "vicePresident", name: "Ad Soyad", photo: "/board/asbaskan.jpg" },
-  { role: "secretary", name: "Ad Soyad", photo: "/board/sekreter.jpg" },
-  { role: "treasurer", name: "Ad Soyad", photo: "/board/sayman.jpg" },
-  { role: "pastPresident", name: "Ad Soyad", photo: "/board/gdb.jpg" },
-] as const;
+/** Stands in until a portrait has been uploaded for a seat. */
+const PLACEHOLDER = "/board/placeholder.jpg";
 
-/** Where member i sits on the orbit, in degrees, twelve o'clock first. */
-const seatAngle = (i: number) => -90 - (360 / BOARD.length) * i;
+/** Where member i of `count` sits on the orbit, in degrees, twelve o'clock first. */
+const seatAngle = (i: number, count: number) => -90 - (360 / count) * i;
 
 /** Polar → percentage coordinates inside a square box. */
-const seat = (i: number, r: number) => {
-  const a = (seatAngle(i) * Math.PI) / 180;
+const seat = (i: number, r: number, count: number) => {
+  const a = (seatAngle(i, count) * Math.PI) / 180;
   return { x: 50 + r * Math.cos(a), y: 50 + r * Math.sin(a) };
 };
 
-export const Board = ({ board }: { board: Dictionary["board"] }) => {
-  const members = BOARD.map((m) => ({
+/**
+ * The wheel seats whoever the CMS returns, in the order it returns them, so
+ * the geometry is computed from `seats.length` rather than a fixed five. The
+ * role is still a key — the title beside each portrait is translated, and
+ * comes from the dictionary the page is already reading.
+ */
+export const Board = ({
+  board,
+  seats,
+  term,
+}: {
+  board: Dictionary["board"];
+  seats: Seat<BoardRole>[];
+  /** The Rotary year the board serves, e.g. "2026–27". */
+  term: string;
+}) => {
+  const members = seats.map((m) => ({
     ...m,
+    photo: m.photo ?? PLACEHOLDER,
     title: board.roles[m.role],
     alt: fill(board.portraitAlt, { name: m.name }),
   }));
+  const count = members.length;
   const [active, setActive] = React.useState(0);
   const [rotation, setRotation] = React.useState(0);
-  const step = 360 / BOARD.length;
+  const step = count === 0 ? 0 : 360 / count;
 
   useGSAP(() => {
     const arrowStroke = document.querySelector(
@@ -116,11 +129,11 @@ export const Board = ({ board }: { board: Dictionary["board"] }) => {
   }, {});
 
   const prev = () => {
-    setActive((i) => (i - 1 + BOARD.length) % BOARD.length);
+    setActive((i) => (i - 1 + count) % (count || 1));
     setRotation((r) => r - step);
   };
   const next = () => {
-    setActive((i) => (i + 1) % BOARD.length);
+    setActive((i) => (i + 1) % (count || 1));
     setRotation((r) => r + step);
   };
   const goTo = (i: number) => {
@@ -265,7 +278,7 @@ export const Board = ({ board }: { board: Dictionary["board"] }) => {
 
               {/* members mounted on the ring */}
               {members.map((m, i) => {
-                const { x, y } = seat(i, 46);
+                const { x, y } = seat(i, 46, count);
                 return (
                   <button
                     key={m.role}
@@ -325,7 +338,7 @@ export const Board = ({ board }: { board: Dictionary["board"] }) => {
                 </svg>
               </button>
               <span className="eyebrow text-muted-foreground">
-                {String(active + 1).padStart(2, "0")} / {String(BOARD.length).padStart(2, "0")}
+                {String(active + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
               </span>
               <button
                 onClick={next}
@@ -377,13 +390,13 @@ export const Board = ({ board }: { board: Dictionary["board"] }) => {
               {board.centreLabel}
             </p>
             <p className="eyebrow mt-2 tabular-nums text-primary">
-              {shortTerm(CURRENT_PRESIDENT.term)}
+              {shortTerm(term)}
             </p>
           </div>
 
           <div data-board className="absolute inset-0">
             {members.map((m, i) => {
-              const { x: left, y: top } = seat(i, 43);
+              const { x: left, y: top } = seat(i, 43, count);
               return (
                 <article
                   key={m.role}

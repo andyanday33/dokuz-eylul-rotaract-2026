@@ -40,11 +40,15 @@ const negotiate = (request: NextRequest): Locale => {
   return DEFAULT_LOCALE;
 };
 
-/** The private half of the site: no locale segment, session cookies instead. */
-const MEMBERS_PATHS = ["/uye", "/giris", "/auth"];
+/** True for a pathname that is one of `paths`, or sits underneath one. */
+const under = (paths: readonly string[]) => (pathname: string) =>
+  paths.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 
-const isMembersPath = (pathname: string) =>
-  MEMBERS_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+/** The private half of the site: no locale segment, session cookies instead. */
+const isMembersPath = under(["/uye", "/giris", "/auth"]);
+
+/** Payload owns these outright — the admin panel and the API behind it. */
+const isCmsPath = under(["/admin", "/api"]);
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -54,6 +58,12 @@ export async function proxy(request: NextRequest) {
   // and handed its auth cookies instead. Without this branch `/uye` would be
   // sent to `/tr/uye`, which does not exist.
   if (isMembersPath(pathname)) return updateSession(request);
+
+  // Payload wants the opposite of both branches around it: no locale segment,
+  // because the panel is a tool rather than a page of the site, and no
+  // Supabase session refresh, because Payload issues its own cookie. Without
+  // this, `/admin` would be redirected to `/tr/admin`, which does not exist.
+  if (isCmsPath(pathname)) return;
 
   if (isLocale(pathname.split("/")[1])) return;
 

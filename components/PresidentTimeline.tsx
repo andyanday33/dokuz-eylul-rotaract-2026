@@ -1,4 +1,4 @@
-import { decadeOf, type President } from "@/data/presidents";
+import { decadeOf, type President } from "@/lib/presidents";
 
 /**
  * The roll drawn as a scale rather than a list.

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { PAST_PRESIDENTS, rollSpan, shortTerm } from "@/data/presidents";
+import { rollSpan, shortTerm } from "@/lib/presidents";
+import { getPresidents } from "@/lib/cms/queries";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { Grain, Nameplate } from "./Editorial";
 
@@ -23,6 +24,10 @@ const SHOWN = 12;
 export const PastPresidents = async () => {
   const { presidents } = await getDictionary();
   const lang = await getLocale();
+  const roll = await getPresidents();
+  // The roll comes back newest first, and its head is whoever is in office —
+  // this section is the ones before them.
+  const past = roll.slice(1, 1 + SHOWN);
 
   return (
     <section
@@ -35,7 +40,7 @@ export const PastPresidents = async () => {
         <Nameplate
           index={presidents.index}
           label={presidents.label}
-          meta={rollSpan()}
+          meta={rollSpan(roll)}
           tone="wine"
         />
 
@@ -53,7 +58,7 @@ export const PastPresidents = async () => {
           data-stagger
           className="mt-12 leading-[1.5] sm:mt-14"
         >
-          {PAST_PRESIDENTS.slice(0, SHOWN).map((p) => (
+          {past.map((p) => (
             <li key={p.term} className="mr-9 inline-block last:mr-0">
               <span className="font-editorial text-3xl italic sm:text-4xl">
                 {p.name}
