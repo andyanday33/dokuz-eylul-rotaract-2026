@@ -65,6 +65,16 @@ type LetterCopy = {
   signOff: string;
   signatureCredit: string;
 };
+type BoardCopy = {
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  centreLabel: string;
+  arrowLabel: string;
+  portraitAlt: string;
+  prevLabel: string;
+  nextLabel: string;
+};
 type HeroCopy = {
   datelineLeft: string;
   datelineRight: string;
@@ -111,6 +121,7 @@ type SeedFile = {
       en: FourWayHead;
       items: Localised<{ q: string; a: string; stamp: string }>[];
     };
+    board: { tr: BoardCopy; en: BoardCopy };
     pastPresidents: {
       index: string;
       shown: number;
@@ -284,6 +295,7 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
     fourWayTest,
     presidentsMessage,
     pastPresidents,
+    board: boardCopy,
   } = seed.home;
   const portraitId = await uploadPortrait(
     presidentsMessage.portrait.file,
@@ -350,7 +362,9 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
         shown: pastPresidents.shown,
         ...pastPresidents.tr,
       };
-    return { blockType: blockType as "board" };
+    if (blockType === "board")
+      return { blockType: "board" as const, ...boardCopy.tr };
+    return { blockType: blockType as "committees" };
   });
 
   const page = await payload.create({
@@ -431,6 +445,7 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
         }
         if (row.blockType === "past-presidents")
           return { ...row, ...pastPresidents.en };
+        if (row.blockType === "board") return { ...row, ...boardCopy.en };
         return row;
       }),
     },

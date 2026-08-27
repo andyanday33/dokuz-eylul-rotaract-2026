@@ -1,6 +1,6 @@
 import { PresidentsMessage } from "@/components/PresidentsMessage";
 import { Board } from "@/components/Board";
-import type { PresidentsMessageBlock } from "@/cms/payload-types";
+import type { BoardBlock, PresidentsMessageBlock } from "@/cms/payload-types";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getBoard, getPresidents } from "@/lib/cms/queries";
 
@@ -34,13 +34,21 @@ export const PresidentsMessageSection = async ({
   );
 };
 
-export const BoardSection = async () => {
+export const BoardSection = async ({ block }: { block: BoardBlock }) => {
   const [{ board }, seats, roll] = await Promise.all([
     getDictionary(),
     getBoard(),
     getPresidents(),
   ]);
   // The board serves the same Rotary year as the sitting president, so the
-  // term on the wheel's centre mark is read off the head of the roll.
-  return <Board board={board} seats={seats} term={roll[0]?.term ?? ""} />;
+  // term on the wheel's centre mark is read off the head of the roll. The
+  // dictionary is still needed for one thing: the role titles.
+  return (
+    <Board
+      block={block}
+      roles={board.roles}
+      seats={seats}
+      term={roll[0]?.term ?? ""}
+    />
+  );
 };

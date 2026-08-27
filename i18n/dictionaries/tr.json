@@ -47,14 +47,6 @@
     "back": "Ana sayfa"
   },
   "board": {
-    "eyebrow": "05 — Yönetim kurulu",
-    "heading": "Beş kişi, tek bir görev",
-    "intro": "Yönetim kurulu üyeleri kulübün stratejik yönünü belirler ve her üyenin sorumluluk almasını sağlar.",
-    "arrowLabel": "Çark saat yönünde döner",
-    "centreLabel": "Yönetim Kurulu",
-    "portraitAlt": "{name} portresi",
-    "prevLabel": "Önceki üye",
-    "nextLabel": "Sonraki üye",
     "roles": {
       "president": "Başkan",
       "vicePresident": "Asbaşkan",

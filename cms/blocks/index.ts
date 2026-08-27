@@ -7,6 +7,7 @@ import { numbersFields } from "./numbers";
 import { fourWayTestFields } from "./four-way-test";
 import { presidentsMessageFields } from "./presidents-message";
 import { pastPresidentsFields } from "./past-presidents";
+import { boardFields } from "./board";
 
 /**
  * The sections a page can be built out of, in the order the site tells its
@@ -96,6 +97,7 @@ export const LAYOUT_BLOCKS = [
     slug: "board",
     interfaceName: "BoardBlock",
     label: { en: "Board", tr: "Yönetim Kurulu" },
+    fields: boardFields,
   }),
   section({
     slug: "committees",

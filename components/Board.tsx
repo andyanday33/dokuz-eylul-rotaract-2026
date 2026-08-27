@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fill, type Dictionary } from "@/i18n/config";
+import type { BoardBlock } from "@/cms/payload-types";
 import { Grain } from "./Editorial";
 import { shortTerm } from "@/lib/presidents";
 import type { Seat } from "@/lib/cms/queries";
@@ -26,16 +27,21 @@ const seat = (i: number, r: number, count: number) => {
 
 /**
  * The wheel seats whoever the CMS returns, in the order it returns them, so
- * the geometry is computed from `seats.length` rather than a fixed five. The
- * role is still a key — the title beside each portrait is translated, and
- * comes from the dictionary the page is already reading.
+ * the geometry is computed from `seats.length` rather than a fixed five.
+ *
+ * Three sources meet here and none of them can be folded into another: the
+ * block's own copy, the seats from the collection, and the role titles, which
+ * are still dictionary translations keyed to `cms/roles.ts` because a role's
+ * title belongs to the role rather than to this page. See `cms/blocks/board.ts`.
  */
 export const Board = ({
-  board,
+  block,
+  roles,
   seats,
   term,
 }: {
-  board: Dictionary["board"];
+  block: BoardBlock;
+  roles: Dictionary["board"]["roles"];
   seats: Seat<BoardRole>[];
   /** The Rotary year the board serves, e.g. "2026–27". */
   term: string;
@@ -43,8 +49,8 @@ export const Board = ({
   const members = seats.map((m) => ({
     ...m,
     photo: m.photo ?? PLACEHOLDER,
-    title: board.roles[m.role],
-    alt: fill(board.portraitAlt, { name: m.name }),
+    title: roles[m.role],
+    alt: fill(block.portraitAlt, { name: m.name }),
   }));
   const count = members.length;
   const [active, setActive] = React.useState(0);
@@ -190,16 +196,16 @@ export const Board = ({
       <div className="wrapper relative z-10 py-20 sm:py-24">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow rise text-primary">{board.eyebrow}</p>
+            <p className="eyebrow rise text-primary">{block.eyebrow}</p>
             <h2
               data-chars
               className="font-editorial mt-3 max-w-2xl text-4xl italic leading-[1.1] sm:text-5xl"
             >
-              {board.heading}
+              {block.heading}
             </h2>
           </div>
           <p className="rise max-w-md text-sm font-light text-foreground/60">
-            {board.intro}
+            {block.intro}
           </p>
         </div>
         <div className="rule rule-cranberry mt-8 h-[2px] w-full" />
@@ -232,7 +238,7 @@ export const Board = ({
                 startOffset="50%"
                 textAnchor="middle"
               >
-                {board.arrowLabel}
+                {block.arrowLabel}
               </textPath>
             </text>
             <path
@@ -331,7 +337,7 @@ export const Board = ({
               <button
                 onClick={prev}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/20 transition-colors hover:border-primary hover:text-primary"
-                aria-label={board.prevLabel}
+                aria-label={block.prevLabel}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M10 12L6 8L10 4" />
@@ -343,7 +349,7 @@ export const Board = ({
               <button
                 onClick={next}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/20 transition-colors hover:border-primary hover:text-primary"
-                aria-label={board.nextLabel}
+                aria-label={block.nextLabel}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M6 4L10 8L6 12" />
@@ -387,7 +393,7 @@ export const Board = ({
             className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center"
           >
             <p className="font-editorial text-3xl italic leading-tight lg:text-4xl">
-              {board.centreLabel}
+              {block.centreLabel}
             </p>
             <p className="eyebrow mt-2 tabular-nums text-primary">
               {shortTerm(term)}

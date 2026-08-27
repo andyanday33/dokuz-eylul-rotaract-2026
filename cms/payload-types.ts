@@ -488,6 +488,38 @@ export interface PastPresidentsBlock {
  * via the `definition` "BoardBlock".
  */
 export interface BoardBlock {
+  /**
+   * Bölüm başlığı.
+   */
+  eyebrow: string;
+  /**
+   * Büyük puntolu başlık.
+   */
+  heading: string;
+  /**
+   * Başlığın altındaki giriş cümlesi.
+   */
+  intro: string;
+  /**
+   * Çarkın ortasındaki yazı. Altındaki dönem başkanlar listesinden gelir.
+   */
+  centreLabel: string;
+  /**
+   * Dönen okun üstündeki yazı.
+   */
+  arrowLabel: string;
+  /**
+   * Portrelerin alternatif metni. {name} yazdığınız yere kişinin adı gelir — bu işareti silmeyin.
+   */
+  portraitAlt: string;
+  /**
+   * Geri düğmesi.
+   */
+  prevLabel: string;
+  /**
+   * İleri düğmesi.
+   */
+  nextLabel: string;
   id?: string | null;
   blockName?: string | null;
   blockType: 'board';
@@ -890,6 +922,14 @@ export interface PastPresidentsBlockSelect<T extends boolean = true> {
  * via the `definition` "BoardBlock_select".
  */
 export interface BoardBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  intro?: T;
+  centreLabel?: T;
+  arrowLabel?: T;
+  portraitAlt?: T;
+  prevLabel?: T;
+  nextLabel?: T;
   id?: T;
   blockName?: T;
 }
