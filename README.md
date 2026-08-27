@@ -34,8 +34,8 @@ Copy lives in two places, and which one is the point of the page builder.
 **Section content belongs to the page.** A section that has been moved carries
 its own words — and its own images — on the page document that uses it, so the
 same section can appear twice on the site saying two different things. `hero`,
-`marquee`, `about`, `numbers` and `four-way-test` have moved; the other six are
-on their way, one at a time.
+`marquee`, `about`, `numbers`, `four-way-test` and `presidents-message` have
+moved; the other five are on their way, one at a time.
 
 **Chrome and unmoved sections read the dictionaries.** `i18n/dictionaries/tr.json`
 and `en.json` hold the navbar, the footer, and every section whose copy has not
@@ -137,6 +137,14 @@ Two more things that will otherwise cost you an afternoon:
   non-interactive answer. Removing `sliding-text` and giving `hero` its fields
   were therefore generated and applied as two migrations, which is also the
   history you want to read back later.
+- **Giving a field-less block a *required* field needs the old rows gone
+  first.** Pages already using it hold rows with nothing in them, and Postgres
+  will not add a `NOT NULL` column over those — the migration fails with
+  "contains null values". Worse, by then the code expects a column the database
+  lacks, so Payload cannot read `pages` to clear them either. The way out is to
+  comment the block's `fields` back out for one command, delete the page with
+  `payload run`, restore them, migrate, reseed. A required field with a
+  `defaultValue` sidesteps this entirely, which is why `hero.ctaHref` has one.
 
 Two conventions worth knowing before adding a collection:
 

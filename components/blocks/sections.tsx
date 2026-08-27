@@ -1,5 +1,6 @@
 import { PresidentsMessage } from "@/components/PresidentsMessage";
 import { Board } from "@/components/Board";
+import type { PresidentsMessageBlock } from "@/cms/payload-types";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getBoard, getPresidents } from "@/lib/cms/queries";
 
@@ -18,12 +19,19 @@ import { getBoard, getPresidents } from "@/lib/cms/queries";
  * anywhere, like all the others.
  */
 
-export const PresidentsMessageSection = async () => {
-  const [{ president }, roll] = await Promise.all([
-    getDictionary(),
-    getPresidents(),
-  ]);
-  return <PresidentsMessage president={president} name={roll[0]?.name ?? ""} />;
+export const PresidentsMessageSection = async ({
+  block,
+}: {
+  block: PresidentsMessageBlock;
+}) => {
+  const roll = await getPresidents();
+  return (
+    <PresidentsMessage
+      block={block}
+      name={roll[0]?.name ?? ""}
+      term={roll[0]?.term ?? ""}
+    />
+  );
 };
 
 export const BoardSection = async () => {

@@ -5,6 +5,7 @@ import { heroFields } from "./hero";
 import { marqueeFields } from "./marquee";
 import { numbersFields } from "./numbers";
 import { fourWayTestFields } from "./four-way-test";
+import { presidentsMessageFields } from "./presidents-message";
 
 /**
  * The sections a page can be built out of, in the order the site tells its
@@ -82,6 +83,7 @@ export const LAYOUT_BLOCKS = [
     slug: "presidents-message",
     interfaceName: "PresidentsMessageBlock",
     label: { en: "President's Message", tr: "Başkanın Mesajı" },
+    fields: presidentsMessageFields,
   }),
   section({
     slug: "past-presidents",

@@ -51,7 +51,7 @@ export const BLOCK_RENDERERS: BlockRenderers = {
   about: (block) => <About block={block} />,
   numbers: (block) => <Numbers block={block} />,
   "four-way-test": (block) => <FourWayTest block={block} />,
-  "presidents-message": () => <PresidentsMessageSection />,
+  "presidents-message": (block) => <PresidentsMessageSection block={block} />,
   "past-presidents": () => <PastPresidents />,
   board: () => <BoardSection />,
   committees: () => <Committees />,

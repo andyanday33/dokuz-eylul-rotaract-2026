@@ -53,6 +53,18 @@ type FourWayHead = {
   heading: string;
   colophon: string;
 };
+type LetterCopy = {
+  eyebrow: string;
+  heading: string;
+  watermark: string;
+  marginDateline: string;
+  sealText: string;
+  salutation: string;
+  pullQuote: string;
+  valediction: string;
+  signOff: string;
+  signatureCredit: string;
+};
 type HeroCopy = {
   datelineLeft: string;
   datelineRight: string;
@@ -98,6 +110,14 @@ type SeedFile = {
       tr: FourWayHead;
       en: FourWayHead;
       items: Localised<{ q: string; a: string; stamp: string }>[];
+    };
+    presidentsMessage: {
+      portrait: { file: string; alt: Localised<string> };
+      tr: LetterCopy;
+      en: LetterCopy;
+      openingParagraphs: Localised<string>[];
+      closingParagraphs: Localised<string>[];
+      manifesto: Localised<string>[];
     };
   };
 };
@@ -250,7 +270,12 @@ for (const area of seed.areas) {
 if (await findId("pages", { path: { equals: seed.home.path } })) {
   kept++;
 } else {
-  const { about, hero, marquee, numbers, fourWayTest } = seed.home;
+  const { about, hero, marquee, numbers, fourWayTest, presidentsMessage } =
+    seed.home;
+  const portraitId = await uploadPortrait(
+    presidentsMessage.portrait.file,
+    presidentsMessage.portrait.alt,
+  );
   const wordmarks = {
     tr: await uploadPortrait(hero.wordmark.tr.file, {
       tr: hero.wordmark.tr.alt,
@@ -296,7 +321,16 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
         ...fourWayTest.tr,
         items: fourWayTest.items.map((it) => it.tr),
       };
-    return { blockType: blockType as "presidents-message" };
+    if (blockType === "presidents-message")
+      return {
+        blockType: "presidents-message" as const,
+        portrait: portraitId,
+        ...presidentsMessage.tr,
+        openingParagraphs: presidentsMessage.openingParagraphs.map((t) => ({ text: t.tr })),
+        closingParagraphs: presidentsMessage.closingParagraphs.map((t) => ({ text: t.tr })),
+        manifesto: presidentsMessage.manifesto.map((t) => ({ text: t.tr })),
+      };
+    return { blockType: blockType as "past-presidents" };
   });
 
   const page = await payload.create({
@@ -362,6 +396,19 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
               ...fourWayTest.items[j].en,
             })),
           };
+        if (row.blockType === "presidents-message") {
+          const en = <T extends { id?: string | null }>(
+            rows: T[] | null | undefined,
+            source: { en: string }[],
+          ) => (rows ?? []).map((r, j) => ({ ...r, text: source[j].en }));
+          return {
+            ...row,
+            ...presidentsMessage.en,
+            openingParagraphs: en(row.openingParagraphs, presidentsMessage.openingParagraphs),
+            closingParagraphs: en(row.closingParagraphs, presidentsMessage.closingParagraphs),
+            manifesto: en(row.manifesto, presidentsMessage.manifesto),
+          };
+        }
         return row;
       }),
     },

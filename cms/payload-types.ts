@@ -385,6 +385,71 @@ export interface FourWayTestBlock {
  * via the `definition` "PresidentsMessageBlock".
  */
 export interface PresidentsMessageBlock {
+  /**
+   * Bölüm başlığı.
+   */
+  eyebrow: string;
+  /**
+   * Arkadaki dev filigran. Tek kelime.
+   */
+  watermark: string;
+  /**
+   * Büyük puntolu başlık.
+   */
+  heading: string;
+  /**
+   * Sol kenarda dik duran satır. Geniş ekranlarda görünür.
+   */
+  marginDateline?: string | null;
+  /**
+   * Başkanın portresi. Tek bir görsel — iki dilde de aynı kişi. Alternatif metin görselin kendi kaydından gelir.
+   */
+  portrait: number | Media;
+  /**
+   * Dönen mühürdeki yazı. Daire boyunca tekrarlanır; baştaki ve sondaki boşlukları koruyun.
+   */
+  sealText: string;
+  /**
+   * Selamlama. Her satır ayrı bir satır olarak dizilir.
+   */
+  salutation: string;
+  /**
+   * Alıntıdan önceki paragraflar. İlkinin ilk harfi büyük dizilir.
+   */
+  openingParagraphs: {
+    text: string;
+    id?: string | null;
+  }[];
+  /**
+   * Mektubun ortasına taşan alıntı. Tırnakları siz koyun.
+   */
+  pullQuote: string;
+  /**
+   * Alıntıdan sonraki paragraflar.
+   */
+  closingParagraphs: {
+    text: string;
+    id?: string | null;
+  }[];
+  /**
+   * Mektubu kapatan, büyük dizilen cümle.
+   */
+  valediction: string;
+  /**
+   * "Sevgi ve saygılarımla," gibi.
+   */
+  signOff: string;
+  /**
+   * İmzanın altında, adın yanında duran satır. Ad buraya yazılmaz — başkanlar listesinden gelir.
+   */
+  signatureCredit: string;
+  /**
+   * Bölümü kapatan kayan şeritteki ifadeler.
+   */
+  manifesto: {
+    text: string;
+    id?: string | null;
+  }[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'presidents-message';
@@ -755,6 +820,35 @@ export interface FourWayTestBlockSelect<T extends boolean = true> {
  * via the `definition` "PresidentsMessageBlock_select".
  */
 export interface PresidentsMessageBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  watermark?: T;
+  heading?: T;
+  marginDateline?: T;
+  portrait?: T;
+  sealText?: T;
+  salutation?: T;
+  openingParagraphs?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  pullQuote?: T;
+  closingParagraphs?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  valediction?: T;
+  signOff?: T;
+  signatureCredit?: T;
+  manifesto?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

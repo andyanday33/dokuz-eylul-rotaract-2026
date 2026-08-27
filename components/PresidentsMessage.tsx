@@ -5,7 +5,8 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import type { Dictionary } from "@/i18n/config";
+import type { Media, PresidentsMessageBlock } from "@/cms/payload-types";
+import { shortTerm } from "@/lib/presidents";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -31,18 +32,25 @@ const surnameInCaps = (name: string) => {
 };
 
 export const PresidentsMessage = ({
-  president,
+  block,
   name,
+  term,
 }: {
-  president: Dictionary["president"];
+  block: PresidentsMessageBlock;
   /**
-   * Whoever is at the head of the roll. The letter itself is translated copy
-   * and lives in the dictionaries; the name signing it is a fact about a
-   * person, so it comes from the same place the roll does — otherwise the two
-   * would disagree the first time a term changed hands.
+   * Whoever is at the head of the roll, and the Rotary year they serve. The
+   * letter is the block's own content; these two are facts about a person and
+   * belong to the `presidents` collection — typing them here again is how the
+   * signature and the roll come to disagree the first time a term changes
+   * hands. The board's wheel reads its centre mark the same way.
    */
   name: string;
+  term: string;
 }) => {
+  // Named apart from the `portrait` ref below, which is the parallax handle
+  // on the figure rather than the image inside it.
+  const portraitImage =
+    typeof block.portrait === "object" ? (block.portrait as Media) : null;
   const scope = React.useRef<HTMLElement>(null);
   const portrait = React.useRef<HTMLDivElement>(null);
 
@@ -117,7 +125,7 @@ export const PresidentsMessage = ({
         aria-hidden
         className="font-editorial pointer-events-none absolute -bottom-[6vw] left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[42vw] italic leading-none text-background/[0.035]"
       >
-        {president.watermark}
+        {block.watermark}
       </span>
 
       {/* Vertical margin dateline */}
@@ -125,17 +133,17 @@ export const PresidentsMessage = ({
         aria-hidden
         className="eyebrow absolute left-4 top-1/2 hidden -translate-y-1/2 rotate-180 text-background/40 [writing-mode:vertical-rl] lg:block"
       >
-        {president.marginDateline}
+        {block.marginDateline}
       </span>
 
       <div className="wrapper relative z-10 py-24 sm:py-36">
-        <p className="eyebrow rise text-primary">{president.eyebrow}</p>
+        <p className="eyebrow rise text-primary">{block.eyebrow}</p>
 
         <h2
           data-stagger
           className="font-editorial mt-6 max-w-[15ch] text-[15vw] italic leading-[1.15] tracking-[-0.01em] sm:text-7xl lg:text-[7.5rem]"
         >
-          {president.heading}
+          {block.heading}
         </h2>
 
         <div className="rule rule-cranberry mt-10 h-0.5 w-full" />
@@ -146,8 +154,8 @@ export const PresidentsMessage = ({
             <figure className="group relative w-full max-w-sm rotate-[-4deg] transition-transform duration-700 ease-out will-change-transform hover:rotate-0">
               <div className="relative aspect-4/5 overflow-hidden border border-background/15 bg-black shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)]">
                 <Image
-                  src="/president/portrait.jpeg"
-                  alt={president.portraitAlt}
+                  src={portraitImage?.url ?? ""}
+                  alt={portraitImage?.alt ?? ""}
                   fill
                   sizes="(min-width: 640px) 384px, 90vw"
                   className="object-cover grayscale contrast-[1.05] brightness-95 transition-all duration-900 ease-out group-hover:grayscale-0 group-hover:brightness-100 group-hover:contrast-100"
@@ -158,7 +166,7 @@ export const PresidentsMessage = ({
                 <p className="font-editorial text-2xl italic">
                   {surnameInCaps(name)}
                 </p>
-                <p className="eyebrow text-primary">{president.captionTerm}</p>
+                <p className="eyebrow text-primary">{shortTerm(term)}</p>
               </figcaption>
             </figure>
 
@@ -185,7 +193,7 @@ export const PresidentsMessage = ({
                   }}
                 >
                   <textPath href="#seal-arc" startOffset="0">
-                    {president.sealText}
+                    {block.sealText}
                   </textPath>
                 </text>
               </svg>
@@ -202,16 +210,16 @@ export const PresidentsMessage = ({
               className="space-y-6 text-lg font-light leading-relaxed text-background/70"
             >
               <p className="font-editorial text-xl italic text-background/85 sm:text-2xl">
-                {president.salutation.map((line, i) => (
+                {block.salutation.split("\n").map((line, i) => (
                   <React.Fragment key={line}>
                     {i > 0 ? <br /> : null}
                     {line}
                   </React.Fragment>
                 ))}
               </p>
-              {president.openingParagraphs.map((text, i) => (
-                <p key={i} className={i === 0 ? DROP_CAP : undefined}>
-                  {text}
+              {block.openingParagraphs.map((para, i) => (
+                <p key={para.id ?? i} className={i === 0 ? DROP_CAP : undefined}>
+                  {para.text}
                 </p>
               ))}
             </div>
@@ -221,25 +229,25 @@ export const PresidentsMessage = ({
               data-chars
               className="font-editorial relative z-20 my-10 -rotate-2 text-balance text-5xl italic leading-[1.05] text-primary sm:text-6xl lg:-ml-28 lg:text-7xl"
             >
-              {president.pullQuote}
+              {block.pullQuote}
             </blockquote>
 
             <div
               data-stagger
               className="space-y-6 text-lg font-light leading-relaxed text-background/70"
             >
-              {president.closingParagraphs.map((text) => (
-                <p key={text}>{text}</p>
+              {block.closingParagraphs.map((para, i) => (
+                <p key={para.id ?? i}>{para.text}</p>
               ))}
               <p className="font-editorial text-2xl italic text-background sm:text-3xl">
-                {president.valediction}
+                {block.valediction}
               </p>
             </div>
 
             {/* Signature */}
             <div className="relative mt-12 max-w-md">
               <p className="text-lg font-light text-background/70">
-                {president.signOff}
+                {block.signOff}
               </p>
               <svg
                 viewBox="0 0 320 120"
@@ -263,7 +271,7 @@ export const PresidentsMessage = ({
                 <span className="font-semibold text-background">
                   {name}
                 </span>{" "}
-                · {president.signatureCredit}
+                · {block.signatureCredit}
               </p>
             </div>
           </div>
@@ -279,9 +287,9 @@ export const PresidentsMessage = ({
               className="font-editorial flex items-center gap-8 pr-8 text-3xl italic leading-normal text-background/80 sm:text-4xl"
               aria-hidden={k > 0}
             >
-              {president.manifesto.map((phrase) => (
-                <React.Fragment key={phrase}>
-                  {phrase}
+              {block.manifesto.map((phrase, i) => (
+                <React.Fragment key={phrase.id ?? i}>
+                  {phrase.text}
                   <span className="text-primary">✦</span>
                 </React.Fragment>
               ))}

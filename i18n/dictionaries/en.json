@@ -38,38 +38,6 @@
     "src": "/dokuz_eylul_en.png",
     "alt": "Dokuz Eylül Rotaract Club"
   },
-  "president": {
-    "eyebrow": "03 — President's message",
-    "heading": "A year spent showing up",
-    "watermark": "President",
-    "marginDateline": "Club President — 2026 / 27",
-    "portraitAlt": "Portrait of the club president",
-    "sealText": " · Rotaract · President's Message · Service ·",
-    "captionTerm": "26—27",
-    "salutation": [
-      "Dear Rotaract family,",
-      "Dear visitors,"
-    ],
-    "openingParagraphs": [
-      "As President of the Dokuz Eylül Rotaract Club for 2026–2027, I greet you with affection and excitement on behalf of our club.",
-      "The Dokuz Eylül Rotaract Club is a strong family where friendships are formed, leaders are raised, ideas are put into practice with courage, and every step is taken to add lasting value to the community. This culture, inherited from the terms before us, is the greatest legacy we hold today.",
-      "Our priority this term is to create projects that genuinely leave a mark, to contribute to the personal and professional growth of our members, and to build a sustainable impact on the community. For us, success is measured by the lives we touch, the friendships we form and the values we grow together.",
-      "I believe leadership is not only walking in front, but also standing at the very back when needed to make sure no one is left behind. With that in mind, we aim to build a club culture governed by fairness, transparency, trust and collective judgement. Building a term in which every member feels valued, every idea can be voiced freely and every effort is recognised is one of our greatest priorities."
-    ],
-    "pullQuote": "“Why not?”",
-    "closingParagraphs": [
-      "Rotaract's greatest strength is its ability to bring different perspectives together around a shared purpose. Because we know that great work is the product of people who can think together, create together and act together. That is why we intend to strengthen the bonds we have built inside our club even further through collaboration with our district and with our Rotary and Interact family.",
-      "Throughout this journey we will never stop learning, growing or dreaming. We believe that people who can ask “Why not?” are the ones who change the world, and we know that bold ideas, sincere friendships and shared effort will carry us towards far stronger tomorrows.",
-      "I offer my heartfelt thanks to all our past presidents, boards, members and our Rotary family who have given their effort to our club until today. On the solid foundations they left behind, we will work with great enthusiasm to add a new and meaningful page to the story of the Dokuz Eylül Rotaract Club."
-    ],
-    "valediction": "May our path be full of hope, productivity, friendship and lasting impact…",
-    "signOff": "With love and respect,",
-    "signatureCredit": "President 2026–2027 · Dokuz Eylül Rotaract Club",
-    "manifesto": [
-      "Friendship through service",
-      "every week, without exception"
-    ]
-  },
   "presidents": {
     "index": "04",
     "label": "Past presidents",

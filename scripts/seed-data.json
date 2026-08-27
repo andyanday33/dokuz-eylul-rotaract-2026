@@ -499,6 +499,81 @@
           }
         }
       ]
+    },
+    "presidentsMessage": {
+      "portrait": {
+        "file": "/president/portrait.jpeg",
+        "alt": {
+          "tr": "Kulüp başkanının portresi",
+          "en": "Portrait of the club president"
+        }
+      },
+      "tr": {
+        "eyebrow": "03 — Başkanın mesajı",
+        "heading": "Var olmakla geçen bir yıl",
+        "watermark": "Başkan",
+        "marginDateline": "Dönem Başkanı — 2026 / 27",
+        "sealText": " · Rotaract · Başkanın Mesajı · Hizmet ·",
+        "salutation": "Sevgili Rotaract Ailem,\nDeğerli Ziyaretçilerimiz,",
+        "pullQuote": "“Neden olmasın?”",
+        "valediction": "Yolumuzun; umut, üretkenlik, dostluk ve kalıcı etkiyle dolu olması dileğiyle…",
+        "signOff": "Sevgi ve saygılarımla,",
+        "signatureCredit": "2026–2027 Dönem Başkanı · Dokuz Eylül Rotaract Kulübü"
+      },
+      "en": {
+        "eyebrow": "03 — President's message",
+        "heading": "A year spent showing up",
+        "watermark": "President",
+        "marginDateline": "Club President — 2026 / 27",
+        "sealText": " · Rotaract · President's Message · Service ·",
+        "salutation": "Dear Rotaract family,\nDear visitors,",
+        "pullQuote": "“Why not?”",
+        "valediction": "May our path be full of hope, productivity, friendship and lasting impact…",
+        "signOff": "With love and respect,",
+        "signatureCredit": "President 2026–2027 · Dokuz Eylül Rotaract Club"
+      },
+      "openingParagraphs": [
+        {
+          "tr": "Dokuz Eylül Rotaract Kulübü’nün 2026–2027 Dönem Başkanı olarak sizleri kulübümüz adına sevgi ve heyecanla selamlıyorum.",
+          "en": "As President of the Dokuz Eylül Rotaract Club for 2026–2027, I greet you with affection and excitement on behalf of our club."
+        },
+        {
+          "tr": "Dokuz Eylül Rotaract Kulübü dostlukların kurulduğu, liderlerin yetiştiği, fikirlerin cesaretle hayata geçirildiği ve topluma kalıcı değer katma hedefiyle hareket eden güçlü bir ailedir. Geçmiş dönemlerden devraldığımız bu kültür, bugün sahip olduğumuz en büyük mirastır.",
+          "en": "The Dokuz Eylül Rotaract Club is a strong family where friendships are formed, leaders are raised, ideas are put into practice with courage, and every step is taken to add lasting value to the community. This culture, inherited from the terms before us, is the greatest legacy we hold today."
+        },
+        {
+          "tr": "Bu dönem önceliğimiz, gerçekten iz bırakan projeler üretmek, üyelerimizin kişisel ve mesleki gelişimlerine katkı sağlamak ve toplum üzerinde sürdürülebilir bir etki oluşturabilmektir. Bizler için başarı; dokunduğumuz hayatlar, kurduğumuz dostluklar ve birlikte büyüttüğümüz değerlerle ölçülmektedir.",
+          "en": "Our priority this term is to create projects that genuinely leave a mark, to contribute to the personal and professional growth of our members, and to build a sustainable impact on the community. For us, success is measured by the lives we touch, the friendships we form and the values we grow together."
+        },
+        {
+          "tr": "Liderliğin yalnızca önde yürümek değil, gerektiğinde en arkada kalarak kimsenin geride kalmadığından emin olmak olduğuna inanıyorum. Bu anlayışla; adaletin, şeffaflığın, güvenin ve ortak aklın hâkim olduğu bir kulüp kültürü oluşturmayı hedefliyoruz. Her üyemizin kendini değerli hissettiği, her fikrin özgürce ifade edilebildiği ve her emeğin karşılık bulduğu bir dönem inşa etmek en büyük önceliklerimizden biridir.",
+          "en": "I believe leadership is not only walking in front, but also standing at the very back when needed to make sure no one is left behind. With that in mind, we aim to build a club culture governed by fairness, transparency, trust and collective judgement. Building a term in which every member feels valued, every idea can be voiced freely and every effort is recognised is one of our greatest priorities."
+        }
+      ],
+      "closingParagraphs": [
+        {
+          "tr": "Rotaract’ın en güçlü yönü, farklı bakış açılarını ortak bir amaç etrafında buluşturabilmesidir. Çünkü biliyoruz ki büyük işler, birlikte düşünebilen, birlikte üretebilen ve birlikte hareket edebilen insanların eseridir. Bu nedenle kulübümüz içerisinde kurduğumuz güçlü bağları, bölgemiz, Rotary ve Interact ailemizle olan iş birlikleriyle daha da güçlendirmeyi amaçlıyoruz.",
+          "en": "Rotaract's greatest strength is its ability to bring different perspectives together around a shared purpose. Because we know that great work is the product of people who can think together, create together and act together. That is why we intend to strengthen the bonds we have built inside our club even further through collaboration with our district and with our Rotary and Interact family."
+        },
+        {
+          "tr": "Bu yolculuk boyunca; öğrenmekten, gelişmekten ve hayal kurmaktan vazgeçmeyeceğiz. “Neden olmasın?” diyebilen insanların dünyayı değiştirebildiğine inanıyor; cesur fikirlerin, samimi dostlukların ve ortak emeğin bizi çok daha güçlü yarınlara taşıyacağını biliyoruz.",
+          "en": "Throughout this journey we will never stop learning, growing or dreaming. We believe that people who can ask “Why not?” are the ones who change the world, and we know that bold ideas, sincere friendships and shared effort will carry us towards far stronger tomorrows."
+        },
+        {
+          "tr": "Bugüne kadar kulübümüze emek veren tüm geçmiş dönem başkanlarımıza, yönetim kurullarımıza, üyelerimize ve Rotary ailemize gönülden teşekkür ediyorum. Onların bıraktığı sağlam temeller üzerinde, Dokuz Eylül Rotaract Kulübü’nün hikâyesine yeni ve anlamlı bir sayfa eklemek için büyük bir heyecanla çalışacağız.",
+          "en": "I offer my heartfelt thanks to all our past presidents, boards, members and our Rotary family who have given their effort to our club until today. On the solid foundations they left behind, we will work with great enthusiasm to add a new and meaningful page to the story of the Dokuz Eylül Rotaract Club."
+        }
+      ],
+      "manifesto": [
+        {
+          "tr": "Hizmetle gelen dostluk",
+          "en": "Friendship through service"
+        },
+        {
+          "tr": "her hafta, istisnasız",
+          "en": "every week, without exception"
+        }
+      ]
     }
   }
 }

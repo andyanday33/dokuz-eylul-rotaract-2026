@@ -38,38 +38,6 @@
     "src": "/dokuz_eylul.png",
     "alt": "Dokuz Eylül Rotaract Kulübü"
   },
-  "president": {
-    "eyebrow": "03 — Başkanın mesajı",
-    "heading": "Var olmakla geçen bir yıl",
-    "watermark": "Başkan",
-    "marginDateline": "Dönem Başkanı — 2026 / 27",
-    "portraitAlt": "Kulüp başkanının portresi",
-    "sealText": " · Rotaract · Başkanın Mesajı · Hizmet ·",
-    "captionTerm": "26—27",
-    "salutation": [
-      "Sevgili Rotaract Ailem,",
-      "Değerli Ziyaretçilerimiz,"
-    ],
-    "openingParagraphs": [
-      "Dokuz Eylül Rotaract Kulübü’nün 2026–2027 Dönem Başkanı olarak sizleri kulübümüz adına sevgi ve heyecanla selamlıyorum.",
-      "Dokuz Eylül Rotaract Kulübü dostlukların kurulduğu, liderlerin yetiştiği, fikirlerin cesaretle hayata geçirildiği ve topluma kalıcı değer katma hedefiyle hareket eden güçlü bir ailedir. Geçmiş dönemlerden devraldığımız bu kültür, bugün sahip olduğumuz en büyük mirastır.",
-      "Bu dönem önceliğimiz, gerçekten iz bırakan projeler üretmek, üyelerimizin kişisel ve mesleki gelişimlerine katkı sağlamak ve toplum üzerinde sürdürülebilir bir etki oluşturabilmektir. Bizler için başarı; dokunduğumuz hayatlar, kurduğumuz dostluklar ve birlikte büyüttüğümüz değerlerle ölçülmektedir.",
-      "Liderliğin yalnızca önde yürümek değil, gerektiğinde en arkada kalarak kimsenin geride kalmadığından emin olmak olduğuna inanıyorum. Bu anlayışla; adaletin, şeffaflığın, güvenin ve ortak aklın hâkim olduğu bir kulüp kültürü oluşturmayı hedefliyoruz. Her üyemizin kendini değerli hissettiği, her fikrin özgürce ifade edilebildiği ve her emeğin karşılık bulduğu bir dönem inşa etmek en büyük önceliklerimizden biridir."
-    ],
-    "pullQuote": "“Neden olmasın?”",
-    "closingParagraphs": [
-      "Rotaract’ın en güçlü yönü, farklı bakış açılarını ortak bir amaç etrafında buluşturabilmesidir. Çünkü biliyoruz ki büyük işler, birlikte düşünebilen, birlikte üretebilen ve birlikte hareket edebilen insanların eseridir. Bu nedenle kulübümüz içerisinde kurduğumuz güçlü bağları, bölgemiz, Rotary ve Interact ailemizle olan iş birlikleriyle daha da güçlendirmeyi amaçlıyoruz.",
-      "Bu yolculuk boyunca; öğrenmekten, gelişmekten ve hayal kurmaktan vazgeçmeyeceğiz. “Neden olmasın?” diyebilen insanların dünyayı değiştirebildiğine inanıyor; cesur fikirlerin, samimi dostlukların ve ortak emeğin bizi çok daha güçlü yarınlara taşıyacağını biliyoruz.",
-      "Bugüne kadar kulübümüze emek veren tüm geçmiş dönem başkanlarımıza, yönetim kurullarımıza, üyelerimize ve Rotary ailemize gönülden teşekkür ediyorum. Onların bıraktığı sağlam temeller üzerinde, Dokuz Eylül Rotaract Kulübü’nün hikâyesine yeni ve anlamlı bir sayfa eklemek için büyük bir heyecanla çalışacağız."
-    ],
-    "valediction": "Yolumuzun; umut, üretkenlik, dostluk ve kalıcı etkiyle dolu olması dileğiyle…",
-    "signOff": "Sevgi ve saygılarımla,",
-    "signatureCredit": "2026–2027 Dönem Başkanı · Dokuz Eylül Rotaract Kulübü",
-    "manifesto": [
-      "Hizmetle gelen dostluk",
-      "her hafta, istisnasız"
-    ]
-  },
   "presidents": {
     "index": "04",
     "label": "Geçmiş dönem başkanları",
