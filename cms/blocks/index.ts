@@ -3,6 +3,7 @@ import type { PanelText } from "../labels";
 import { aboutFields } from "./about";
 import { heroFields } from "./hero";
 import { marqueeFields } from "./marquee";
+import { numbersFields } from "./numbers";
 
 /**
  * The sections a page can be built out of, in the order the site tells its
@@ -68,6 +69,7 @@ export const LAYOUT_BLOCKS = [
     slug: "numbers",
     interfaceName: "NumbersBlock",
     label: { en: "By the Numbers", tr: "Rakamlarla" },
+    fields: numbersFields,
   }),
   section({
     slug: "four-way-test",

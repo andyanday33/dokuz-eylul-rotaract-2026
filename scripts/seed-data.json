@@ -397,6 +397,44 @@
           "en": "Community"
         }
       ]
+    },
+    "numbers": {
+      "eyebrow": {
+        "tr": "— Rakamlarla",
+        "en": "— By the numbers"
+      },
+      "stats": [
+        {
+          "tr": {
+            "big": "1000+",
+            "label": "Geçen yıl gönüllü saati"
+          },
+          "en": {
+            "big": "1000+",
+            "label": "Volunteer hours last year"
+          }
+        },
+        {
+          "tr": {
+            "big": "30+",
+            "label": "Aktif üye"
+          },
+          "en": {
+            "big": "30+",
+            "label": "Active members"
+          }
+        },
+        {
+          "tr": {
+            "big": "10+",
+            "label": "Paydaş kuruluş"
+          },
+          "en": {
+            "big": "10+",
+            "label": "Partner organisations"
+          }
+        }
+      ]
     }
   }
 }

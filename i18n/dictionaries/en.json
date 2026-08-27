@@ -38,23 +38,6 @@
     "src": "/dokuz_eylul_en.png",
     "alt": "Dokuz Eylül Rotaract Club"
   },
-  "numbers": {
-    "eyebrow": "— By the numbers",
-    "stats": [
-      {
-        "big": "1000+",
-        "label": "Volunteer hours last year"
-      },
-      {
-        "big": "30+",
-        "label": "Active members"
-      },
-      {
-        "big": "10+",
-        "label": "Partner organisations"
-      }
-    ]
-  },
   "fourWayTest": {
     "eyebrow": "02 — The Four-Way Test",
     "meta": "The Four-Way Test · Est. 1932",

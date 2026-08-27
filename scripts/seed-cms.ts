@@ -84,6 +84,10 @@ type SeedFile = {
       speedSeconds: number;
       items: Localised<string>[];
     };
+    numbers: {
+      eyebrow: Localised<string>;
+      stats: Localised<{ big: string; label: string }>[];
+    };
   };
 };
 
@@ -235,7 +239,7 @@ for (const area of seed.areas) {
 if (await findId("pages", { path: { equals: seed.home.path } })) {
   kept++;
 } else {
-  const { about, hero, marquee } = seed.home;
+  const { about, hero, marquee, numbers } = seed.home;
   const wordmarks = {
     tr: await uploadPortrait(hero.wordmark.tr.file, {
       tr: hero.wordmark.tr.alt,
@@ -269,7 +273,13 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
         speedSeconds: marquee.speedSeconds,
         items: marquee.items.map((it) => ({ text: it.tr })),
       };
-    return { blockType: blockType as "numbers" };
+    if (blockType === "numbers")
+      return {
+        blockType: "numbers" as const,
+        eyebrow: numbers.eyebrow.tr,
+        stats: numbers.stats.map((s) => s.tr),
+      };
+    return { blockType: blockType as "four-way-test" };
   });
 
   const page = await payload.create({
@@ -315,6 +325,15 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
             items: (row.items ?? []).map((it, j) => ({
               ...it,
               text: marquee.items[j].en,
+            })),
+          };
+        if (row.blockType === "numbers")
+          return {
+            ...row,
+            eyebrow: numbers.eyebrow.en,
+            stats: (row.stats ?? []).map((s, j) => ({
+              ...s,
+              ...numbers.stats[j].en,
             })),
           };
         return row;

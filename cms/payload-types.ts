@@ -315,6 +315,24 @@ export interface AboutBlock {
  * via the `definition` "NumbersBlock".
  */
 export interface NumbersBlock {
+  /**
+   * Bölümün üstündeki küçük başlık.
+   */
+  eyebrow: string;
+  /**
+   * Rakamlar, soldan sağa. Üçü bir satıra sığar.
+   */
+  stats: {
+    /**
+     * Büyük punto rakam — "1000+".
+     */
+    big: string;
+    /**
+     * Rakamın altındaki açıklama.
+     */
+    label: string;
+    id?: string | null;
+  }[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'numbers';
@@ -667,6 +685,14 @@ export interface AboutBlockSelect<T extends boolean = true> {
  * via the `definition` "NumbersBlock_select".
  */
 export interface NumbersBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  stats?:
+    | T
+    | {
+        big?: T;
+        label?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
