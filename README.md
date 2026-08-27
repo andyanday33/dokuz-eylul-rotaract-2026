@@ -33,8 +33,9 @@ Copy lives in two places, and which one is the point of the page builder.
 
 **Section content belongs to the page.** A section that has been moved carries
 its own words — and its own images — on the page document that uses it, so the
-same section can appear twice on the site saying two different things. `hero`
-and `about` have moved; the other nine are on their way, one at a time.
+same section can appear twice on the site saying two different things. `hero`,
+`marquee` and `about` have moved; the other eight are on their way, one at a
+time.
 
 **Chrome and unmoved sections read the dictionaries.** `i18n/dictionaries/tr.json`
 and `en.json` hold the navbar, the footer, and every section whose copy has not
@@ -111,17 +112,25 @@ npm run cms:migrate:create   # a migration for a schema change
 npm run cms:migrate          # apply pending migrations
 ```
 
-Two things about migrations that will otherwise cost you an afternoon:
+**`push` is off** (`payload.config.ts`), so a new field does not appear just by
+restarting dev. The loop is: add the field, `cms:migrate:create`, `cms:migrate`.
+
+That is not the usual Payload setup, and the reason is this project's: one
+database, shared by dev and production. `push` diffs the config against the
+database on startup and applies whatever is missing — fine when development has
+its own database, but here it is a live schema change nobody recorded, after
+which `migrate:create` finds nothing to describe and writes an empty migration.
+The change is live and will never reach a deploy. It also runs on *every*
+Payload init, not just `next dev`: `migrate:create` pushed the very tables it
+was about to write a migration for, and the migration then failed with
+"relation already exists".
+
+Two more things that will otherwise cost you an afternoon:
 
 - **`npm run cms:migrate` prompts, and a pipe hides the prompt.** Once a
-  database has been touched by dev-mode `push`, Payload asks "data loss will
-  occur, proceed?" before every migration. Piped through `tail` or a log file
-  it looks like a hang; it is waiting on stdin.
-- **Generate the migration before `next dev` next starts.** Dev `push` syncs
-  the schema straight from `payload.config.ts`, so a field added and then
-  pushed produces an *empty* migration — the change is live and unrecorded, and
-  the next deploy will not have it. Add fields, `cms:migrate:create`, then run
-  dev.
+  database has been touched by `push` — this one has — Payload asks "data loss
+  will occur, proceed?" before every migration. Piped through `tail` or a log
+  file it looks like a hang; it is waiting on stdin.
 - **Do one thing per migration.** Dropping a block's table in the same step as
   adding another block's localised table makes Drizzle ask, interactively,
   whether the new table is a rename of the old one — a prompt with no sane

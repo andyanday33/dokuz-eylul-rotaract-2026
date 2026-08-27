@@ -371,6 +371,32 @@
         "meetingNote": "We meet at 19.00 on the first and third Thursday of every month at the Old Library. Guests are always welcome.",
         "cta": "Join the club"
       }
+    },
+    "marquee": {
+      "separator": "✦",
+      "speedSeconds": 20,
+      "items": [
+        {
+          "tr": "Kişisel çıkarların ötesinde hizmet",
+          "en": "Service above self"
+        },
+        {
+          "tr": "Eylem insanları",
+          "en": "People of action"
+        },
+        {
+          "tr": "Dostluk",
+          "en": "Fellowship"
+        },
+        {
+          "tr": "Liderlik",
+          "en": "Leadership"
+        },
+        {
+          "tr": "Toplum",
+          "en": "Community"
+        }
+      ]
     }
   }
 }

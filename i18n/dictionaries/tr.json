@@ -38,15 +38,6 @@
     "src": "/dokuz_eylul.png",
     "alt": "Dokuz Eylül Rotaract Kulübü"
   },
-  "marquee": {
-    "items": [
-      "Kişisel çıkarların ötesinde hizmet",
-      "Eylem insanları",
-      "Dostluk",
-      "Liderlik",
-      "Toplum"
-    ]
-  },
   "numbers": {
     "eyebrow": "— Rakamlarla",
     "stats": [

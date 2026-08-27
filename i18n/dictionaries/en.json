@@ -38,15 +38,6 @@
     "src": "/dokuz_eylul_en.png",
     "alt": "Dokuz Eylül Rotaract Club"
   },
-  "marquee": {
-    "items": [
-      "Service above self",
-      "People of action",
-      "Fellowship",
-      "Leadership",
-      "Community"
-    ]
-  },
   "numbers": {
     "eyebrow": "— By the numbers",
     "stats": [

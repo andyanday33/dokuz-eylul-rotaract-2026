@@ -50,7 +50,7 @@ export type BlockRenderers = {
 
 export const BLOCK_RENDERERS: BlockRenderers = {
   hero: (block) => <Hero block={block} />,
-  marquee: () => <Marquee />,
+  marquee: (block) => <Marquee block={block} />,
   about: (block) => <About block={block} />,
   numbers: () => <Numbers />,
   "four-way-test": () => <FourWayTestSection />,

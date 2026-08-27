@@ -79,6 +79,27 @@ export default buildConfig({
     pool: { connectionString: process.env.DATABASE_URL || "" },
     schemaName: "payload",
     migrationDir: path.resolve(dirname, "cms/migrations"),
+
+    /**
+     * Migrations are the only way the schema changes here.
+     *
+     * Payload's default is to `push` in development — to diff the config
+     * against the database on startup and apply whatever is missing. That is
+     * a good default when development has its own database. This project has
+     * one database, shared by dev and production, so a push is a live schema
+     * change nobody recorded: the next `migrate:create` then finds no
+     * difference to describe, writes an empty migration, and the change
+     * silently never reaches a deploy.
+     *
+     * It also fires on *every* Payload init, not just `next dev` — including
+     * `migrate:create` itself, which is how a migration came to fail with
+     * "relation already exists" against the very tables it was written to
+     * create.
+     *
+     * With this off, `npm run dev` no longer picks up a new field on its own:
+     * add the field, `npm run cms:migrate:create`, `npm run cms:migrate`.
+     */
+    push: false,
   }),
 
   secret: process.env.PAYLOAD_SECRET || "",

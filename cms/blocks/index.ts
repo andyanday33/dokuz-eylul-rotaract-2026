@@ -2,6 +2,7 @@ import type { Block, Field } from "payload";
 import type { PanelText } from "../labels";
 import { aboutFields } from "./about";
 import { heroFields } from "./hero";
+import { marqueeFields } from "./marquee";
 
 /**
  * The sections a page can be built out of, in the order the site tells its
@@ -55,6 +56,7 @@ export const LAYOUT_BLOCKS = [
     slug: "marquee",
     interfaceName: "MarqueeBlock",
     label: { en: "Marquee", tr: "Kayan Şerit" },
+    fields: marqueeFields,
   }),
   section({
     slug: "about",

@@ -79,6 +79,11 @@ type SeedFile = {
       tr: HeroCopy;
       en: HeroCopy;
     };
+    marquee: {
+      separator: string;
+      speedSeconds: number;
+      items: Localised<string>[];
+    };
   };
 };
 
@@ -230,7 +235,7 @@ for (const area of seed.areas) {
 if (await findId("pages", { path: { equals: seed.home.path } })) {
   kept++;
 } else {
-  const { about, hero } = seed.home;
+  const { about, hero, marquee } = seed.home;
   const wordmarks = {
     tr: await uploadPortrait(hero.wordmark.tr.file, {
       tr: hero.wordmark.tr.alt,
@@ -257,7 +262,14 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
         wordmark: wordmarks.tr,
         ...hero.tr,
       };
-    return { blockType: blockType as "marquee" };
+    if (blockType === "marquee")
+      return {
+        blockType: "marquee" as const,
+        separator: marquee.separator,
+        speedSeconds: marquee.speedSeconds,
+        items: marquee.items.map((it) => ({ text: it.tr })),
+      };
+    return { blockType: blockType as "numbers" };
   });
 
   const page = await payload.create({
@@ -297,6 +309,14 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
           // this is the one field where the two languages differ by file
           // rather than by wording.
           return { ...row, ...hero.en, wordmark: wordmarks.en };
+        if (row.blockType === "marquee")
+          return {
+            ...row,
+            items: (row.items ?? []).map((it, j) => ({
+              ...it,
+              text: marquee.items[j].en,
+            })),
+          };
         return row;
       }),
     },

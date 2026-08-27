@@ -250,6 +250,21 @@ export interface Media {
  * via the `definition` "MarqueeBlock".
  */
 export interface MarqueeBlock {
+  /**
+   * Şeritte dönen kelimeler, sırayla. Kısa tutun — hepsi tek satırda akar.
+   */
+  items: {
+    text: string;
+    id?: string | null;
+  }[];
+  /**
+   * İfadeleri ayıran işaret. Boş bırakılırsa yalnızca boşluk kalır.
+   */
+  separator?: string | null;
+  /**
+   * Şeridin bir turu kaç saniye sürsün. Büyük sayı daha yavaş demektir.
+   */
+  speedSeconds: number;
   id?: string | null;
   blockName?: string | null;
   blockType: 'marquee';
@@ -615,6 +630,14 @@ export interface HeroBlockSelect<T extends boolean = true> {
  * via the `definition` "MarqueeBlock_select".
  */
 export interface MarqueeBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  separator?: T;
+  speedSeconds?: T;
   id?: T;
   blockName?: T;
 }

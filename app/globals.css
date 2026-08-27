@@ -240,7 +240,10 @@
 
 @layer base {
   .marquee-track {
-    animation: marquee 20s linear infinite;
+    /* The pace is a variable so a marquee block can set its own from the CMS.
+       The fallback is what the president's closing manifesto runs at, which
+       shares this class and has no field behind it. */
+    animation: marquee var(--marquee-duration, 20s) linear infinite;
   }
 }
 
