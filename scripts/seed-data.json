@@ -610,6 +610,50 @@
         "prevLabel": "Previous member",
         "nextLabel": "Next member"
       }
+    },
+    "committees": {
+      "tr": {
+        "eyebrow": "06 — Komite başkanları",
+        "heading": "İşin sahiplendiği yer",
+        "intro": "Her komite, kulübün günlük işleyişini ve projelerini yürüten bir sorumluluk alanıdır.",
+        "portraitAlt": "{name} portresi"
+      },
+      "en": {
+        "eyebrow": "06 — Committee chairs",
+        "heading": "Where the work is owned",
+        "intro": "Each committee is an area of responsibility that carries the club's day-to-day running and its projects.",
+        "portraitAlt": "Portrait of {name}"
+      }
+    },
+    "areasOfFocus": {
+      "index": "07",
+      "tr": {
+        "label": "Yedi öncelikli alan",
+        "meta": "Seven Areas of Focus",
+        "altLang": "en",
+        "heading": "Her projemiz bu yedi öncelikli alandan birine bağlanır."
+      },
+      "en": {
+        "label": "Areas of focus",
+        "meta": "Yedi öncelikli alan",
+        "altLang": "tr",
+        "heading": "Every project we run belongs to one of these seven."
+      }
+    },
+    "join": {
+      "email": "merhaba@rotaractkulubu.org",
+      "tr": {
+        "eyebrow": "08 — Bize katıl",
+        "watermark": "Katıl",
+        "heading": "Bir saat getir. Bir çevreyle ayrıl.",
+        "body": "Üyelik, bölgemizdeki 18–30 yaş arası herkese açıktır. Önce bir toplantıya gelin — form yok, ücret yok, sadece gelin."
+      },
+      "en": {
+        "eyebrow": "08 — Join us",
+        "watermark": "Join",
+        "heading": "Bring an hour. Leave with a circle.",
+        "body": "Membership is open to anyone aged 18–30 in our district. Come to a meeting first — no form, no fee, just turn up."
+      }
     }
   }
 }

@@ -30,7 +30,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col relative">
-      <Navbar nav={dict.nav} email={dict.join.email} place={dict.nav.place} />
+      <Navbar nav={dict.nav} email={dict.contact.email} place={dict.nav.place} />
       <RenderBlocks layout={page.layout} />
       <Footer />
       <ScrollAnimations />

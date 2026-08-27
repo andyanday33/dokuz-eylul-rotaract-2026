@@ -529,6 +529,22 @@ export interface BoardBlock {
  * via the `definition` "CommitteesBlock".
  */
 export interface CommitteesBlock {
+  /**
+   * Bölüm başlığı.
+   */
+  eyebrow: string;
+  /**
+   * Büyük puntolu başlık.
+   */
+  heading: string;
+  /**
+   * Başlığın altındaki giriş cümlesi.
+   */
+  intro: string;
+  /**
+   * Portrelerin alternatif metni — ekran okuyucular okur. {name} yazdığınız yere kişinin adı gelir; bu işareti silmeyin.
+   */
+  portraitAlt: string;
   id?: string | null;
   blockName?: string | null;
   blockType: 'committees';
@@ -538,6 +554,26 @@ export interface CommitteesBlock {
  * via the `definition` "AreasOfFocusBlock".
  */
 export interface AreasOfFocusBlock {
+  /**
+   * Bölüm numarası — "07".
+   */
+  index: string;
+  /**
+   * Numaranın yanındaki başlık.
+   */
+  label: string;
+  /**
+   * Sağdaki künye — programın diğer dildeki adı.
+   */
+  meta?: string | null;
+  /**
+   * Künyenin hangi dilde yazıldığı. Büyük harfe çevirmeyi etkiler.
+   */
+  altLang: 'tr' | 'en';
+  /**
+   * Bölümün büyük puntolu cümlesi.
+   */
+  heading: string;
   id?: string | null;
   blockName?: string | null;
   blockType: 'areas-of-focus';
@@ -547,6 +583,26 @@ export interface AreasOfFocusBlock {
  * via the `definition` "JoinBlock".
  */
 export interface JoinBlock {
+  /**
+   * Bölüm başlığı.
+   */
+  eyebrow: string;
+  /**
+   * Arkadaki dev filigran. Tek kelime olmalı.
+   */
+  watermark: string;
+  /**
+   * Büyük puntolu çağrı.
+   */
+  heading: string;
+  /**
+   * Çağrının altındaki açıklama.
+   */
+  body: string;
+  /**
+   * Yazışma adresi. Değiştirirseniz i18n/dictionaries içindeki contact.email de değişmeli — üst menü oradan okur.
+   */
+  email: string;
   id?: string | null;
   blockName?: string | null;
   blockType: 'join';
@@ -938,6 +994,10 @@ export interface BoardBlockSelect<T extends boolean = true> {
  * via the `definition` "CommitteesBlock_select".
  */
 export interface CommitteesBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  intro?: T;
+  portraitAlt?: T;
   id?: T;
   blockName?: T;
 }
@@ -946,6 +1006,11 @@ export interface CommitteesBlockSelect<T extends boolean = true> {
  * via the `definition` "AreasOfFocusBlock_select".
  */
 export interface AreasOfFocusBlockSelect<T extends boolean = true> {
+  index?: T;
+  label?: T;
+  meta?: T;
+  altLang?: T;
+  heading?: T;
   id?: T;
   blockName?: T;
 }
@@ -954,6 +1019,11 @@ export interface AreasOfFocusBlockSelect<T extends boolean = true> {
  * via the `definition` "JoinBlock_select".
  */
 export interface JoinBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  watermark?: T;
+  heading?: T;
+  body?: T;
+  email?: T;
   id?: T;
   blockName?: T;
 }

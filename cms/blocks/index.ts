@@ -8,6 +8,9 @@ import { fourWayTestFields } from "./four-way-test";
 import { presidentsMessageFields } from "./presidents-message";
 import { pastPresidentsFields } from "./past-presidents";
 import { boardFields } from "./board";
+import { committeesFields } from "./committees";
+import { areasOfFocusFields } from "./areas-of-focus";
+import { joinFields } from "./join";
 
 /**
  * The sections a page can be built out of, in the order the site tells its
@@ -103,16 +106,19 @@ export const LAYOUT_BLOCKS = [
     slug: "committees",
     interfaceName: "CommitteesBlock",
     label: { en: "Committees", tr: "Komite Başkanları" },
+    fields: committeesFields,
   }),
   section({
     slug: "areas-of-focus",
     interfaceName: "AreasOfFocusBlock",
     label: { en: "Areas of Focus", tr: "Öncelikli Alanlar" },
+    fields: areasOfFocusFields,
   }),
   section({
     slug: "join",
     interfaceName: "JoinBlock",
     label: { en: "Join", tr: "Bize Katıl" },
+    fields: joinFields,
   }),
 ];
 

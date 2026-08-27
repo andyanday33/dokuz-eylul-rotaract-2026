@@ -1,11 +1,14 @@
 import { fill, getDictionary } from "@/i18n/dictionaries";
+import type { CommitteesBlock } from "@/cms/payload-types";
 import { getCommitteeChairs } from "@/lib/cms/queries";
 import { Grain } from "./Editorial";
 
 /** Stands in until a portrait has been uploaded for a chair. */
 const PLACEHOLDER = "/chairs/placeholder.jpg";
 
-export const Committees = async () => {
+export const Committees = async ({ block }: { block: CommitteesBlock }) => {
+  // Only the role titles now — a committee's name belongs to the committee,
+  // not to this page. See `cms/blocks/committees.ts`.
   const { committees } = await getDictionary();
   // Who holds a chair is CMS content; what the chair is called is a
   // translation, so the role key is what joins the two.
@@ -13,7 +16,7 @@ export const Committees = async () => {
     ...c,
     photo: c.photo ?? PLACEHOLDER,
     title: committees.roles[c.role],
-    alt: fill(committees.portraitAlt, { name: c.name }),
+    alt: fill(block.portraitAlt, { name: c.name }),
   }));
 
   return (
@@ -26,16 +29,16 @@ export const Committees = async () => {
       <div className="wrapper relative z-10 py-20 sm:py-24">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow rise text-primary">{committees.eyebrow}</p>
+            <p className="eyebrow rise text-primary">{block.eyebrow}</p>
             <h2
               data-chars
               className="font-editorial mt-3 max-w-2xl text-4xl italic leading-[1.1] sm:text-5xl"
             >
-              {committees.heading}
+              {block.heading}
             </h2>
           </div>
           <p className="rise max-w-md text-sm font-light text-paper/60">
-            {committees.intro}
+            {block.intro}
           </p>
         </div>
         <div className="rule rule-cranberry mt-8 h-[2px] w-full" />

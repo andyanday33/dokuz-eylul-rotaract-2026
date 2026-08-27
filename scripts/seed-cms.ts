@@ -75,6 +75,24 @@ type BoardCopy = {
   prevLabel: string;
   nextLabel: string;
 };
+type CommitteesCopy = {
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  portraitAlt: string;
+};
+type FocusCopy = {
+  label: string;
+  meta: string;
+  altLang: string;
+  heading: string;
+};
+type JoinCopy = {
+  eyebrow: string;
+  watermark: string;
+  heading: string;
+  body: string;
+};
 type HeroCopy = {
   datelineLeft: string;
   datelineRight: string;
@@ -122,6 +140,9 @@ type SeedFile = {
       items: Localised<{ q: string; a: string; stamp: string }>[];
     };
     board: { tr: BoardCopy; en: BoardCopy };
+    committees: { tr: CommitteesCopy; en: CommitteesCopy };
+    areasOfFocus: { index: string; tr: FocusCopy; en: FocusCopy };
+    join: { email: string; tr: JoinCopy; en: JoinCopy };
     pastPresidents: {
       index: string;
       shown: number;
@@ -296,6 +317,9 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
     presidentsMessage,
     pastPresidents,
     board: boardCopy,
+    committees: committeesCopy,
+    areasOfFocus: focusCopy,
+    join: joinCopy,
   } = seed.home;
   const portraitId = await uploadPortrait(
     presidentsMessage.portrait.file,
@@ -364,7 +388,22 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
       };
     if (blockType === "board")
       return { blockType: "board" as const, ...boardCopy.tr };
-    return { blockType: blockType as "committees" };
+    if (blockType === "committees")
+      return { blockType: "committees" as const, ...committeesCopy.tr };
+    if (blockType === "areas-of-focus")
+      return {
+        blockType: "areas-of-focus" as const,
+        index: focusCopy.index,
+        ...focusCopy.tr,
+        altLang: focusCopy.tr.altLang as "tr" | "en",
+      };
+    if (blockType === "join")
+      return {
+        blockType: "join" as const,
+        email: joinCopy.email,
+        ...joinCopy.tr,
+      };
+    throw new Error(`No seed content for block "${blockType}"`);
   });
 
   const page = await payload.create({
@@ -446,6 +485,15 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
         if (row.blockType === "past-presidents")
           return { ...row, ...pastPresidents.en };
         if (row.blockType === "board") return { ...row, ...boardCopy.en };
+        if (row.blockType === "committees")
+          return { ...row, ...committeesCopy.en };
+        if (row.blockType === "areas-of-focus")
+          return {
+            ...row,
+            ...focusCopy.en,
+            altLang: focusCopy.en.altLang as "tr" | "en",
+          };
+        if (row.blockType === "join") return { ...row, ...joinCopy.en };
         return row;
       }),
     },

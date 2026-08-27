@@ -56,10 +56,6 @@
     }
   },
   "committees": {
-    "eyebrow": "06 — Committee chairs",
-    "heading": "Where the work is owned",
-    "intro": "Each committee is an area of responsibility that carries the club's day-to-day running and its projects.",
-    "portraitAlt": "Portrait of {name}",
     "roles": {
       "club": "Club Service",
       "community": "Community Service",
@@ -70,23 +66,12 @@
       "technology": "Technology and Innovation"
     }
   },
-  "areasOfFocus": {
-    "index": "07",
-    "label": "Areas of focus",
-    "meta": "Yedi öncelikli alan",
-    "heading": "Every project we run belongs to one of these seven.",
-    "altLang": "tr"
-  },
-  "join": {
-    "eyebrow": "08 — Join us",
-    "watermark": "Join",
-    "heading": "Bring an hour. Leave with a circle.",
-    "body": "Membership is open to anyone aged 18–30 in our district. Come to a meeting first — no form, no fee, just turn up.",
-    "email": "merhaba@rotaractkulubu.org"
-  },
   "footer": {
     "tagline": "Friendship through service.",
     "motto": "Service above self",
     "credit": "Dokuz Eylül Rotaract Club. Built by {link}."
+  },
+  "contact": {
+    "email": "merhaba@rotaractkulubu.org"
   }
 }

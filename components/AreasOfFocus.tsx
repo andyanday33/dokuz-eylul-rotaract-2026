@@ -1,4 +1,5 @@
-import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { getLocale } from "@/i18n/dictionaries";
+import type { AreasOfFocusBlock } from "@/cms/payload-types";
 import { getAreasOfFocus } from "@/lib/cms/queries";
 import { Grain, Nameplate } from "./Editorial";
 
@@ -14,8 +15,7 @@ import { Grain, Nameplate } from "./Editorial";
  * an order would assert a rank Rotary does not give them, and the page already
  * spends 01—07 on its own sections, this being 06.
  */
-export const AreasOfFocus = async () => {
-  const { areasOfFocus } = await getDictionary();
+export const AreasOfFocus = async ({ block }: { block: AreasOfFocusBlock }) => {
   // Each entry carries both languages: the cause in the language of the page,
   // and the same cause in the other, which is the small-caps line above it.
   const areas = await getAreasOfFocus(await getLocale());
@@ -29,17 +29,17 @@ export const AreasOfFocus = async () => {
 
       <div className="wrapper relative z-10 py-24 sm:py-32">
         <Nameplate
-          index={areasOfFocus.index}
-          label={areasOfFocus.label}
-          meta={areasOfFocus.meta}
-          metaLang={areasOfFocus.altLang}
+          index={block.index}
+          label={block.label}
+          meta={block.meta ?? undefined}
+          metaLang={block.altLang}
         />
 
         <h2
           data-chars
           className="font-editorial mt-8 max-w-3xl text-[10vw] italic leading-[1.05] tracking-[-0.015em] sm:text-5xl lg:text-6xl"
         >
-          {areasOfFocus.heading}
+          {block.heading}
         </h2>
 
         <ul data-stagger className="mt-16 sm:mt-20">
@@ -52,7 +52,7 @@ export const AreasOfFocus = async () => {
                 {/* The label is in the other language, and `uppercase` cases
                     by language — without this, "Fighting" would be set with
                     Turkish rules and come out "FİGHTİNG". */}
-                <p lang={areasOfFocus.altLang} className="eyebrow text-primary">
+                <p lang={block.altLang} className="eyebrow text-primary">
                   {a.alt}
                 </p>
                 <h3 className="font-editorial mt-2 text-3xl italic leading-[1.02] tracking-[-0.01em] transition-transform duration-500 group-hover:md:translate-x-2 motion-reduce:transition-none sm:text-5xl lg:text-[3.5rem]">

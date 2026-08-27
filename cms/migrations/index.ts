@@ -8,6 +8,7 @@ import * as migration_20260827_140834_four_way_test_block_fields from './2026082
 import * as migration_20260827_141547_presidents_message_block_fields from './20260827_141547_presidents_message_block_fields';
 import * as migration_20260827_142229_past_presidents_block_fields from './20260827_142229_past_presidents_block_fields';
 import * as migration_20260827_142801_board_block_fields from './20260827_142801_board_block_fields';
+import * as migration_20260827_143238_final_three_block_fields from './20260827_143238_final_three_block_fields';
 
 export const migrations = [
   {
@@ -58,6 +59,11 @@ export const migrations = [
   {
     up: migration_20260827_142801_board_block_fields.up,
     down: migration_20260827_142801_board_block_fields.down,
-    name: '20260827_142801_board_block_fields'
+    name: '20260827_142801_board_block_fields',
+  },
+  {
+    up: migration_20260827_143238_final_three_block_fields.up,
+    down: migration_20260827_143238_final_three_block_fields.down,
+    name: '20260827_143238_final_three_block_fields'
   },
 ];

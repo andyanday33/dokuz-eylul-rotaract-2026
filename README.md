@@ -31,17 +31,26 @@ then falls back to Turkish. See `proxy.ts`.
 
 Copy lives in two places, and which one is the point of the page builder.
 
-**Section content belongs to the page.** A section that has been moved carries
-its own words — and its own images — on the page document that uses it, so the
-same section can appear twice on the site saying two different things. `hero`,
-`marquee`, `about`, `numbers`, `four-way-test`, `presidents-message`,
-`past-presidents` and `board` have moved; the other three are on their way, one
-at a time.
+**Section content belongs to the page.** Every one of the eleven sections now
+carries its own words — and its own images — on the page document that uses it,
+so the same section can appear twice on the site saying two different things.
 
-**Chrome and unmoved sections read the dictionaries.** `i18n/dictionaries/tr.json`
-and `en.json` hold the navbar, the footer, and every section whose copy has not
-moved yet. Turkish is the source of truth for the shape: a key present there and
-missing from English is a type error, not a blank on the page.
+**The dictionaries are down to what is not a section.** `i18n/dictionaries/tr.json`
+and `en.json` hold the navbar and footer, the page metadata, the standalone
+`/presidents` page, and three things the sections cannot own:
+
+- `board.roles` and `committees.roles` — a role's title belongs to the role,
+  not to the page listing it, and `cms/roles.ts` type-checks its keys against
+  these maps so a rename breaks the build rather than the page.
+- `wordmark`, `nav.place`, `contact.email` — site-wide facts the chrome needs
+  on pages that have no hero or join section to read them from.
+
+Turkish is the source of truth for the shape: a key present there and missing
+from English is a type error, not a blank on the page.
+
+`contact.email` and the join block's `email` are the same address written
+twice. A settings global would consolidate that with `wordmark` and
+`nav.place`; until then, changing the address means editing both.
 
 **Facts about people** — who holds a seat, who served which term — live in
 their own collections, because they change on their own schedule and are the
@@ -75,12 +84,15 @@ not get two addresses. **Do not delete or rename it** — the site's root 404s
 without it, deliberately, rather than falling back to something that looks
 nearly right.
 
-A block with no fields is not unfinished. It is a section whose content has not
-moved yet: it still reads the dictionary as it always did, and the builder
-decides only whether it appears and where. Moving one means adding fields in
-`cms/blocks/`, changing the component to take them as a prop, adding them to
-`scripts/seed-data.json`, and deleting the dictionary keys — in that order, so
-the compiler finds every reader of the old copy for you.
+Every block has fields now, so `scripts/seed-data.json` carries the whole home
+page and the seed throws on a block it has no content for — an empty section is
+never seeded silently.
+
+Adding a section means four things in this order: a field list in `cms/blocks/`
+and an entry in the list there, a component that takes `block` as a prop, an
+entry in `components/blocks/registry.tsx`, and seed content. The order matters
+only for the reverse — when moving copy *out* of the dictionaries, delete the
+keys last and the compiler finds every reader of the old copy for you.
 
 ### Setting it up
 

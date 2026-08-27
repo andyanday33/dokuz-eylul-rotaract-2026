@@ -54,7 +54,7 @@ export const BLOCK_RENDERERS: BlockRenderers = {
   "presidents-message": (block) => <PresidentsMessageSection block={block} />,
   "past-presidents": (block) => <PastPresidents block={block} />,
   board: (block) => <BoardSection block={block} />,
-  committees: () => <Committees />,
-  "areas-of-focus": () => <AreasOfFocus />,
-  join: () => <Join />,
+  committees: (block) => <Committees block={block} />,
+  "areas-of-focus": (block) => <AreasOfFocus block={block} />,
+  join: (block) => <Join block={block} />,
 };
