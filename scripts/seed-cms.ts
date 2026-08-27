@@ -111,6 +111,12 @@ type SeedFile = {
       en: FourWayHead;
       items: Localised<{ q: string; a: string; stamp: string }>[];
     };
+    pastPresidents: {
+      index: string;
+      shown: number;
+      tr: { label: string; heading: string; seeAll: string };
+      en: { label: string; heading: string; seeAll: string };
+    };
     presidentsMessage: {
       portrait: { file: string; alt: Localised<string> };
       tr: LetterCopy;
@@ -270,8 +276,15 @@ for (const area of seed.areas) {
 if (await findId("pages", { path: { equals: seed.home.path } })) {
   kept++;
 } else {
-  const { about, hero, marquee, numbers, fourWayTest, presidentsMessage } =
-    seed.home;
+  const {
+    about,
+    hero,
+    marquee,
+    numbers,
+    fourWayTest,
+    presidentsMessage,
+    pastPresidents,
+  } = seed.home;
   const portraitId = await uploadPortrait(
     presidentsMessage.portrait.file,
     presidentsMessage.portrait.alt,
@@ -330,7 +343,14 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
         closingParagraphs: presidentsMessage.closingParagraphs.map((t) => ({ text: t.tr })),
         manifesto: presidentsMessage.manifesto.map((t) => ({ text: t.tr })),
       };
-    return { blockType: blockType as "past-presidents" };
+    if (blockType === "past-presidents")
+      return {
+        blockType: "past-presidents" as const,
+        index: pastPresidents.index,
+        shown: pastPresidents.shown,
+        ...pastPresidents.tr,
+      };
+    return { blockType: blockType as "board" };
   });
 
   const page = await payload.create({
@@ -409,6 +429,8 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
             manifesto: en(row.manifesto, presidentsMessage.manifesto),
           };
         }
+        if (row.blockType === "past-presidents")
+          return { ...row, ...pastPresidents.en };
         return row;
       }),
     },

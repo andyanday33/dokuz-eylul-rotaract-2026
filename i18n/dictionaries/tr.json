@@ -39,10 +39,7 @@
     "alt": "Dokuz Eylül Rotaract Kulübü"
   },
   "presidents": {
-    "index": "04",
     "label": "Geçmiş dönem başkanları",
-    "heading": "Her dönem bir isim devralır.",
-    "seeAll": "Tüm başkanlar",
     "pageTitle": "Başkanlar",
     "pageIntro": "Bir Rotary dönemi temmuzda başlar, haziranda biter. Çizelge kulübün {year} yılındaki kuruluşundan bugüne uzanır.",
     "current": "Görevde",

@@ -34,8 +34,8 @@ Copy lives in two places, and which one is the point of the page builder.
 **Section content belongs to the page.** A section that has been moved carries
 its own words — and its own images — on the page document that uses it, so the
 same section can appear twice on the site saying two different things. `hero`,
-`marquee`, `about`, `numbers`, `four-way-test` and `presidents-message` have
-moved; the other five are on their way, one at a time.
+`marquee`, `about`, `numbers`, `four-way-test`, `presidents-message` and
+`past-presidents` have moved; the other four are on their way, one at a time.
 
 **Chrome and unmoved sections read the dictionaries.** `i18n/dictionaries/tr.json`
 and `en.json` hold the navbar, the footer, and every section whose copy has not

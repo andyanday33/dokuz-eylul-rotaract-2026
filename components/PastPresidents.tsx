@@ -1,7 +1,8 @@
 import Link from "next/link";
+import type { PastPresidentsBlock } from "@/cms/payload-types";
 import { rollSpan, shortTerm } from "@/lib/presidents";
 import { getPresidents } from "@/lib/cms/queries";
-import { getDictionary, getLocale } from "@/i18n/dictionaries";
+import { getLocale } from "@/i18n/dictionaries";
 import { Grain, Nameplate } from "./Editorial";
 
 /**
@@ -9,25 +10,28 @@ import { Grain, Nameplate } from "./Editorial";
  * rather than a table. The point of the section is that there is a line of
  * them, so the names are given as a single mass and read as a body.
  *
- * It shows a dozen rather than all of them. The club has been going since
- * 1999, and the full twenty-eight run to well over a screen of names on a
- * phone; the complete scale, with every term, is the job of /presidents.
+ * It shows a dozen rather than all of them — `shown` on the block, defaulting
+ * to twelve. The club has been going since 1999, and the full twenty-eight run
+ * to well over a screen of names on a phone; the complete scale, with every
+ * term, is the job of /presidents.
  *
  * Each entry is an inline-block, which does two things: it keeps a name and
  * its term from ever breaking across a line, and it makes the entries
  * transformable, so the shared `data-stagger` reveal deals them out one after
  * another — the succession the heading describes, enacted rather than stated.
  */
-/** How many of the most recent past terms the home page carries. */
-const SHOWN = 12;
-
-export const PastPresidents = async () => {
-  const { presidents } = await getDictionary();
+export const PastPresidents = async ({
+  block,
+}: {
+  block: PastPresidentsBlock;
+}) => {
   const lang = await getLocale();
+  // Read from Başkanlar on every render rather than copied onto the block:
+  // adding a president is one row there and this follows from it.
   const roll = await getPresidents();
   // The roll comes back newest first, and its head is whoever is in office —
   // this section is the ones before them.
-  const past = roll.slice(1, 1 + SHOWN);
+  const past = roll.slice(1, 1 + block.shown);
 
   return (
     <section
@@ -38,8 +42,8 @@ export const PastPresidents = async () => {
 
       <div className="wrapper relative z-10 py-20 sm:py-28">
         <Nameplate
-          index={presidents.index}
-          label={presidents.label}
+          index={block.index}
+          label={block.label}
           meta={rollSpan(roll)}
           tone="wine"
         />
@@ -48,7 +52,7 @@ export const PastPresidents = async () => {
           data-chars
           className="font-editorial mt-8 max-w-2xl text-[10vw] italic leading-[1.05] tracking-[-0.015em] sm:text-5xl"
         >
-          {presidents.heading}
+          {block.heading}
         </h2>
 
         {/* No separators between entries: a mark that trails each name dangles
@@ -74,7 +78,7 @@ export const PastPresidents = async () => {
           href={`/${lang}/presidents`}
           className="eyebrow rise group mt-12 inline-flex items-center gap-3 text-paper transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-paper"
         >
-          {presidents.seeAll}
+          {block.seeAll}
           <span
             aria-hidden
             className="transition-transform group-hover:translate-x-1 motion-reduce:transition-none"

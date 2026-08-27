@@ -52,7 +52,7 @@ export const BLOCK_RENDERERS: BlockRenderers = {
   numbers: (block) => <Numbers block={block} />,
   "four-way-test": (block) => <FourWayTest block={block} />,
   "presidents-message": (block) => <PresidentsMessageSection block={block} />,
-  "past-presidents": () => <PastPresidents />,
+  "past-presidents": (block) => <PastPresidents block={block} />,
   board: () => <BoardSection />,
   committees: () => <Committees />,
   "areas-of-focus": () => <AreasOfFocus />,

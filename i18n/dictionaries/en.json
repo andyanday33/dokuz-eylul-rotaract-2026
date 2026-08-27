@@ -39,10 +39,7 @@
     "alt": "Dokuz Eylül Rotaract Club"
   },
   "presidents": {
-    "index": "04",
     "label": "Past presidents",
-    "heading": "Each term, one name takes over.",
-    "seeAll": "All presidents",
     "pageTitle": "Presidents",
     "pageIntro": "A Rotary year starts in July and ends in June. The scale runs from the club's founding in {year} to the present.",
     "current": "In office",

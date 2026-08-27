@@ -459,6 +459,26 @@ export interface PresidentsMessageBlock {
  * via the `definition` "PastPresidentsBlock".
  */
 export interface PastPresidentsBlock {
+  /**
+   * Bölüm numarası — "04".
+   */
+  index: string;
+  /**
+   * Numaranın yanındaki başlık.
+   */
+  label: string;
+  /**
+   * Bölümün büyük puntolu cümlesi.
+   */
+  heading: string;
+  /**
+   * Tüm başkanlar sayfasına giden bağlantının yazısı.
+   */
+  seeAll: string;
+  /**
+   * Kaç geçmiş dönem listelensin. Tamamı için Tüm başkanlar sayfası var — telefonda uzun bir liste bu bölümü boğar.
+   */
+  shown: number;
   id?: string | null;
   blockName?: string | null;
   blockType: 'past-presidents';
@@ -857,6 +877,11 @@ export interface PresidentsMessageBlockSelect<T extends boolean = true> {
  * via the `definition` "PastPresidentsBlock_select".
  */
 export interface PastPresidentsBlockSelect<T extends boolean = true> {
+  index?: T;
+  label?: T;
+  heading?: T;
+  seeAll?: T;
+  shown?: T;
   id?: T;
   blockName?: T;
 }

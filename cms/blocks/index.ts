@@ -6,6 +6,7 @@ import { marqueeFields } from "./marquee";
 import { numbersFields } from "./numbers";
 import { fourWayTestFields } from "./four-way-test";
 import { presidentsMessageFields } from "./presidents-message";
+import { pastPresidentsFields } from "./past-presidents";
 
 /**
  * The sections a page can be built out of, in the order the site tells its
@@ -89,6 +90,7 @@ export const LAYOUT_BLOCKS = [
     slug: "past-presidents",
     interfaceName: "PastPresidentsBlock",
     label: { en: "Past Presidents", tr: "Geçmiş Dönem Başkanları" },
+    fields: pastPresidentsFields,
   }),
   section({
     slug: "board",

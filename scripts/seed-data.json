@@ -574,6 +574,20 @@
           "en": "every week, without exception"
         }
       ]
+    },
+    "pastPresidents": {
+      "index": "04",
+      "shown": 12,
+      "tr": {
+        "label": "Geçmiş dönem başkanları",
+        "heading": "Her dönem bir isim devralır.",
+        "seeAll": "Tüm başkanlar"
+      },
+      "en": {
+        "label": "Past presidents",
+        "heading": "Each term, one name takes over.",
+        "seeAll": "All presidents"
+      }
     }
   }
 }
