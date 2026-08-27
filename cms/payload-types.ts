@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    pages: Page;
     presidents: President;
     'board-members': BoardMember;
     'committee-chairs': CommitteeChair;
@@ -80,6 +81,7 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    pages: PagesSelect<false> | PagesSelect<true>;
     presidents: PresidentsSelect<false> | PresidentsSelect<true>;
     'board-members': BoardMembersSelect<false> | BoardMembersSelect<true>;
     'committee-chairs': CommitteeChairsSelect<false> | CommitteeChairsSelect<true>;
@@ -126,7 +128,155 @@ export interface EditorAuthOperations {
   };
 }
 /**
- * Kulübün kuruluşundan bugüne başkanlar listesi.
+ * Pages built from the site's sections.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  /**
+   * Sekmede ve arama sonuçlarında görünen başlık.
+   */
+  title: string;
+  /**
+   * Dil kodundan sonraki adres — "projeler" -> /tr/projeler.
+   */
+  path: string;
+  /**
+   * Arama sonuçlarındaki özet. Boş bırakılabilir.
+   */
+  description?: string | null;
+  /**
+   * Sayfanın bölümleri, yukarıdan aşağıya. Sürükleyerek sırayı değiştirin.
+   */
+  layout: (
+    | HeroBlock
+    | SlidingTextBlock
+    | MarqueeBlock
+    | AboutBlock
+    | NumbersBlock
+    | FourWayTestBlock
+    | PresidentsMessageBlock
+    | PastPresidentsBlock
+    | BoardBlock
+    | CommitteesBlock
+    | AreasOfFocusBlock
+    | JoinBlock
+  )[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock".
+ */
+export interface HeroBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SlidingTextBlock".
+ */
+export interface SlidingTextBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sliding-text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MarqueeBlock".
+ */
+export interface MarqueeBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'marquee';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutBlock".
+ */
+export interface AboutBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'about';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NumbersBlock".
+ */
+export interface NumbersBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'numbers';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FourWayTestBlock".
+ */
+export interface FourWayTestBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'four-way-test';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PresidentsMessageBlock".
+ */
+export interface PresidentsMessageBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'presidents-message';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PastPresidentsBlock".
+ */
+export interface PastPresidentsBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'past-presidents';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BoardBlock".
+ */
+export interface BoardBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'board';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CommitteesBlock".
+ */
+export interface CommitteesBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'committees';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AreasOfFocusBlock".
+ */
+export interface AreasOfFocusBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'areas-of-focus';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "JoinBlock".
+ */
+export interface JoinBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'join';
+}
+/**
+ * Every term the club has had, from its founding to now.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "presidents".
@@ -145,7 +295,7 @@ export interface President {
   createdAt: string;
 }
 /**
- * Yönetim kurulu — ana sayfadaki çark.
+ * The board — the wheel on the home page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "board-members".
@@ -166,6 +316,8 @@ export interface BoardMember {
   createdAt: string;
 }
 /**
+ * Portraits. Uploaded once, then chosen on a board member or a chair.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
@@ -198,7 +350,7 @@ export interface Media {
   };
 }
 /**
- * Komite başkanları — ana sayfadaki akordeon.
+ * The committee chairs — the accordion on the home page.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "committee-chairs".
@@ -216,7 +368,7 @@ export interface CommitteeChair {
   createdAt: string;
 }
 /**
- * Rotary'nin yedi öncelikli alanı.
+ * Rotary's seven areas of focus.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "areas-of-focus".
@@ -233,6 +385,8 @@ export interface AreasOfFocus {
   createdAt: string;
 }
 /**
+ * Who can sign in here. No account here reaches the members area.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "editors".
  */
@@ -285,6 +439,10 @@ export interface PayloadKv {
 export interface PayloadLockedDocument {
   id: number;
   document?:
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
     | ({
         relationTo: 'presidents';
         value: number | President;
@@ -350,6 +508,129 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  path?: T;
+  description?: T;
+  layout?:
+    | T
+    | {
+        hero?: T | HeroBlockSelect<T>;
+        'sliding-text'?: T | SlidingTextBlockSelect<T>;
+        marquee?: T | MarqueeBlockSelect<T>;
+        about?: T | AboutBlockSelect<T>;
+        numbers?: T | NumbersBlockSelect<T>;
+        'four-way-test'?: T | FourWayTestBlockSelect<T>;
+        'presidents-message'?: T | PresidentsMessageBlockSelect<T>;
+        'past-presidents'?: T | PastPresidentsBlockSelect<T>;
+        board?: T | BoardBlockSelect<T>;
+        committees?: T | CommitteesBlockSelect<T>;
+        'areas-of-focus'?: T | AreasOfFocusBlockSelect<T>;
+        join?: T | JoinBlockSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroBlock_select".
+ */
+export interface HeroBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SlidingTextBlock_select".
+ */
+export interface SlidingTextBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MarqueeBlock_select".
+ */
+export interface MarqueeBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AboutBlock_select".
+ */
+export interface AboutBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NumbersBlock_select".
+ */
+export interface NumbersBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FourWayTestBlock_select".
+ */
+export interface FourWayTestBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PresidentsMessageBlock_select".
+ */
+export interface PresidentsMessageBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PastPresidentsBlock_select".
+ */
+export interface PastPresidentsBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BoardBlock_select".
+ */
+export interface BoardBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CommitteesBlock_select".
+ */
+export interface CommitteesBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AreasOfFocusBlock_select".
+ */
+export interface AreasOfFocusBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "JoinBlock_select".
+ */
+export interface JoinBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

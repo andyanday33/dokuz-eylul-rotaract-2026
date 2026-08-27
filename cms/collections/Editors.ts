@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { GROUPS } from "../labels";
 
 /**
  * Who may sign in to `/admin`.
@@ -14,10 +15,18 @@ import type { CollectionConfig } from "payload";
 export const Editors: CollectionConfig = {
   slug: "editors",
   auth: true,
+  labels: {
+    singular: { en: "Editor", tr: "Editör" },
+    plural: { en: "Editors", tr: "Editörler" },
+  },
   admin: {
     useAsTitle: "email",
     defaultColumns: ["name", "email", "updatedAt"],
-    group: "Yönetim",
+    group: GROUPS.administration,
+    description: {
+      en: "Who can sign in here. No account here reaches the members area.",
+      tr: "Buraya kimler girebilir. Bu hesapların hiçbiri üye alanına erişmez.",
+    },
   },
   fields: [
     {

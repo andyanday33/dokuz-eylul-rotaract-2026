@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { GROUPS } from "../labels";
 import { FOCUS_AREAS, optionsFrom } from "../roles";
 import { anyone, editorsOnly } from "../access";
 import { revalidation } from "../hooks/revalidate";
@@ -21,11 +22,18 @@ export const AreasOfFocus: CollectionConfig = {
   slug: "areas-of-focus",
   access: { read: anyone, create: editorsOnly, update: editorsOnly, delete: editorsOnly },
   hooks: revalidation,
+  labels: {
+    singular: { en: "Area of Focus", tr: "Öncelikli Alan" },
+    plural: { en: "Areas of Focus", tr: "Öncelikli Alanlar" },
+  },
   admin: {
     useAsTitle: "title",
     defaultColumns: ["key", "title"],
-    group: "İçerik",
-    description: "Rotary'nin yedi öncelikli alanı.",
+    group: GROUPS.content,
+    description: {
+      en: "Rotary's seven areas of focus.",
+      tr: "Rotary'nin yedi öncelikli alanı.",
+    },
   },
   fields: [
     {

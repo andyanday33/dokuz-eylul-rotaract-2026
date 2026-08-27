@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { GROUPS } from "../labels";
 import path from "path";
 import { anyone, editorsOnly } from "../access";
 import { revalidation } from "../hooks/revalidate";
@@ -21,7 +22,19 @@ export const Media: CollectionConfig = {
   slug: "media",
   access: { read: anyone, create: editorsOnly, update: editorsOnly, delete: editorsOnly },
   hooks: revalidation,
-  admin: { group: "Yönetim" },
+  // Not "Medium", which is what Payload's singulariser makes of `media`, and
+  // not "File" either — the collection only accepts images.
+  labels: {
+    singular: { en: "Image", tr: "Görsel" },
+    plural: { en: "Images", tr: "Görseller" },
+  },
+  admin: {
+    group: GROUPS.administration,
+    description: {
+      en: "Portraits. Uploaded once, then chosen on a board member or a chair.",
+      tr: "Portreler. Bir kez yüklenir, sonra üye ya da komite başkanı üzerinde seçilir.",
+    },
+  },
   upload: {
     staticDir: path.resolve(process.cwd(), "media"),
     mimeTypes: ["image/*"],

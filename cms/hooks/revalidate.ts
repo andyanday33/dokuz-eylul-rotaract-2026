@@ -21,16 +21,16 @@ import { LOCALES } from "../../i18n/config";
  * populated an empty database has no cached page to invalidate, and letting it
  * propagate would fail the seed after the write had already landed.
  */
-const revalidateSite = () => {
+const revalidate = (paths: string[]) => {
   try {
-    for (const locale of LOCALES) {
-      revalidatePath(`/${locale}`);
-      revalidatePath(`/${locale}/presidents`);
-    }
+    for (const locale of LOCALES)
+      for (const path of paths) revalidatePath(`/${locale}${path}`);
   } catch {
     // No request context — a CLI script rather than the admin panel.
   }
 };
+
+const revalidateSite = () => revalidate(["", "/presidents"]);
 
 export const revalidateAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateSite();
@@ -46,4 +46,21 @@ export const revalidateAfterDelete: CollectionAfterDeleteHook = ({ doc }) => {
 export const revalidation = {
   afterChange: [revalidateAfterChange],
   afterDelete: [revalidateAfterDelete],
+};
+
+/**
+ * A page revalidates its own address rather than the fixed set above.
+ *
+ * `previousDoc` matters here: renaming a page's path leaves the old URL
+ * cached and still serving, so both are cleared. Payload passes it on an
+ * update and leaves it undefined on a create, where there is no old path.
+ */
+export const revalidatePage: CollectionAfterChangeHook &
+  CollectionAfterDeleteHook = ({ doc, ...rest }) => {
+  const previous = (rest as { previousDoc?: { path?: string } }).previousDoc;
+  const paths = new Set<string>();
+  for (const path of [doc?.path, previous?.path])
+    if (typeof path === "string" && path) paths.add(`/${path}`);
+  revalidate([...paths]);
+  return doc;
 };

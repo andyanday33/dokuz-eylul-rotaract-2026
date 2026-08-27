@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { GROUPS } from "../labels";
 import { BOARD_ROLES, optionsFrom } from "../roles";
 import { anyone, editorsOnly } from "../access";
 import { revalidation } from "../hooks/revalidate";
@@ -17,11 +18,18 @@ export const BoardMembers: CollectionConfig = {
   slug: "board-members",
   access: { read: anyone, create: editorsOnly, update: editorsOnly, delete: editorsOnly },
   hooks: revalidation,
+  labels: {
+    singular: { en: "Board Member", tr: "Yönetim Kurulu Üyesi" },
+    plural: { en: "Board Members", tr: "Yönetim Kurulu" },
+  },
   admin: {
     useAsTitle: "name",
     defaultColumns: ["name", "role", "order"],
-    group: "İçerik",
-    description: "Yönetim kurulu — ana sayfadaki çark.",
+    group: GROUPS.content,
+    description: {
+      en: "The board — the wheel on the home page.",
+      tr: "Yönetim kurulu — ana sayfadaki çark.",
+    },
   },
   defaultSort: "order",
   fields: [

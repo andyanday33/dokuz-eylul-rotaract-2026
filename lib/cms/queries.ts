@@ -10,6 +10,7 @@ import {
   type FocusArea,
 } from "@/cms/roles";
 import type { Media } from "@/cms/payload-types";
+import type { LayoutBlock } from "@/components/blocks/registry";
 import type { President } from "@/lib/presidents";
 import { cms } from "./client";
 
@@ -89,6 +90,48 @@ export const getCommitteeChairs = cache(async (): Promise<Seat<CommitteeRole>[]>
       name: doc.name,
       photo: portrait(doc.photo),
     }));
+});
+
+export type PageDoc = {
+  title: string;
+  description?: string | null;
+  layout: LayoutBlock[];
+};
+
+/**
+ * One page of the builder, by the address under its locale segment.
+ *
+ * Returns null rather than throwing so the route can 404 — an address nobody
+ * has created is a missing page, not a broken one.
+ */
+export const getPage = cache(
+  async (path: string, locale: Locale): Promise<PageDoc | null> => {
+    const payload = await cms();
+    const { docs } = await payload.find({
+      collection: "pages",
+      where: { path: { equals: path } },
+      locale,
+      limit: 1,
+    });
+    const doc = docs[0];
+    if (!doc) return null;
+    return {
+      title: doc.title,
+      description: doc.description,
+      layout: doc.layout ?? [],
+    };
+  },
+);
+
+/** Every page address, for prerendering the builder's routes. */
+export const getPagePaths = cache(async (): Promise<string[]> => {
+  const payload = await cms();
+  const { docs } = await payload.find({
+    collection: "pages",
+    pagination: false,
+    select: { path: true },
+  });
+  return docs.map((doc) => doc.path).filter(Boolean);
 });
 
 export type FocusEntry = {

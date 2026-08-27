@@ -2,6 +2,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { en } from "@payloadcms/translations/languages/en";
+import { tr } from "@payloadcms/translations/languages/tr";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 
@@ -11,6 +13,7 @@ import { BoardMembers } from "./cms/collections/BoardMembers";
 import { CommitteeChairs } from "./cms/collections/CommitteeChairs";
 import { Editors } from "./cms/collections/Editors";
 import { Media } from "./cms/collections/Media";
+import { Pages } from "./cms/collections/Pages";
 import { Presidents } from "./cms/collections/Presidents";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -22,9 +25,33 @@ export default buildConfig({
     meta: { titleSuffix: "· Dokuz Eylül Rotaract" },
   },
 
-  collections: [Presidents, BoardMembers, CommitteeChairs, AreasOfFocus, Media, Editors],
+  collections: [
+    Pages,
+    Presidents,
+    BoardMembers,
+    CommitteeChairs,
+    AreasOfFocus,
+    Media,
+    Editors,
+  ],
 
   editor: lexicalEditor(),
+
+  /**
+   * The panel's own language — buttons, dates, confirmation dialogs — as
+   * opposed to `localization` below, which is the two languages the *content*
+   * is written in. They are independent: an editor working in Turkish still
+   * fills in both the Turkish and the English copy of an area of focus.
+   *
+   * Turkish first, because the people signing in are the board. English is
+   * kept available rather than dropped so the panel is legible to anyone
+   * working on the site who does not read Turkish. Collection names follow the
+   * choice — see `cms/labels.ts`.
+   */
+  i18n: {
+    supportedLanguages: { tr, en },
+    fallbackLanguage: "tr",
+  },
 
   /**
    * The same two locales the public site negotiates, read from the one place

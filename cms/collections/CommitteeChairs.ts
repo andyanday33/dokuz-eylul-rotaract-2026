@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { GROUPS } from "../labels";
 import { COMMITTEE_ROLES, optionsFrom } from "../roles";
 import { anyone, editorsOnly } from "../access";
 import { revalidation } from "../hooks/revalidate";
@@ -13,11 +14,18 @@ export const CommitteeChairs: CollectionConfig = {
   slug: "committee-chairs",
   access: { read: anyone, create: editorsOnly, update: editorsOnly, delete: editorsOnly },
   hooks: revalidation,
+  labels: {
+    singular: { en: "Committee Chair", tr: "Komite Başkanı" },
+    plural: { en: "Committee Chairs", tr: "Komite Başkanları" },
+  },
   admin: {
     useAsTitle: "name",
     defaultColumns: ["name", "role", "order"],
-    group: "İçerik",
-    description: "Komite başkanları — ana sayfadaki akordeon.",
+    group: GROUPS.content,
+    description: {
+      en: "The committee chairs — the accordion on the home page.",
+      tr: "Komite başkanları — ana sayfadaki akordeon.",
+    },
   },
   defaultSort: "order",
   fields: [

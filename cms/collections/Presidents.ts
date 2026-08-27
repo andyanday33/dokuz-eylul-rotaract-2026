@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { GROUPS } from "../labels";
 import { anyone, editorsOnly } from "../access";
 import { revalidation } from "../hooks/revalidate";
 
@@ -17,11 +18,18 @@ export const Presidents: CollectionConfig = {
   slug: "presidents",
   access: { read: anyone, create: editorsOnly, update: editorsOnly, delete: editorsOnly },
   hooks: revalidation,
+  labels: {
+    singular: { en: "President", tr: "Başkan" },
+    plural: { en: "Presidents", tr: "Başkanlar" },
+  },
   admin: {
     useAsTitle: "term",
     defaultColumns: ["term", "name"],
-    group: "İçerik",
-    description: "Kulübün kuruluşundan bugüne başkanlar listesi.",
+    group: GROUPS.content,
+    description: {
+      en: "Every term the club has had, from its founding to now.",
+      tr: "Kulübün kuruluşundan bugüne başkanlar listesi.",
+    },
   },
   defaultSort: "-term",
   fields: [

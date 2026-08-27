@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Written by `payload migrate:create` and `payload generate:types`. Their
+    // unused `up`/`down` parameters are Payload's signature, not ours.
+    "cms/migrations/**",
+    "cms/payload-types.ts",
+    "app/(payload)/admin/importMap.js",
   ]),
 ]);
 
