@@ -243,7 +243,9 @@ const seatRow = async <Role extends string>(
 
 // ---- The roll of presidents -------------------------------------------------
 for (const { term, name } of seed.roll) {
-  if (await findId("presidents", { term: { equals: term } })) {
+  // Matched on term *and* name: 2013–14 has two holders, and matching on the
+  // term alone would find the first and silently skip the second.
+  if (await findId("presidents", { and: [{ term: { equals: term } }, { name: { equals: name } }] })) {
     kept++;
     continue;
   }

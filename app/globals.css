@@ -33,6 +33,7 @@
   --color-selection: var(--selection);
   --color-selection-foreground: var(--selection-foreground);
   --color-cranberry: var(--cranberry);
+  --color-brass: var(--brass);
   --color-wine: var(--wine);
   --color-paper: var(--paper);
   --color-ink: var(--ink);
@@ -54,6 +55,16 @@
      family without spending the full-strength cranberry, which the Join
      section owns as its call to action. */
   --wine: oklch(0.34 0.14 0.4);
+  /* The one warm accent, and it exists for a single job: the Rotary years in
+     the roll of presidents, which sit on the wine ground and have to separate
+     one name from the next. Cranberry cannot do it — it shares the wine's hue
+     and disappears into it — and paper at reduced opacity reads as the same
+     word continuing. Antique brass rather than a bright gold, so it belongs to
+     the aged-paper register instead of announcing itself.
+
+     Do not spend this elsewhere. Cranberry is still the site's accent; this is
+     a delimiter that happens to have a colour. */
+  --brass: oklch(0.72 0.1 80);
   --background: oklch(0.9895 0.0032 17);
   --foreground: oklch(0.19 0.02 350);
   --card: oklch(1 0 0);

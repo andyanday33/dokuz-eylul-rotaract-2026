@@ -42,7 +42,7 @@ export function PresidentTimeline({
 
         return (
           <li
-            key={p.term}
+            key={`${p.term}-${p.name}`}
             className="grid min-h-11 grid-cols-[5rem_1.5rem_1fr] items-stretch gap-x-4 sm:min-h-13 sm:grid-cols-[5.5rem_2.5rem_1fr] sm:gap-x-6"
           >
             <span

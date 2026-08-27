@@ -6,141 +6,145 @@
     },
     {
       "term": "2025–26",
-      "name": "Ad Soyad"
+      "name": "İslam Aydemir"
     },
     {
       "term": "2024–25",
-      "name": "Ad Soyad"
+      "name": "Tuğba Eneş"
     },
     {
       "term": "2023–24",
-      "name": "Ad Soyad"
+      "name": "Didem Yardımcı Karademir"
     },
     {
       "term": "2022–23",
-      "name": "Ad Soyad"
+      "name": "Batuhan Erbay"
     },
     {
       "term": "2021–22",
-      "name": "Ad Soyad"
+      "name": "Armağan Ozan"
     },
     {
       "term": "2020–21",
-      "name": "Ad Soyad"
+      "name": "Taylan Erbay"
     },
     {
       "term": "2019–20",
-      "name": "Ad Soyad"
+      "name": "Ö. Özbek Karademir"
     },
     {
       "term": "2018–19",
-      "name": "Ad Soyad"
+      "name": "Uğurkan Erinç"
     },
     {
       "term": "2017–18",
-      "name": "Ad Soyad"
+      "name": "Begüm Özsoy"
     },
     {
       "term": "2016–17",
-      "name": "Ad Soyad"
+      "name": "Mustafa Onur Şeker"
     },
     {
       "term": "2015–16",
-      "name": "Ad Soyad"
+      "name": "Ekrem Amaç"
     },
     {
       "term": "2014–15",
-      "name": "Ad Soyad"
+      "name": "Gülşah Kurt"
     },
     {
       "term": "2013–14",
-      "name": "Ad Soyad"
+      "name": "Burtay Baştufan"
+    },
+    {
+      "term": "2013–14",
+      "name": "İbrahim Can Güleryüz"
     },
     {
       "term": "2012–13",
-      "name": "Ad Soyad"
+      "name": "Duygu Akdere"
     },
     {
       "term": "2011–12",
-      "name": "Ad Soyad"
+      "name": "Beril Akgün"
     },
     {
       "term": "2010–11",
-      "name": "Ad Soyad"
+      "name": "Can Sezici"
     },
     {
       "term": "2009–10",
-      "name": "Ad Soyad"
+      "name": "Gülçin Uysal"
     },
     {
       "term": "2008–09",
-      "name": "Ad Soyad"
+      "name": "Suat Çakmakoğlu"
     },
     {
       "term": "2007–08",
-      "name": "Ad Soyad"
+      "name": "Vefa Reşat Moral"
     },
     {
       "term": "2006–07",
-      "name": "Ad Soyad"
+      "name": "Aslı Akoğlu"
     },
     {
       "term": "2005–06",
-      "name": "Ad Soyad"
+      "name": "İdil Tuncer"
     },
     {
       "term": "2004–05",
-      "name": "Ad Soyad"
+      "name": "Başak Z. Günay"
     },
     {
       "term": "2003–04",
-      "name": "Ad Soyad"
+      "name": "Özlem Durdu"
     },
     {
       "term": "2002–03",
-      "name": "Ad Soyad"
+      "name": "Yehiel Hakim"
     },
     {
       "term": "2001–02",
-      "name": "Ad Soyad"
+      "name": "Efe Doğruya"
     },
     {
       "term": "2000–01",
-      "name": "Ad Soyad"
+      "name": "Neşem Koygun"
     },
     {
       "term": "1999–00",
-      "name": "Ad Soyad"
+      "name": "Öykü Özgüven"
     }
   ],
   "board": [
     {
       "role": "president",
-      "name": "Ad Soyad",
+      "name": "Mehmet Emre Uçar",
       "photo": "/board/baskan.jpg",
       "order": 0
     },
     {
       "role": "vicePresident",
-      "name": "Ad Soyad",
+      "name": "Berfin Aslan",
       "photo": "/board/asbaskan.jpg",
       "order": 1
     },
     {
       "role": "secretary",
-      "name": "Ad Soyad",
+      "name": "Özge Aykut",
       "photo": "/board/sekreter.jpg",
       "order": 2
     },
     {
       "role": "treasurer",
-      "name": "Ad Soyad",
+      "name": "Güneş Asena",
       "photo": "/board/sayman.jpg",
       "order": 3
     },
     {
       "role": "pastPresident",
-      "name": "Ad Soyad",
+      "name": "İslam Aydemir",
       "photo": "/board/gdb.jpg",
       "order": 4
     }
@@ -148,43 +152,43 @@
   "chairs": [
     {
       "role": "club",
-      "name": "Ad Soyad",
+      "name": "Şevval Aydemir",
       "photo": "/chairs/kulup-hizmetleri.jpg",
       "order": 0
     },
     {
       "role": "community",
-      "name": "Ad Soyad",
+      "name": "Ceren Tunalı",
       "photo": "/chairs/toplum-hizmetleri.jpg",
       "order": 1
     },
     {
       "role": "vocational",
-      "name": "Ad Soyad",
+      "name": "İrem Demircan",
       "photo": "/chairs/meslek-hizmetleri.jpg",
       "order": 2
     },
     {
       "role": "international",
-      "name": "Ad Soyad",
+      "name": "Gülce Tuncel",
       "photo": "/chairs/uluslararasi-hizmetler.jpg",
       "order": 3
     },
     {
       "role": "publicImage",
-      "name": "Ad Soyad",
+      "name": "Gülben Dursun",
       "photo": "/chairs/kurumsal-tanitim.jpg",
       "order": 4
     },
     {
       "role": "foundation",
-      "name": "Ad Soyad",
+      "name": "Burcu Sarıtaş",
       "photo": "/chairs/vakif.jpg",
       "order": 5
     },
     {
       "role": "technology",
-      "name": "Ad Soyad",
+      "name": "Berke Anday Baloğlu",
       "photo": "/chairs/teknoloji-inovasyon.jpg",
       "order": 6
     }

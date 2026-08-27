@@ -632,7 +632,7 @@ export interface JoinBlock {
 export interface President {
   id: number;
   /**
-   * Rotary yılı, en-tire ile: "2026–27".
+   * Rotary yılı, en-tire ile: "2026–27". Bir dönemi iki kişi paylaştıysa aynı dönemi iki kayıtta kullanabilirsiniz.
    */
   term: string;
   /**

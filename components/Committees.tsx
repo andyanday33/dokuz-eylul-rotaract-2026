@@ -94,7 +94,7 @@ export const Committees = async ({ block }: { block: CommitteesBlock }) => {
                 src={c.photo}
                 alt={c.alt}
                 loading="lazy"
-                className="chair-photo absolute inset-0 h-full w-full object-cover object-[50%_28%] grayscale"
+                className="chair-photo absolute inset-0 h-full w-full object-cover object-[50%_40%] grayscale"
               />
               <div className="absolute inset-0 bg-ink/55" />
               <div className="absolute inset-0 flex items-center justify-between px-4">

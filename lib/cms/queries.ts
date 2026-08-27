@@ -49,12 +49,18 @@ export type Seat<Role extends string> = {
   photo: string | null;
 };
 
-/** Newest term first — the order the roll is read in everywhere it appears. */
+/**
+ * Newest term first — the order the roll is read in everywhere it appears.
+ *
+ * `name` breaks the tie within a term, because a term can be shared: 2013–14
+ * was served by two people. Without it the two would swap places between
+ * requests, which a statically rendered page would bake in at random.
+ */
 export const getPresidents = cache(async (): Promise<President[]> => {
   const payload = await cms();
   const { docs } = await payload.find({
     collection: "presidents",
-    sort: "-term",
+    sort: ["-term", "name"],
     pagination: false,
   });
   return docs.map(({ term, name }) => ({ term, name }));
