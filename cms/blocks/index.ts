@@ -4,6 +4,7 @@ import { aboutFields } from "./about";
 import { heroFields } from "./hero";
 import { marqueeFields } from "./marquee";
 import { numbersFields } from "./numbers";
+import { fourWayTestFields } from "./four-way-test";
 
 /**
  * The sections a page can be built out of, in the order the site tells its
@@ -75,6 +76,7 @@ export const LAYOUT_BLOCKS = [
     slug: "four-way-test",
     interfaceName: "FourWayTestBlock",
     label: { en: "Four-Way Test", tr: "Dörtlü Öz Denetim" },
+    fields: fourWayTestFields,
   }),
   section({
     slug: "presidents-message",

@@ -47,6 +47,12 @@ type AboutCopy = {
   watermark: string;
   heading: string;
 };
+type FourWayHead = {
+  eyebrow: string;
+  meta: string;
+  heading: string;
+  colophon: string;
+};
 type HeroCopy = {
   datelineLeft: string;
   datelineRight: string;
@@ -87,6 +93,11 @@ type SeedFile = {
     numbers: {
       eyebrow: Localised<string>;
       stats: Localised<{ big: string; label: string }>[];
+    };
+    fourWayTest: {
+      tr: FourWayHead;
+      en: FourWayHead;
+      items: Localised<{ q: string; a: string; stamp: string }>[];
     };
   };
 };
@@ -239,7 +250,7 @@ for (const area of seed.areas) {
 if (await findId("pages", { path: { equals: seed.home.path } })) {
   kept++;
 } else {
-  const { about, hero, marquee, numbers } = seed.home;
+  const { about, hero, marquee, numbers, fourWayTest } = seed.home;
   const wordmarks = {
     tr: await uploadPortrait(hero.wordmark.tr.file, {
       tr: hero.wordmark.tr.alt,
@@ -279,7 +290,13 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
         eyebrow: numbers.eyebrow.tr,
         stats: numbers.stats.map((s) => s.tr),
       };
-    return { blockType: blockType as "four-way-test" };
+    if (blockType === "four-way-test")
+      return {
+        blockType: "four-way-test" as const,
+        ...fourWayTest.tr,
+        items: fourWayTest.items.map((it) => it.tr),
+      };
+    return { blockType: blockType as "presidents-message" };
   });
 
   const page = await payload.create({
@@ -334,6 +351,15 @@ if (await findId("pages", { path: { equals: seed.home.path } })) {
             stats: (row.stats ?? []).map((s, j) => ({
               ...s,
               ...numbers.stats[j].en,
+            })),
+          };
+        if (row.blockType === "four-way-test")
+          return {
+            ...row,
+            ...fourWayTest.en,
+            items: (row.items ?? []).map((it, j) => ({
+              ...it,
+              ...fourWayTest.items[j].en,
             })),
           };
         return row;

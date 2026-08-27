@@ -34,8 +34,8 @@ Copy lives in two places, and which one is the point of the page builder.
 **Section content belongs to the page.** A section that has been moved carries
 its own words — and its own images — on the page document that uses it, so the
 same section can appear twice on the site saying two different things. `hero`,
-`marquee`, `about` and `numbers` have moved; the other seven are on their way,
-one at a time.
+`marquee`, `about`, `numbers` and `four-way-test` have moved; the other six are
+on their way, one at a time.
 
 **Chrome and unmoved sections read the dictionaries.** `i18n/dictionaries/tr.json`
 and `en.json` hold the navbar, the footer, and every section whose copy has not
@@ -90,8 +90,8 @@ the compiler finds every reader of the old copy for you.
    cookie. Changing it signs everyone out of `/admin`.
 3. **The schema.** Run `supabase/migrations/0004_payload_schema.sql` — one
    `create schema` statement. Payload creates the tables inside it itself.
-4. **The tables.** `npm run dev` pushes the schema straight from
-   `payload.config.ts`; for a deployed database, `npm run cms:migrate`.
+4. **The tables.** `npm run cms:migrate`. There is no shortcut for a fresh
+   database — `push` is off, for the reasons under **Working on it** below.
 5. **The content.** `npm run cms:seed` writes the roll, both role lists and the
    areas of focus, and uploads the portraits out of `public/`. It matches on
    identity — a term, a role, a key, a filename — so running it again creates

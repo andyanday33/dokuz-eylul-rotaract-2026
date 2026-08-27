@@ -4,7 +4,7 @@ import React from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import type { Dictionary } from "@/i18n/config";
+import type { FourWayTestBlock } from "@/cms/payload-types";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -12,7 +12,12 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-/** Roman numeral and stamp tilt are fixed; the wording comes from the dictionary. */
+/**
+ * The numeral each question is set under, and how far its stamp is knocked off
+ * square. Fixed, and paired with the questions by position: the test has had
+ * four questions since 1932, so the CMS pins the array to exactly four rows
+ * and this list supplies the rest. See `cms/blocks/four-way-test.ts`.
+ */
 const PLATES = [
   { r: "I", rot: -9 },
   { r: "II", rot: 7 },
@@ -20,12 +25,14 @@ const PLATES = [
   { r: "IV", rot: 8 },
 ];
 
-export const FourWayTest = ({
-  fourWayTest,
-}: {
-  fourWayTest: Dictionary["fourWayTest"];
-}) => {
-  const items = PLATES.map((plate, i) => ({ ...plate, ...fourWayTest.items[i] }));
+/** Belt and braces for a row count the CMS already enforces. */
+const NO_PLATE = { r: "", rot: 0 };
+
+export const FourWayTest = ({ block }: { block: FourWayTestBlock }) => {
+  const items = block.items.map((item, i) => ({
+    ...(PLATES[i] ?? NO_PLATE),
+    ...item,
+  }));
   const scope = React.useRef<HTMLElement>(null);
 
   useGSAP(
@@ -94,22 +101,22 @@ export const FourWayTest = ({
       <div className="wrapper relative z-10 py-24 sm:py-36">
         {/* Masthead nameplate */}
         <div className="flex flex-wrap items-end justify-between gap-3 border-b-2 border-foreground pb-4">
-          <p className="eyebrow rise text-primary">{fourWayTest.eyebrow}</p>
-          <p className="eyebrow rise text-foreground/45">{fourWayTest.meta}</p>
+          <p className="eyebrow rise text-primary">{block.eyebrow}</p>
+          <p className="eyebrow rise text-foreground/45">{block.meta}</p>
         </div>
 
         <h2
           data-chars
           className="font-editorial mt-8 max-w-5xl text-[11vw] italic leading-[1.12] tracking-[-0.015em] sm:text-6xl lg:text-8xl"
         >
-          {fourWayTest.heading}
+          {block.heading}
         </h2>
 
         {/* The four questions, as stamped articles */}
         <div className="mt-16 border-t border-foreground/15">
           {items.map((item) => (
             <article
-              key={item.r}
+              key={item.id ?? item.r}
               className="group relative grid items-start gap-x-8 gap-y-5 border-b border-foreground/15 py-12 sm:py-14 md:grid-cols-[auto_1fr_auto] md:gap-x-14"
             >
               {/* Roman numeral */}
@@ -154,7 +161,7 @@ export const FourWayTest = ({
 
         {/* Colophon */}
         <p className="eyebrow rise mt-10 text-foreground/45">
-          {fourWayTest.colophon}
+          {block.colophon}
         </p>
       </div>
     </section>

@@ -38,34 +38,6 @@
     "src": "/dokuz_eylul.png",
     "alt": "Dokuz Eylül Rotaract Kulübü"
   },
-  "fourWayTest": {
-    "eyebrow": "02 — Dörtlü Öz Denetim",
-    "meta": "The Four-Way Test · Est. 1932",
-    "heading": "Düşündüğümüz, söylediğimiz ve yaptığımız her şeyde…",
-    "colophon": "Dört soru — tek bir vicdan",
-    "items": [
-      {
-        "q": "Doğru mu?",
-        "a": "Her eylemimizde dürüstlüğü ve şeffaflığı ön planda tutuyoruz.",
-        "stamp": "Doğru"
-      },
-      {
-        "q": "İlgili herkese adil mi?",
-        "a": "Kararlarımızda eşitliği ve adaleti gözetiyor, kimseyi dışlamıyoruz.",
-        "stamp": "Adil"
-      },
-      {
-        "q": "İyi niyet ve dostluk yaratacak mı?",
-        "a": "Projelerimizle toplumda güven ve kalıcı dostluklar inşa ediyoruz.",
-        "stamp": "Dostça"
-      },
-      {
-        "q": "İlgili herkes için yararlı olacak mı?",
-        "a": "Hizmetlerimizin herkese somut fayda sağlamasını hedefliyoruz.",
-        "stamp": "Yararlı"
-      }
-    ]
-  },
   "president": {
     "eyebrow": "03 — Başkanın mesajı",
     "heading": "Var olmakla geçen bir yıl",

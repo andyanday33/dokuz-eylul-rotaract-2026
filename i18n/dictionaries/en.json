@@ -38,34 +38,6 @@
     "src": "/dokuz_eylul_en.png",
     "alt": "Dokuz Eylül Rotaract Club"
   },
-  "fourWayTest": {
-    "eyebrow": "02 — The Four-Way Test",
-    "meta": "The Four-Way Test · Est. 1932",
-    "heading": "Of the things we think, say or do…",
-    "colophon": "Four questions — one conscience",
-    "items": [
-      {
-        "q": "Is it the truth?",
-        "a": "We put honesty and transparency first in everything we do.",
-        "stamp": "True"
-      },
-      {
-        "q": "Is it fair to all concerned?",
-        "a": "We weigh equality and fairness in our decisions, and leave no one out.",
-        "stamp": "Fair"
-      },
-      {
-        "q": "Will it build goodwill and better friendships?",
-        "a": "Through our projects we build trust and lasting friendships in the community.",
-        "stamp": "Goodwill"
-      },
-      {
-        "q": "Will it be beneficial to all concerned?",
-        "a": "We aim for our service to bring concrete benefit to everyone involved.",
-        "stamp": "Beneficial"
-      }
-    ]
-  },
   "president": {
     "eyebrow": "03 — President's message",
     "heading": "A year spent showing up",

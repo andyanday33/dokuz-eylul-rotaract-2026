@@ -342,6 +342,40 @@ export interface NumbersBlock {
  * via the `definition` "FourWayTestBlock".
  */
 export interface FourWayTestBlock {
+  /**
+   * Sol üstteki bölüm başlığı.
+   */
+  eyebrow: string;
+  /**
+   * Sağ üstteki künye satırı.
+   */
+  meta?: string | null;
+  /**
+   * Dört soruyu açan cümle.
+   */
+  heading: string;
+  /**
+   * Dördü de zorunludur ve sırası sabittir — I, II, III, IV bu sıradan gelir.
+   */
+  items: {
+    /**
+     * Sorunun kendisi.
+     */
+    q: string;
+    /**
+     * Kulübün bu soruya verdiği karşılık.
+     */
+    a: string;
+    /**
+     * Yuvarlak mühürdeki tek kelime. Kısa tutun — dar bir daire.
+     */
+    stamp: string;
+    id?: string | null;
+  }[];
+  /**
+   * Bölümü kapatan alt satır.
+   */
+  colophon?: string | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'four-way-test';
@@ -701,6 +735,18 @@ export interface NumbersBlockSelect<T extends boolean = true> {
  * via the `definition` "FourWayTestBlock_select".
  */
 export interface FourWayTestBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  meta?: T;
+  heading?: T;
+  items?:
+    | T
+    | {
+        q?: T;
+        a?: T;
+        stamp?: T;
+        id?: T;
+      };
+  colophon?: T;
   id?: T;
   blockName?: T;
 }

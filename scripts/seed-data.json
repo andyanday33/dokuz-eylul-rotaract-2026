@@ -435,6 +435,70 @@
           }
         }
       ]
+    },
+    "fourWayTest": {
+      "tr": {
+        "eyebrow": "02 — Dörtlü Öz Denetim",
+        "meta": "The Four-Way Test · Est. 1932",
+        "heading": "Düşündüğümüz, söylediğimiz ve yaptığımız her şeyde…",
+        "colophon": "Dört soru — tek bir vicdan"
+      },
+      "en": {
+        "eyebrow": "02 — The Four-Way Test",
+        "meta": "The Four-Way Test · Est. 1932",
+        "heading": "Of the things we think, say or do…",
+        "colophon": "Four questions — one conscience"
+      },
+      "items": [
+        {
+          "tr": {
+            "q": "Doğru mu?",
+            "a": "Her eylemimizde dürüstlüğü ve şeffaflığı ön planda tutuyoruz.",
+            "stamp": "Doğru"
+          },
+          "en": {
+            "q": "Is it the truth?",
+            "a": "We put honesty and transparency first in everything we do.",
+            "stamp": "True"
+          }
+        },
+        {
+          "tr": {
+            "q": "İlgili herkese adil mi?",
+            "a": "Kararlarımızda eşitliği ve adaleti gözetiyor, kimseyi dışlamıyoruz.",
+            "stamp": "Adil"
+          },
+          "en": {
+            "q": "Is it fair to all concerned?",
+            "a": "We weigh equality and fairness in our decisions, and leave no one out.",
+            "stamp": "Fair"
+          }
+        },
+        {
+          "tr": {
+            "q": "İyi niyet ve dostluk yaratacak mı?",
+            "a": "Projelerimizle toplumda güven ve kalıcı dostluklar inşa ediyoruz.",
+            "stamp": "Dostça"
+          },
+          "en": {
+            "q": "Will it build goodwill and better friendships?",
+            "a": "Through our projects we build trust and lasting friendships in the community.",
+            "stamp": "Goodwill"
+          }
+        },
+        {
+          "tr": {
+            "q": "İlgili herkes için yararlı olacak mı?",
+            "a": "Hizmetlerimizin herkese somut fayda sağlamasını hedefliyoruz.",
+            "stamp": "Yararlı"
+          },
+          "en": {
+            "q": "Will it be beneficial to all concerned?",
+            "a": "We aim for our service to bring concrete benefit to everyone involved.",
+            "stamp": "Beneficial"
+          }
+        }
+      ]
     }
   }
 }

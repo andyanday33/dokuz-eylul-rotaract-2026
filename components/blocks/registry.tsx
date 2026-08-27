@@ -9,11 +9,8 @@ import { PastPresidents } from "@/components/PastPresidents";
 import { Committees } from "@/components/Committees";
 import { AreasOfFocus } from "@/components/AreasOfFocus";
 import { Join } from "@/components/Join";
-import {
-  BoardSection,
-  FourWayTestSection,
-  PresidentsMessageSection,
-} from "./sections";
+import { FourWayTest } from "@/components/FourWayTest";
+import { BoardSection, PresidentsMessageSection } from "./sections";
 
 /**
  * One row of a page's `layout`, taken from the generated types rather than
@@ -53,7 +50,7 @@ export const BLOCK_RENDERERS: BlockRenderers = {
   marquee: (block) => <Marquee block={block} />,
   about: (block) => <About block={block} />,
   numbers: (block) => <Numbers block={block} />,
-  "four-way-test": () => <FourWayTestSection />,
+  "four-way-test": (block) => <FourWayTest block={block} />,
   "presidents-message": () => <PresidentsMessageSection />,
   "past-presidents": () => <PastPresidents />,
   board: () => <BoardSection />,
