@@ -3,6 +3,7 @@ import { GROUPS } from "../labels";
 import { LAYOUT_BLOCKS } from "../blocks";
 import { anyone, editorsOnly } from "../access";
 import { revalidatePage } from "../hooks/revalidate";
+import { HOME_PATH } from "../home";
 
 /**
  * A page assembled from the site's own sections.
@@ -51,7 +52,7 @@ export const Pages: CollectionConfig = {
       unique: true,
       index: true,
       admin: {
-        description: 'Dil kodundan sonraki adres — "projeler" -> /tr/projeler.',
+        description: `Dil kodundan sonraki adres — "projeler" -> /tr/projeler. "${HOME_PATH}" ana sayfadır; adresini değiştirmeyin.`,
       },
       validate: (value: string | null | undefined) =>
         // Lower-case, no leading or trailing slash, no spaces. Anything else

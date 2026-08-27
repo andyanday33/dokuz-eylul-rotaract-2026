@@ -29,13 +29,21 @@ npm run dev           # http://localhost:3000 → redirects to /tr or /en
 `/` negotiates a locale from the `NEXT_LOCALE` cookie, then `Accept-Language`,
 then falls back to Turkish. See `proxy.ts`.
 
-Copy is in two places, split by what changes it. **Wording** — headings,
-eyebrows, labels, the president's message — lives in `i18n/dictionaries/tr.json`
-and `en.json`, because changing it is a design decision and belongs in a diff.
-Turkish is the source of truth for the shape: a key present there and missing
-from English is a type error, not a blank on the page. **Facts about people** —
-who holds a seat, who served which term — lives in the CMS, because those
-change on their own schedule and nobody should need a deploy to record one.
+Copy lives in two places, and which one is the point of the page builder.
+
+**Section content belongs to the page.** A section that has been moved carries
+its own words — and its own images — on the page document that uses it, so the
+same section can appear twice on the site saying two different things. `hero`
+and `about` have moved; the other nine are on their way, one at a time.
+
+**Chrome and unmoved sections read the dictionaries.** `i18n/dictionaries/tr.json`
+and `en.json` hold the navbar, the footer, and every section whose copy has not
+moved yet. Turkish is the source of truth for the shape: a key present there and
+missing from English is a type error, not a blank on the page.
+
+**Facts about people** — who holds a seat, who served which term — live in
+their own collections, because they change on their own schedule and are the
+same wherever they appear.
 
 ## The CMS
 
@@ -45,10 +53,32 @@ editor accounts themselves:
 
 | Collection | Feeds |
 | --- | --- |
+| Pages | every public page, assembled from the sections below |
 | Presidents | the roll on the home page and all of `/[lang]/presidents` |
 | Board members | the wheel |
 | Committee chairs | the accordion below it |
 | Areas of focus | the seven-item index, in both languages |
+
+### The page builder
+
+`cms/blocks/index.ts` is the ordered list of sections a page can be built from
+— the site's own components, offered as a menu. Two things are checked against
+it: `components/blocks/registry.tsx` maps every slug to what renders it, as a
+`Record` keyed on the slug union, so a block without a component is a compile
+error; and the `layout` field on `pages` offers exactly that list.
+
+The home page is a page document like any other, at the reserved path `home`.
+It answers at `/tr` and `/en`; the catch-all refuses `/tr/home` so one page does
+not get two addresses. **Do not delete or rename it** — the site's root 404s
+without it, deliberately, rather than falling back to something that looks
+nearly right.
+
+A block with no fields is not unfinished. It is a section whose content has not
+moved yet: it still reads the dictionary as it always did, and the builder
+decides only whether it appears and where. Moving one means adding fields in
+`cms/blocks/`, changing the component to take them as a prop, adding them to
+`scripts/seed-data.json`, and deleting the dictionary keys — in that order, so
+the compiler finds every reader of the old copy for you.
 
 ### Setting it up
 
@@ -78,7 +108,26 @@ behind the publishable key.
 npm run cms:types       # regenerate cms/payload-types.ts after a field change
 npm run cms:importmap   # regenerate the admin import map after a custom component
 npm run cms:migrate:create   # a migration for a schema change
+npm run cms:migrate          # apply pending migrations
 ```
+
+Two things about migrations that will otherwise cost you an afternoon:
+
+- **`npm run cms:migrate` prompts, and a pipe hides the prompt.** Once a
+  database has been touched by dev-mode `push`, Payload asks "data loss will
+  occur, proceed?" before every migration. Piped through `tail` or a log file
+  it looks like a hang; it is waiting on stdin.
+- **Generate the migration before `next dev` next starts.** Dev `push` syncs
+  the schema straight from `payload.config.ts`, so a field added and then
+  pushed produces an *empty* migration — the change is live and unrecorded, and
+  the next deploy will not have it. Add fields, `cms:migrate:create`, then run
+  dev.
+- **Do one thing per migration.** Dropping a block's table in the same step as
+  adding another block's localised table makes Drizzle ask, interactively,
+  whether the new table is a rename of the old one — a prompt with no sane
+  non-interactive answer. Removing `sliding-text` and giving `hero` its fields
+  were therefore generated and applied as two migrations, which is also the
+  history you want to read back later.
 
 Two conventions worth knowing before adding a collection:
 

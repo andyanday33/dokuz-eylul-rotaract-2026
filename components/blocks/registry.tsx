@@ -13,7 +13,6 @@ import {
   BoardSection,
   FourWayTestSection,
   PresidentsMessageSection,
-  SlidingTextSection,
 } from "./sections";
 
 /**
@@ -50,10 +49,9 @@ export type BlockRenderers = {
 };
 
 export const BLOCK_RENDERERS: BlockRenderers = {
-  hero: () => <Hero />,
-  "sliding-text": () => <SlidingTextSection />,
+  hero: (block) => <Hero block={block} />,
   marquee: () => <Marquee />,
-  about: () => <About />,
+  about: (block) => <About block={block} />,
   numbers: () => <Numbers />,
   "four-way-test": () => <FourWayTestSection />,
   "presidents-message": () => <PresidentsMessageSection />,

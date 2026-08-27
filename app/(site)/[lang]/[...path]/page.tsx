@@ -6,6 +6,7 @@ import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { RenderBlocks } from "@/components/blocks/RenderBlocks";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { getPage, getPagePaths } from "@/lib/cms/queries";
+import { HOME_PATH } from "@/cms/home";
 import { LOCALES } from "@/i18n/config";
 
 /**
@@ -25,14 +26,21 @@ import { LOCALES } from "@/i18n/config";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const paths = await getPagePaths();
+  const paths = (await getPagePaths()).filter((path) => path !== HOME_PATH);
   return LOCALES.flatMap((lang) =>
     paths.map((path) => ({ lang, path: path.split("/") })),
   );
 }
 
-const read = async (params: Promise<{ path: string[] }>) =>
-  getPage((await params).path.join("/"), await getLocale());
+/**
+ * The home page is a page document too, but it answers at `/tr`, not at
+ * `/tr/home`. Refusing its path here keeps one page from having two addresses.
+ */
+const read = async (params: Promise<{ path: string[] }>) => {
+  const path = (await params).path.join("/");
+  if (path === HOME_PATH) return null;
+  return getPage(path, await getLocale());
+};
 
 export async function generateMetadata({
   params,
@@ -56,7 +64,7 @@ export default async function BuiltPage({
 
   return (
     <main className="flex flex-col relative">
-      <Navbar nav={dict.nav} email={dict.join.email} place={dict.about.meta} />
+      <Navbar nav={dict.nav} email={dict.join.email} place={dict.nav.place} />
       <RenderBlocks layout={page.layout} />
       <Footer />
       <ScrollAnimations />

@@ -1,4 +1,3 @@
-import { SlidingText } from "@/components/Hero/SlidingText";
 import { FourWayTest } from "@/components/FourWayTest";
 import { PresidentsMessage } from "@/components/PresidentsMessage";
 import { Board } from "@/components/Board";
@@ -10,7 +9,7 @@ import { getBoard, getPresidents } from "@/lib/cms/queries";
  *
  * Most sections are async Server Components that read what they need — the
  * dictionary, a collection — and can be dropped into a page as they are. These
- * four cannot: they are Client Components, because they animate, so somebody
+ * three cannot: they are Client Components, because they animate, so somebody
  * upstream has to hand them their content. That used to be the home page,
  * which is why it knew about the board's seats and the president's name.
  *
@@ -19,11 +18,6 @@ import { getBoard, getPresidents } from "@/lib/cms/queries";
  * with the fetch it depends on, and the result is a section that can be placed
  * anywhere, like all the others.
  */
-
-export const SlidingTextSection = async () => {
-  const { hero } = await getDictionary();
-  return <SlidingText src={hero.logo} alt={hero.logoAlt} />;
-};
 
 export const FourWayTestSection = async () => {
   const { fourWayTest } = await getDictionary();

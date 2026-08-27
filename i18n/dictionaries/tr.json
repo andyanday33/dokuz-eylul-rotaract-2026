@@ -31,18 +31,12 @@
     "memberArea": "Üye girişi",
     "languageLabel": "Dil seçimi",
     "menu": "Menü",
-    "menuClose": "Kapat"
+    "menuClose": "Kapat",
+    "place": "Dokuz Eylül · İzmir"
   },
-  "hero": {
-    "logo": "/dokuz_eylul.png",
-    "logoAlt": "Dokuz Eylül Rotaract Kulübü",
-    "datelineLeft": "Rotaract · 2440. Bölge · Grup 4",
-    "datelineRight": "Dokuz Eylül · İzmir · MMXXVI",
-    "srTitle": "Rotaract Kulübü — hizmetle gelen dostluk",
-    "taglineLead": "Dostluğu, mahallenin ölçebileceği bir hizmete",
-    "taglineAccent": "dönüştürüyoruz.",
-    "meetingNote": "Her ayın birinci ve üçüncü perşembesi 19.00’da Eski Kütüphane’de buluşuyoruz. Konuklar her zaman davetlidir.",
-    "cta": "Kulübe katıl"
+  "wordmark": {
+    "src": "/dokuz_eylul.png",
+    "alt": "Dokuz Eylül Rotaract Kulübü"
   },
   "marquee": {
     "items": [
@@ -51,30 +45,6 @@
       "Dostluk",
       "Liderlik",
       "Toplum"
-    ]
-  },
-  "about": {
-    "index": "01",
-    "label": "Biz kimiz",
-    "meta": "Dokuz Eylül · İzmir",
-    "watermark": "Biz",
-    "heading": "İşi konuşmaktansa yapmayı seçenler için bir kulüp",
-    "pillars": [
-      {
-        "n": "01",
-        "title": "Profesyonel Gelişim",
-        "body": "Liderlik becerileri, iş dünyası bilgisi ve kişisel gelişim fırsatları sunarak genç profesyonellerin kariyerlerine yön vermelerine yardımcı oluyoruz."
-      },
-      {
-        "n": "02",
-        "title": "Toplum Hizmeti",
-        "body": "Yerel ve uluslararası projelerde gönüllü çalışarak topluma somut katkılar sağlıyor, değişimi birlikte inşa ediyoruz."
-      },
-      {
-        "n": "03",
-        "title": "Uluslararası Anlayış",
-        "body": "Farklı kültürlerden insanlarla bağ kurarak dünya barışına ve anlayışına katkıda bulunuyor, sınırları aşan dostluklar kuruyoruz."
-      }
     ]
   },
   "numbers": {

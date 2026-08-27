@@ -40,8 +40,8 @@ export default async function PresidentsPage() {
         <div className="wrapper flex h-16 items-center justify-between gap-4">
           <Wordmark
             href={`/${lang}`}
-            src={dict.hero.logo}
-            alt={dict.hero.logoAlt}
+            src={dict.wordmark.src}
+            alt={dict.wordmark.alt}
             priority
             className="w-(--masthead-logo-parked) shrink-0"
           />

@@ -140,7 +140,7 @@ export interface Page {
    */
   title: string;
   /**
-   * Dil kodundan sonraki adres — "projeler" -> /tr/projeler.
+   * Dil kodundan sonraki adres — "projeler" -> /tr/projeler. "home" ana sayfadır; adresini değiştirmeyin.
    */
   path: string;
   /**
@@ -152,7 +152,6 @@ export interface Page {
    */
   layout: (
     | HeroBlock
-    | SlidingTextBlock
     | MarqueeBlock
     | AboutBlock
     | NumbersBlock
@@ -172,18 +171,79 @@ export interface Page {
  * via the `definition` "HeroBlock".
  */
 export interface HeroBlock {
+  /**
+   * Kulüp logosu. Her dilin kendi dosyası vardır; İngilizce sayfa İngilizce kilidi kullanır. Alternatif metin görselin kendi kaydından gelir.
+   */
+  wordmark: number | Media;
+  /**
+   * Üst çizginin solu — bölge, grup.
+   */
+  datelineLeft: string;
+  /**
+   * Üst çizginin sağı — yer ve yıl. Geniş ekranlarda görünür.
+   */
+  datelineRight?: string | null;
+  /**
+   * Sayfanın gizli H1'i. Ekranda görünmez; ekran okuyucular ve arama motorları okur.
+   */
+  srTitle: string;
+  /**
+   * Büyük cümlenin düz kısmı.
+   */
+  taglineLead: string;
+  /**
+   * Cümleyi bitiren, kırmızı dizilen kısım.
+   */
+  taglineAccent: string;
+  /**
+   * Butonun yanındaki toplantı notu.
+   */
+  meetingNote?: string | null;
+  /**
+   * Buton yazısı.
+   */
+  cta: string;
+  /**
+   * Butonun hedefi. "#join" aynı sayfadaki Bize Katıl bölümüne iner — o bölüm sayfada yoksa başka bir adres verin.
+   */
+  ctaHref: string;
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
 }
 /**
+ * Portraits. Uploaded once, then chosen on a board member or a chair.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SlidingTextBlock".
+ * via the `definition` "media".
  */
-export interface SlidingTextBlock {
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'sliding-text';
+export interface Media {
+  id: number;
+  /**
+   * Görme engelli ziyaretçiler için açıklama. Portreler için boş bırakın — kişinin adından üretilir. Logo gibi kendi başına anlam taşıyan görsellerde doldurun.
+   */
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    portrait?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -199,6 +259,38 @@ export interface MarqueeBlock {
  * via the `definition` "AboutBlock".
  */
 export interface AboutBlock {
+  /**
+   * Bölüm numarası — "01".
+   */
+  index: string;
+  /**
+   * Numaranın yanındaki başlık.
+   */
+  label: string;
+  /**
+   * Sağdaki künye satırı — yer, tarih.
+   */
+  meta?: string | null;
+  /**
+   * Arkadaki dev filigran. Tek kelime olmalı.
+   */
+  watermark: string;
+  /**
+   * Bölümün büyük puntolu cümlesi.
+   */
+  heading: string;
+  /**
+   * Alt sıradaki sütunlar. Üçü bir satıra sığar.
+   */
+  pillars: {
+    /**
+     * Sıra numarası — "01". Diller arasında ortaktır.
+     */
+    n: string;
+    title: string;
+    body: string;
+    id?: string | null;
+  }[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'about';
@@ -314,40 +406,6 @@ export interface BoardMember {
   order: number;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * Portraits. Uploaded once, then chosen on a board member or a chair.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  /**
-   * Görme engelli ziyaretçiler için açıklama. Portreler için boş bırakın — kişinin adından üretilir.
-   */
-  alt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    portrait?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
 /**
  * The committee chairs — the accordion on the home page.
@@ -521,7 +579,6 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         hero?: T | HeroBlockSelect<T>;
-        'sliding-text'?: T | SlidingTextBlockSelect<T>;
         marquee?: T | MarqueeBlockSelect<T>;
         about?: T | AboutBlockSelect<T>;
         numbers?: T | NumbersBlockSelect<T>;
@@ -541,14 +598,15 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "HeroBlock_select".
  */
 export interface HeroBlockSelect<T extends boolean = true> {
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "SlidingTextBlock_select".
- */
-export interface SlidingTextBlockSelect<T extends boolean = true> {
+  wordmark?: T;
+  datelineLeft?: T;
+  datelineRight?: T;
+  srTitle?: T;
+  taglineLead?: T;
+  taglineAccent?: T;
+  meetingNote?: T;
+  cta?: T;
+  ctaHref?: T;
   id?: T;
   blockName?: T;
 }
@@ -565,6 +623,19 @@ export interface MarqueeBlockSelect<T extends boolean = true> {
  * via the `definition` "AboutBlock_select".
  */
 export interface AboutBlockSelect<T extends boolean = true> {
+  index?: T;
+  label?: T;
+  meta?: T;
+  watermark?: T;
+  heading?: T;
+  pillars?:
+    | T
+    | {
+        n?: T;
+        title?: T;
+        body?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

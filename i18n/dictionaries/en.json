@@ -31,18 +31,12 @@
     "memberArea": "Member sign-in",
     "languageLabel": "Choose language",
     "menu": "Menu",
-    "menuClose": "Close"
+    "menuClose": "Close",
+    "place": "Dokuz Eylül · İzmir"
   },
-  "hero": {
-    "logo": "/dokuz_eylul_en.png",
-    "logoAlt": "Dokuz Eylül Rotaract Club",
-    "datelineLeft": "Rotaract · District 2440 · Group 4",
-    "datelineRight": "Dokuz Eylül · İzmir · MMXXVI",
-    "srTitle": "Rotaract Club — friendship through service",
-    "taglineLead": "We turn friendship into service the neighbourhood can",
-    "taglineAccent": "measure.",
-    "meetingNote": "We meet at 19.00 on the first and third Thursday of every month at the Old Library. Guests are always welcome.",
-    "cta": "Join the club"
+  "wordmark": {
+    "src": "/dokuz_eylul_en.png",
+    "alt": "Dokuz Eylül Rotaract Club"
   },
   "marquee": {
     "items": [
@@ -51,30 +45,6 @@
       "Fellowship",
       "Leadership",
       "Community"
-    ]
-  },
-  "about": {
-    "index": "01",
-    "label": "Who we are",
-    "meta": "Dokuz Eylül · İzmir",
-    "watermark": "Us",
-    "heading": "A club for people who would rather do the work than talk about it",
-    "pillars": [
-      {
-        "n": "01",
-        "title": "Professional Development",
-        "body": "We help young professionals shape their careers by offering leadership skills, business insight and opportunities for personal growth."
-      },
-      {
-        "n": "02",
-        "title": "Community Service",
-        "body": "By volunteering on local and international projects we make a tangible contribution to the community and build change together."
-      },
-      {
-        "n": "03",
-        "title": "International Understanding",
-        "body": "By connecting with people from different cultures we contribute to world peace and understanding, and build friendships across borders."
-      }
     ]
   },
   "numbers": {

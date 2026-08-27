@@ -49,7 +49,7 @@ export const Media: CollectionConfig = {
       localized: true,
       admin: {
         description:
-          "Görme engelli ziyaretçiler için açıklama. Portreler için boş bırakın — kişinin adından üretilir.",
+          "Görme engelli ziyaretçiler için açıklama. Portreler için boş bırakın — kişinin adından üretilir. Logo gibi kendi başına anlam taşıyan görsellerde doldurun.",
       },
     },
   ],

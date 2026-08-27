@@ -40,11 +40,46 @@ type Seat<Role extends string> = {
 };
 type Copy = { title: string; body: string };
 
+type Localised<T> = { tr: T; en: T };
+type AboutCopy = {
+  label: string;
+  meta: string;
+  watermark: string;
+  heading: string;
+};
+type HeroCopy = {
+  datelineLeft: string;
+  datelineRight: string;
+  srTitle: string;
+  taglineLead: string;
+  taglineAccent: string;
+  meetingNote: string;
+  cta: string;
+};
+
 type SeedFile = {
   roll: { term: string; name: string }[];
   board: Seat<string>[];
   chairs: Seat<string>[];
   areas: { key: string; tr: Copy; en: Copy }[];
+  home: {
+    path: string;
+    title: Localised<string>;
+    description: Localised<string>;
+    layout: string[];
+    about: {
+      index: string;
+      tr: AboutCopy;
+      en: AboutCopy;
+      pillars: { n: string; tr: Copy; en: Copy }[];
+    };
+    hero: {
+      ctaHref: string;
+      wordmark: Localised<{ file: string; alt: string }>;
+      tr: HeroCopy;
+      en: HeroCopy;
+    };
+  };
 };
 
 const seed = JSON.parse(
@@ -88,7 +123,10 @@ const findId = async (collection: CollectionSlug, where: Where) => {
  * without a deploy; the files stay in `public/` as the placeholders they now
  * are — see `PLACEHOLDER` in the board and committee components.
  */
-const uploadPortrait = async (publicPath: string) => {
+const uploadPortrait = async (
+  publicPath: string,
+  alt?: { tr: string; en: string },
+) => {
   const filename = path.basename(publicPath);
   const existing = await payload.find({
     collection: "media",
@@ -99,9 +137,20 @@ const uploadPortrait = async (publicPath: string) => {
 
   const doc = await payload.create({
     collection: "media",
-    data: {},
+    // Portraits get their description from the name beside them, so they are
+    // uploaded without one. The wordmark is the exception: it carries meaning
+    // on its own, and is the same meaning wherever it is placed.
+    data: alt ? { alt: alt.tr } : {},
+    locale: "tr",
     filePath: path.join(root, "public", publicPath.replace(/^\//, "")),
   });
+  if (alt)
+    await payload.update({
+      collection: "media",
+      id: doc.id,
+      locale: "en",
+      data: { alt: alt.en },
+    });
   return doc.id;
 };
 
@@ -168,6 +217,89 @@ for (const area of seed.areas) {
     id: doc.id,
     locale: "en",
     data: area.en,
+  });
+  created++;
+}
+
+// ---- The home page ----------------------------------------------------------
+// The sections the hand-written home page used to name in source, in the same
+// order, with the "Biz Kimiz" copy that used to sit in the dictionaries. Every
+// other block is still field-less, so it carries no content of its own yet —
+// which is exactly what makes this list the page's running order and nothing
+// more, for now.
+if (await findId("pages", { path: { equals: seed.home.path } })) {
+  kept++;
+} else {
+  const { about, hero } = seed.home;
+  const wordmarks = {
+    tr: await uploadPortrait(hero.wordmark.tr.file, {
+      tr: hero.wordmark.tr.alt,
+      en: hero.wordmark.tr.alt,
+    }),
+    en: await uploadPortrait(hero.wordmark.en.file, {
+      tr: hero.wordmark.en.alt,
+      en: hero.wordmark.en.alt,
+    }),
+  };
+
+  const layout = seed.home.layout.map((blockType) => {
+    if (blockType === "about")
+      return {
+        blockType: "about" as const,
+        index: about.index,
+        ...about.tr,
+        pillars: about.pillars.map((p) => ({ n: p.n, ...p.tr })),
+      };
+    if (blockType === "hero")
+      return {
+        blockType: "hero" as const,
+        ctaHref: hero.ctaHref,
+        wordmark: wordmarks.tr,
+        ...hero.tr,
+      };
+    return { blockType: blockType as "marquee" };
+  });
+
+  const page = await payload.create({
+    collection: "pages",
+    locale: "tr",
+    data: {
+      path: seed.home.path,
+      title: seed.home.title.tr,
+      description: seed.home.description.tr,
+      layout,
+    },
+  });
+
+  // The English pass has to address the same rows, so it carries each block's
+  // `id` back — without them Payload would replace the array rather than
+  // translate it, and the two languages would end up with different sections.
+  const rows = page.layout;
+  await payload.update({
+    collection: "pages",
+    id: page.id,
+    locale: "en",
+    data: {
+      title: seed.home.title.en,
+      description: seed.home.description.en,
+      layout: rows.map((row) => {
+        if (row.blockType === "about")
+          return {
+            ...row,
+            ...about.en,
+            pillars: (row.pillars ?? []).map((p, j) => ({
+              ...p,
+              ...about.pillars[j].en,
+            })),
+          };
+        if (row.blockType === "hero")
+          // The wordmark is localized, so English gets the English lockup —
+          // this is the one field where the two languages differ by file
+          // rather than by wording.
+          return { ...row, ...hero.en, wordmark: wordmarks.en };
+        return row;
+      }),
+    },
   });
   created++;
 }

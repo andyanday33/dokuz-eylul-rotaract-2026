@@ -1,5 +1,7 @@
 import type { Block, Field } from "payload";
 import type { PanelText } from "../labels";
+import { aboutFields } from "./about";
+import { heroFields } from "./hero";
 
 /**
  * The sections a page can be built out of, in the order the site tells its
@@ -13,12 +15,12 @@ import type { PanelText } from "../labels";
  *   * The `layout` field on `pages` offers exactly these, in this order, in
  *     the "Add block" menu.
  *
- * Every block starts with no fields of its own. That is deliberate rather than
- * unfinished: at this stage the builder decides which sections a page has and
- * in what order, while the words still come from the dictionaries and the
- * people from their collections. Each section's content moves in here one at a
- * time — and when a block's fields outgrow a line or two, it earns its own
- * file in this directory and this list keeps only the reference.
+ * A block with no fields is not unfinished — it is a section whose content has
+ * not moved yet. Those still read the dictionaries and their collections as
+ * they always did, and the builder decides only whether they appear and in
+ * what order. Sections move their copy in here one at a time; when a block's
+ * fields outgrow a line or two it earns its own file in this directory, and
+ * this list keeps only the reference. `about` is the first that has.
  *
  * Blocks are named explicitly for the same reason collections are: Payload
  * would otherwise singularise `areas-of-focus` into "Areas Of Foci".
@@ -43,12 +45,11 @@ export const LAYOUT_BLOCKS = [
   section({
     slug: "hero",
     interfaceName: "HeroBlock",
+    // Was two — "Açılış" and "Kayan Logo". The wordmark measures the hero to
+    // place itself, so one without the other is a section that does nothing.
+    // See `cms/blocks/hero.ts`.
     label: { en: "Hero", tr: "Açılış" },
-  }),
-  section({
-    slug: "sliding-text",
-    interfaceName: "SlidingTextBlock",
-    label: { en: "Sliding Wordmark", tr: "Kayan Logo" },
+    fields: heroFields,
   }),
   section({
     slug: "marquee",
@@ -59,6 +60,7 @@ export const LAYOUT_BLOCKS = [
     slug: "about",
     interfaceName: "AboutBlock",
     label: { en: "About", tr: "Biz Kimiz" },
+    fields: aboutFields,
   }),
   section({
     slug: "numbers",

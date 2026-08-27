@@ -267,5 +267,110 @@
         "body": "We support the sustainable use of natural resources and a wider awareness of the environment."
       }
     }
-  ]
+  ],
+  "home": {
+    "path": "home",
+    "title": {
+      "tr": "Dokuz Eylül Rotaract Kulübü",
+      "en": "Dokuz Eylül Rotaract Club"
+    },
+    "description": {
+      "tr": "Dokuz Eylül Rotaract Kulübü — hizmetle gelen dostluk.",
+      "en": "Dokuz Eylül Rotaract Club — friendship through service."
+    },
+    "layout": [
+      "hero",
+      "marquee",
+      "about",
+      "numbers",
+      "four-way-test",
+      "presidents-message",
+      "past-presidents",
+      "board",
+      "committees",
+      "areas-of-focus",
+      "join"
+    ],
+    "about": {
+      "index": "01",
+      "tr": {
+        "label": "Biz kimiz",
+        "meta": "Dokuz Eylül · İzmir",
+        "watermark": "Biz",
+        "heading": "İşi konuşmaktansa yapmayı seçenler için bir kulüp"
+      },
+      "en": {
+        "label": "Who we are",
+        "meta": "Dokuz Eylül · İzmir",
+        "watermark": "Us",
+        "heading": "A club for people who would rather do the work than talk about it"
+      },
+      "pillars": [
+        {
+          "n": "01",
+          "tr": {
+            "title": "Profesyonel Gelişim",
+            "body": "Liderlik becerileri, iş dünyası bilgisi ve kişisel gelişim fırsatları sunarak genç profesyonellerin kariyerlerine yön vermelerine yardımcı oluyoruz."
+          },
+          "en": {
+            "title": "Professional Development",
+            "body": "We help young professionals shape their careers by offering leadership skills, business insight and opportunities for personal growth."
+          }
+        },
+        {
+          "n": "02",
+          "tr": {
+            "title": "Toplum Hizmeti",
+            "body": "Yerel ve uluslararası projelerde gönüllü çalışarak topluma somut katkılar sağlıyor, değişimi birlikte inşa ediyoruz."
+          },
+          "en": {
+            "title": "Community Service",
+            "body": "By volunteering on local and international projects we make a tangible contribution to the community and build change together."
+          }
+        },
+        {
+          "n": "03",
+          "tr": {
+            "title": "Uluslararası Anlayış",
+            "body": "Farklı kültürlerden insanlarla bağ kurarak dünya barışına ve anlayışına katkıda bulunuyor, sınırları aşan dostluklar kuruyoruz."
+          },
+          "en": {
+            "title": "International Understanding",
+            "body": "By connecting with people from different cultures we contribute to world peace and understanding, and build friendships across borders."
+          }
+        }
+      ]
+    },
+    "hero": {
+      "ctaHref": "#join",
+      "wordmark": {
+        "tr": {
+          "file": "/dokuz_eylul.png",
+          "alt": "Dokuz Eylül Rotaract Kulübü"
+        },
+        "en": {
+          "file": "/dokuz_eylul_en.png",
+          "alt": "Dokuz Eylül Rotaract Club"
+        }
+      },
+      "tr": {
+        "datelineLeft": "Rotaract · 2440. Bölge · Grup 4",
+        "datelineRight": "Dokuz Eylül · İzmir · MMXXVI",
+        "srTitle": "Rotaract Kulübü — hizmetle gelen dostluk",
+        "taglineLead": "Dostluğu, mahallenin ölçebileceği bir hizmete",
+        "taglineAccent": "dönüştürüyoruz.",
+        "meetingNote": "Her ayın birinci ve üçüncü perşembesi 19.00’da Eski Kütüphane’de buluşuyoruz. Konuklar her zaman davetlidir.",
+        "cta": "Kulübe katıl"
+      },
+      "en": {
+        "datelineLeft": "Rotaract · District 2440 · Group 4",
+        "datelineRight": "Dokuz Eylül · İzmir · MMXXVI",
+        "srTitle": "Rotaract Club — friendship through service",
+        "taglineLead": "We turn friendship into service the neighbourhood can",
+        "taglineAccent": "measure.",
+        "meetingNote": "We meet at 19.00 on the first and third Thursday of every month at the Old Library. Guests are always welcome.",
+        "cta": "Join the club"
+      }
+    }
+  }
 }
