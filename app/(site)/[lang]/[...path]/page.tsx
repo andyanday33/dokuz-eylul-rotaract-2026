@@ -7,6 +7,8 @@ import { RenderBlocks } from "@/components/blocks/RenderBlocks";
 import { getDictionary, getLocale } from "@/i18n/dictionaries";
 import { getPage, getPagePaths } from "@/lib/cms/queries";
 import { HOME_PATH } from "@/cms/home";
+import { pageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 import { LOCALES } from "@/i18n/config";
 
 /**
@@ -47,11 +49,18 @@ export async function generateMetadata({
 }: PageProps<"/[lang]/[...path]">): Promise<Metadata> {
   const page = await read(params);
   if (!page) return {};
-  const { meta } = await getDictionary();
-  return {
+  const [{ meta }, locale] = await Promise.all([getDictionary(), getLocale()]);
+  return pageMetadata({
+    locale,
+    path: (await params).path.join("/"),
     title: `${page.title} — ${meta.title}`,
     description: page.description ?? meta.description,
-  };
+    ogTitle: page.ogTitle,
+    ogDescription: page.ogDescription,
+    ogImage: page.ogImage,
+    noindex: page.noindex,
+    siteName: meta.title,
+  });
 }
 
 export default async function BuiltPage({
@@ -60,10 +69,20 @@ export default async function BuiltPage({
   const page = await read(params);
   if (!page) notFound();
 
-  const dict = await getDictionary();
+  const [dict, locale] = await Promise.all([getDictionary(), getLocale()]);
 
   return (
     <main className="flex flex-col relative">
+      <JsonLd
+        locale={locale}
+        path={(await params).path.join("/")}
+        title={page.title}
+        description={page.description}
+        siteName={dict.meta.title}
+        logoUrl={dict.wordmark.src}
+        email={dict.contact.email}
+        areaServed={dict.nav.place}
+      />
       <Navbar nav={dict.nav} email={dict.contact.email} place={dict.nav.place} />
       <RenderBlocks layout={page.layout} />
       <Footer />

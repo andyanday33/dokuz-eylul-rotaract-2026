@@ -94,6 +94,36 @@ entry in `components/blocks/registry.tsx`, and seed content. The order matters
 only for the reverse — when moving copy *out* of the dictionaries, delete the
 keys last and the compiler finds every reader of the old copy for you.
 
+### Search, sharing and AI
+
+Every page carries a canonical URL, `hreflang` for both languages, Open Graph
+and Twitter cards, and schema.org markup. Three of those are derived and one is
+editable:
+
+- **Editable**, under *Paylaşım ve arama* on a page: a social card image, title
+  and description overrides, and a `noindex` checkbox. All optional — blanks
+  fall back to the page's own title and summary. Note that a blank *English*
+  override falls back to the *Turkish* one, not to the English title, because
+  that is how localised fields resolve everywhere in Payload.
+- **`components/JsonLd.tsx`** emits an `Organization` / `WebSite` / `WebPage`
+  graph, with Rotary International as the parent organisation. Derived from
+  content that already exists, with no field behind it — a second, hand-kept
+  copy of the club's name and address is a copy that goes stale.
+- **`/sitemap.xml` and `/llms.txt`** are generated from the CMS on request, so
+  a page created in the panel appears in both without a deploy. Both honour
+  `noindex`.
+- **`/robots.txt` deliberately does not block AI crawlers.** GPTBot, ClaudeBot,
+  PerplexityBot and Google-Extended are all allowed, which is the same decision
+  `/llms.txt` embodies: the club wants to be found, and that now includes being
+  quotable by answer engines. Reversing it is a few lines in `app/robots.ts`,
+  and it is a decision about the club rather than about the code.
+
+**Set `NEXT_PUBLIC_SITE_URL` in production.** Canonical URLs, `hreflang` and
+Open Graph images all have to be absolute, and they are baked at build time —
+so unlike `lib/site-url.ts`, which reads the request headers, this one cannot
+be derived. Without it everything falls back to `http://localhost:3000`, which
+is wrong in a way nothing will warn you about.
+
 ### Setting it up
 
 1. **`DATABASE_URL`.** Supabase → **Connect** → **Session pooler**, port 5432.

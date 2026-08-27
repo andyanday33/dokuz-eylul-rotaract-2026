@@ -68,6 +68,53 @@ export const Pages: CollectionConfig = {
       admin: { description: "Arama sonuçlarındaki özet. Boş bırakılabilir." },
     },
     {
+      type: "collapsible",
+      label: { en: "Sharing & search", tr: "Paylaşım ve arama" },
+      admin: {
+        initCollapsed: true,
+        description:
+          "Sayfa paylaşıldığında ve arama sonuçlarında nasıl görüneceği. Hepsi isteğe bağlıdır — boş bırakılanlar yukarıdaki başlık ve özetten türetilir.",
+      },
+      fields: [
+        {
+          name: "ogImage",
+          type: "upload",
+          relationTo: "media",
+          admin: {
+            description:
+              "Bağlantı paylaşıldığında görünen görsel. 1200×630 piksel önerilir. Boşsa kulüp logosu kullanılır.",
+          },
+        },
+        {
+          name: "ogTitle",
+          type: "text",
+          localized: true,
+          admin: {
+            description:
+              "Yalnızca paylaşım kartında kullanılacak başlık. Türkçede boşsa sayfa başlığı kullanılır. İngilizcede boşsa Türkçe karşılığı kullanılır — İngilizce kartta Türkçe başlık istemiyorsanız burayı da doldurun.",
+          },
+        },
+        {
+          name: "ogDescription",
+          type: "textarea",
+          localized: true,
+          admin: {
+            description:
+              "Paylaşım kartındaki özet. Türkçede boşsa yukarıdaki özet kullanılır; İngilizcede boşsa Türkçe karşılığı kullanılır.",
+          },
+        },
+        {
+          name: "noindex",
+          type: "checkbox",
+          defaultValue: false,
+          admin: {
+            description:
+              "İşaretlenirse arama motorlarına bu sayfayı listelememeleri söylenir. Site haritasından ve /llms.txt'ten de çıkarılır. Sayfa yine de adresi bilen herkese açıktır — bu bir gizlilik ayarı değildir.",
+          },
+        },
+      ],
+    },
+    {
       name: "layout",
       type: "blocks",
       required: true,

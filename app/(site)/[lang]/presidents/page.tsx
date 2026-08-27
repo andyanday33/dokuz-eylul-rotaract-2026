@@ -7,6 +7,7 @@ import { PresidentTimeline } from "@/components/PresidentTimeline";
 import { Wordmark } from "@/components/Wordmark";
 import { foundingTerm, foundingYear, rollSpan } from "@/lib/presidents";
 import { getPresidents } from "@/lib/cms/queries";
+import { pageMetadata } from "@/lib/seo";
 import { fill, getDictionary, getLocale } from "@/i18n/dictionaries";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -14,10 +15,16 @@ export async function generateMetadata(): Promise<Metadata> {
   // Memoised per request, so asking here and again in the page body below is
   // one query rather than two.
   const roll = await getPresidents();
-  return {
+  return pageMetadata({
+    locale: await getLocale(),
+    path: "presidents",
     title: `${presidents.pageTitle} — ${meta.title}`,
     description: fill(presidents.pageIntro, { year: foundingYear(roll) }),
-  };
+    // A hand-written route, so there is no page document to carry a social
+    // card. The club's wordmark stands in.
+    ogImage: { url: (await getDictionary()).wordmark.src, alt: meta.title },
+    siteName: meta.title,
+  });
 }
 
 /**

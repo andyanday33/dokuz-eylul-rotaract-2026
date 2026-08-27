@@ -95,6 +95,11 @@ export const getCommitteeChairs = cache(async (): Promise<Seat<CommitteeRole>[]>
 export type PageDoc = {
   title: string;
   description?: string | null;
+  /** Social-card overrides; empty means "derive it from the two above". */
+  ogTitle?: string | null;
+  ogDescription?: string | null;
+  ogImage?: { url?: string | null; alt?: string | null } | null;
+  noindex?: boolean | null;
   layout: LayoutBlock[];
 };
 
@@ -118,6 +123,13 @@ export const getPage = cache(
     return {
       title: doc.title,
       description: doc.description,
+      ogTitle: doc.ogTitle,
+      ogDescription: doc.ogDescription,
+      ogImage:
+        typeof doc.ogImage === "object" && doc.ogImage
+          ? { url: doc.ogImage.url, alt: doc.ogImage.alt }
+          : null,
+      noindex: doc.noindex,
       layout: doc.layout ?? [],
     };
   },
@@ -133,6 +145,34 @@ export const getPagePaths = cache(async (): Promise<string[]> => {
   });
   return docs.map((doc) => doc.path).filter(Boolean);
 });
+
+/**
+ * Every page that should be listed publicly, with the words describing it.
+ *
+ * Feeds the sitemap and `/llms.txt`, which is why `noindex` is honoured here
+ * rather than at each call site — a page kept out of search should not be
+ * announced in either of them.
+ */
+export const getListablePages = cache(
+  async (
+    locale: Locale,
+  ): Promise<{ path: string; title: string; description?: string | null }[]> => {
+    const payload = await cms();
+    const { docs } = await payload.find({
+      collection: "pages",
+      locale,
+      pagination: false,
+      where: { noindex: { not_equals: true } },
+      select: { path: true, title: true, description: true },
+      sort: "path",
+    });
+    return docs.map(({ path, title, description }) => ({
+      path,
+      title,
+      description,
+    }));
+  },
+);
 
 export type FocusEntry = {
   id: FocusArea;

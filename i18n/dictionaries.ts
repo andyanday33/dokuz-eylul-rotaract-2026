@@ -23,3 +23,13 @@ export const getLocale = async (): Promise<Locale> => {
 
 export const getDictionary = async (): Promise<Dictionary> =>
   dictionaries[await getLocale()]();
+
+/**
+ * The dictionary for a named locale.
+ *
+ * For the handful of routes that live outside the `[lang]` tree and so have no
+ * root param to read — `/llms.txt`, the sitemap — and which speak about both
+ * languages rather than being served in one.
+ */
+export const dictionaryFor = (locale: Locale): Promise<Dictionary> =>
+  dictionaries[locale]();

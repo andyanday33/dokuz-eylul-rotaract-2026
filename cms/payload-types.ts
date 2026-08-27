@@ -148,6 +148,22 @@ export interface Page {
    */
   description?: string | null;
   /**
+   * Bağlantı paylaşıldığında görünen görsel. 1200×630 piksel önerilir. Boşsa kulüp logosu kullanılır.
+   */
+  ogImage?: (number | null) | Media;
+  /**
+   * Yalnızca paylaşım kartında kullanılacak başlık. Türkçede boşsa sayfa başlığı kullanılır. İngilizcede boşsa Türkçe karşılığı kullanılır — İngilizce kartta Türkçe başlık istemiyorsanız burayı da doldurun.
+   */
+  ogTitle?: string | null;
+  /**
+   * Paylaşım kartındaki özet. Türkçede boşsa yukarıdaki özet kullanılır; İngilizcede boşsa Türkçe karşılığı kullanılır.
+   */
+  ogDescription?: string | null;
+  /**
+   * İşaretlenirse arama motorlarına bu sayfayı listelememeleri söylenir. Site haritasından ve /llms.txt'ten de çıkarılır. Sayfa yine de adresi bilen herkese açıktır — bu bir gizlilik ayarı değildir.
+   */
+  noindex?: boolean | null;
+  /**
    * Sayfanın bölümleri, yukarıdan aşağıya. Sürükleyerek sırayı değiştirin.
    */
   layout: (
@@ -165,6 +181,40 @@ export interface Page {
   )[];
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * Portraits. Uploaded once, then chosen on a board member or a chair.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Görme engelli ziyaretçiler için açıklama. Portreler için boş bırakın — kişinin adından üretilir. Logo gibi kendi başına anlam taşıyan görsellerde doldurun.
+   */
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    portrait?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -210,40 +260,6 @@ export interface HeroBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
-}
-/**
- * Portraits. Uploaded once, then chosen on a board member or a chair.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  /**
-   * Görme engelli ziyaretçiler için açıklama. Portreler için boş bırakın — kişinin adından üretilir. Logo gibi kendi başına anlam taşıyan görsellerde doldurun.
-   */
-  alt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    portrait?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -815,6 +831,10 @@ export interface PagesSelect<T extends boolean = true> {
   title?: T;
   path?: T;
   description?: T;
+  ogImage?: T;
+  ogTitle?: T;
+  ogDescription?: T;
+  noindex?: T;
   layout?:
     | T
     | {
