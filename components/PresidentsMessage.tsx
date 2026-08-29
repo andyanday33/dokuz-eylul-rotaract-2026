@@ -7,12 +7,19 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Media, PresidentsMessageBlock } from "@/cms/payload-types";
 import { shortTerm } from "@/lib/presidents";
+import { PresidentSignature } from "./PresidentSignature";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 // Fine-grain film noise, inlined so the broadsheet never looks flat.
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+/**
+ * How long the signature takes to write itself, start to finish. Shared out
+ * across the strokes by length rather than spent per stroke — see `useGSAP`.
+ */
+const SIGNATURE_SECONDS = 2.8;
 
 /** Opening paragraph carries the drop cap; the rest of the letter is plain. */
 const DROP_CAP =
@@ -56,22 +63,62 @@ export const PresidentsMessage = ({
 
   useGSAP(
     () => {
-      // Signature strokes ink themselves in as they enter view.
-      gsap.utils.toArray<SVGPathElement>("[data-sig]").forEach((p, i) => {
-        const len = p.getTotalLength();
-        gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
-        gsap.to(p, {
-          strokeDashoffset: 0,
-          duration: 1.5,
-          delay: i * 0.35,
-          ease: "power2.inOut",
-          scrollTrigger: {
-            trigger: p,
-            start: "top 88%",
-            toggleActions: "play none none none",
-          },
-        });
-      });
+      // The signature inks itself in as it enters view. These are the mask
+      // strokes inside `PresidentSignature` — dashing them on uncovers the
+      // traced outline beneath, so what appears has the real pen's weight.
+      //
+      // One timeline for all of them, in document order, because a signature
+      // is written in a set order and thirty-odd strokes arriving at once
+      // would read as a smudge. Each stroke's duration is its share of the
+      // total ink, which is what holds the pen to a single speed: given a
+      // fixed duration the dot on an "i" would take as long as a long
+      // descender. `ease: "none"` for the same reason — easing each stroke
+      // would make the pen hesitate at both ends of every one of them.
+      const strokes = gsap.utils.toArray<SVGPathElement>("[data-sig]");
+      if (strokes.length) {
+        const lengths = strokes.map((p) => p.getTotalLength());
+        const ink = lengths.reduce((total, len) => total + len, 0);
+
+        // Each stroke is hidden outright until its turn, not merely dashed out
+        // of sight. A stroke parked at `strokeDashoffset === length` is a
+        // zero-length dash, and a zero-length dash under a round cap is a dot:
+        // Chrome paints one for every stroke, so the signature sits there as a
+        // scatter of points waiting to be joined up. Unhiding each as its tween
+        // starts leaves the only round cap on screen the one under the nib —
+        // where it belongs, since that one reads as the pen touching down.
+        strokes.forEach((p, i) =>
+          gsap.set(p, {
+            strokeDasharray: lengths[i],
+            strokeDashoffset: lengths[i],
+            strokeOpacity: 0,
+          }),
+        );
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          // Signed already, rather than signing.
+          gsap.set(strokes, { strokeDashoffset: 0, strokeOpacity: 1 });
+        } else {
+          const draw = gsap.timeline({
+            scrollTrigger: {
+              trigger: strokes[0].ownerSVGElement,
+              start: "top 88%",
+              toggleActions: "play none none none",
+            },
+          });
+          // Placed at explicit times rather than with `">"`. Two entries go in
+          // per stroke, and `">"` means "the end of the entry inserted last" —
+          // which, once the unhiding `set` is that entry, is the *start* of the
+          // stroke it belongs to. The strokes would then pile up at time zero
+          // and the signature would arrive already written.
+          let at = 0;
+          strokes.forEach((p, i) => {
+            const duration = (lengths[i] / ink) * SIGNATURE_SECONDS;
+            draw.set(p, { strokeOpacity: 1 }, at);
+            draw.to(p, { strokeDashoffset: 0, ease: "none", duration }, at);
+            at += duration;
+          });
+        }
+      }
 
       // Portrait drifts against the scroll for depth.
       if (portrait.current) {
@@ -249,24 +296,7 @@ export const PresidentsMessage = ({
               <p className="text-lg font-light text-background/70">
                 {block.signOff}
               </p>
-              <svg
-                viewBox="0 0 320 120"
-                className="-ml-1 mt-1 h-24 w-64 text-primary"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path
-                  data-sig
-                  d="M10,74 C40,18 62,20 60,56 C58,90 34,96 46,70 C58,44 96,40 112,72 C122,94 100,102 100,80 C100,54 142,44 168,72 C184,90 168,102 162,86 C150,54 202,40 232,66 C252,84 242,104 236,90 C231,79 246,64 300,58"
-                />
-                <path
-                  data-sig
-                  d="M8,104 C90,88 156,118 236,94 C276,82 300,90 314,84"
-                />
-              </svg>
+              <PresidentSignature className="-ml-1 mt-1 w-56 text-primary sm:w-72" />
               <p className="mt-2 border-t border-background/15 pt-3 text-sm text-background/60">
                 <span className="font-semibold text-background">
                   {name}

@@ -31,7 +31,12 @@ export const Join = ({ block }: { block: JoinBlock }) => {
           href={`mailto:${block.email}`}
           className="eyebrow group mt-10 inline-flex items-center gap-3 bg-background px-7 py-4 text-primary transition-transform hover:-translate-y-0.5"
         >
-          {block.email}{" "}
+          {/* Cased as English, deliberately. `.eyebrow` uppercases, and
+              `text-transform` follows the element's language — under the
+              page's `lang="tr"` the browser maps i to İ, so the address would
+              read İNFO@… and be wrong for anyone who typed it back. An address
+              is not Turkish text; it is not really any language. */}
+          <span lang="en">{block.email}</span>{" "}
           <span
             aria-hidden
             className="transition-transform group-hover:translate-x-1"
