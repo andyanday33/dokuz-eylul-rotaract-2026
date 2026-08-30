@@ -258,7 +258,18 @@ export const Board = ({
                       transform: `rotate(${-rotation}deg)`,
                       transition: "transform 0.7s ease-out",
                     }}
-                    className="absolute text-center"
+                    // A fixed box, the size of the largest a seat ever gets.
+                    //
+                    // This is what stops the snap. The button is placed with
+                    // `translate: -50% -50%`, which is a percentage of its own
+                    // size — and its size used to be whatever the circle
+                    // inside it happened to be, animating between 96px and
+                    // 56px. Chromium re-resolves that percentage every frame;
+                    // WebKit resolves it once and corrects when the size
+                    // lands, so on a phone the seat drifted through the turn
+                    // and jumped at the end. Given a box that never changes,
+                    // there is no percentage left to go stale.
+                    className="absolute flex h-24 w-24 items-center justify-center"
                   >
                     <div
                       // 700ms and ease-out to match the wheel's own transition
@@ -267,7 +278,7 @@ export const Board = ({
                       // final size a fifth of a second before its final
                       // position — which reads as a small settle just short of
                       // the end rather than as one movement.
-                      className={`mx-auto overflow-hidden rounded-full border-2 shadow-[0_0_0_7px_var(--paper)] transition-all duration-700 ease-out ${
+                      className={`overflow-hidden rounded-full border-2 shadow-[0_0_0_7px_var(--paper)] transition-all duration-700 ease-out ${
                         i === active
                           ? "h-24 w-24 border-primary ring-2 ring-primary/30"
                           : "h-14 w-14 border-foreground/20 opacity-50"
