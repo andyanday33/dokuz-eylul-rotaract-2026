@@ -33,8 +33,14 @@ export const LanguageSwitcher = ({ label }: { label: string }) => {
   const pathname = usePathname();
   const current = pathname.split("/")[1];
 
+  // `group` rather than a bare div: the two locale links are a set of related
+  // controls, and `generic` — what a div is — cannot carry the name that tells
+  // anyone what the set is for. A second `nav` landmark would also take the
+  // label, but this already sits inside the masthead's nav, and nesting one
+  // landmark inside another is noise.
   return (
     <div
+      role="group"
       aria-label={label}
       className="eyebrow flex items-center gap-2 text-muted-foreground"
     >

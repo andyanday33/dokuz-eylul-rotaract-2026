@@ -185,8 +185,17 @@ export const PresidentsMessage = ({
             </div>
 
             {/* Bleeding pull-quote */}
+            {/* `role="img"` for the same reason as the figures in Numbers:
+                the `blockquote` role does not permit the `aria-label` that
+                SplitText needs in order to hide the glyphs it makes. The cost
+                is that the pull-quote is no longer announced as a quotation —
+                worth it only because its own contents are `aria-hidden` the
+                moment it is split, so the alternative is a quotation that
+                reads as empty. */}
             <blockquote
               data-chars
+              role="img"
+              aria-label={block.pullQuote}
               className="font-editorial relative z-20 my-10 -rotate-2 text-balance text-5xl italic leading-[1.05] text-primary sm:text-6xl lg:-ml-28 lg:text-7xl"
             >
               {block.pullQuote}
