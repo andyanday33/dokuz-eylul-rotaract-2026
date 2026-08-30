@@ -1,6 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { s3Storage } from "@payloadcms/storage-s3";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { en } from "@payloadcms/translations/languages/en";
 import { tr } from "@payloadcms/translations/languages/tr";
@@ -101,6 +102,45 @@ export default buildConfig({
      */
     push: false,
   }),
+
+  /**
+   * Uploads live in Supabase Storage rather than on the machine's disk.
+   *
+   * The database is already a single Supabase instance shared by development
+   * and production — see the note on `push` above — so the files it points at
+   * have to be shared too. A local `media/` directory means every environment
+   * holds a different subset of the portraits the one database references, and
+   * a row whose file is missing renders as a broken image rather than an
+   * error. It also means a container rebuild starts with nothing.
+   *
+   * Supabase Storage speaks S3, so this is the S3 adapter pointed at the
+   * project's own endpoint. `forcePathStyle` is required: the bucket is a path
+   * segment there, not a subdomain as it is on AWS.
+   *
+   * `disablePayloadAccessControl` is deliberately left off. With it off Payload
+   * keeps serving files from `/api/media/file/<name>`, which means no URL in
+   * the site changes, the caching header in next.config.ts still applies to
+   * them, and the collection's `read` access still governs who may fetch one.
+   * Turning it on would hand out bucket URLs directly and give up all three.
+   */
+  plugins: [
+    s3Storage({
+      collections: { media: true },
+      bucket: process.env.S3_BUCKET || "",
+      config: {
+        // Derived from the project URL rather than configured separately —
+        // they cannot be for different projects, so they should not be two
+        // things to keep in step.
+        endpoint: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/s3`,
+        region: process.env.S3_REGION || "",
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || "",
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || "",
+        },
+        forcePathStyle: true,
+      },
+    }),
+  ],
 
   secret: process.env.PAYLOAD_SECRET || "",
 

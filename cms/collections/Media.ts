@@ -7,16 +7,16 @@ import { revalidation } from "../hooks/revalidate";
 /**
  * Uploads — portraits, for now.
  *
- * Files land in `media/` at the repo root rather than `public/`, because
- * Payload serves them itself from `/api/media/file/<name>`. Putting them under
- * `public/` would mean two URLs for the same byte and a directory that fills
- * up in git.
+ * The bytes live in Supabase Storage — see the `s3Storage` plugin in
+ * payload.config.ts — but the URLs do not change: Payload still serves each
+ * file from `/api/media/file/<name>` and fetches it from the bucket behind
+ * that. So this collection is unchanged by the move, which is what the note
+ * that used to sit here predicted.
  *
- * NOTE FOR DEPLOYMENT: this writes to the local filesystem, which is fine in
- * development and on a long-lived server, but not on serverless hosting where
- * the disk is discarded between invocations. Moving to Supabase Storage means
- * adding `@payloadcms/storage-s3` and pointing it at the project's S3 endpoint;
- * nothing else in this collection changes.
+ * `staticDir` is left in place but is no longer where anything ends up: the
+ * plugin sets `disableLocalStorage`, so the bytes go to the bucket instead.
+ * It costs nothing to keep and is the one line to revisit if the storage
+ * adapter is ever removed.
  */
 export const Media: CollectionConfig = {
   slug: "media",
