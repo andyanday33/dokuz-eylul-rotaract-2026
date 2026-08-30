@@ -42,6 +42,11 @@ readonly REQUIRED=(
 )
 readonly HEALTH_TIMEOUT=120
 
+# Set by preflight, read by the closing message. Initialised here rather than
+# in main() so that `set -u` has something to find on the path where preflight
+# never assigns it — which is the successful one.
+SITE_URL_MISSING=0
+
 # Colour only when a person is watching; CI logs keep the escape codes out.
 if [[ -t 1 ]]; then
   readonly B=$'\033[1m' DIM=$'\033[2m' RED=$'\033[31m' GRN=$'\033[32m' OFF=$'\033[0m'
@@ -66,6 +71,25 @@ preflight() {
   docker compose version >/dev/null 2>&1 ||
     die "the 'docker compose' plugin is missing. Install Compose v2."
 
+  # Not optional, and not merely a faster builder: the build mounts
+  # DATABASE_URL and PAYLOAD_SECRET as BuildKit secrets, which is what keeps
+  # them out of the image's layers. The legacy builder has no equivalent — the
+  # only way to pass them without buildx is a build argument, which
+  # `docker history` then reads straight back out. Checked here rather than
+  # discovered part-way into a build.
+  docker buildx version >/dev/null 2>&1 || die "the buildx plugin is missing, and the build needs it to mount secrets.
+
+       With a working apt:
+         apt-get update && apt-get install -y docker-buildx-plugin
+
+       Or drop the binary in directly — buildx is one static file, and this
+       works on a host whose apt is broken or whose release has gone EOL:
+         mkdir -p ~/.docker/cli-plugins
+         V=\$(curl -fsSL https://api.github.com/repos/docker/buildx/releases/latest | sed -n 's/.*\"tag_name\": \"\\([^\"]*\\)\".*/\\1/p')
+         curl -fsSL \"https://github.com/docker/buildx/releases/download/\$V/buildx-\$V.linux-amd64\" -o ~/.docker/cli-plugins/docker-buildx
+         chmod +x ~/.docker/cli-plugins/docker-buildx
+         docker buildx version"
+
   [[ -f .env ]] || die ".env not found in $ROOT. Copy .env.example and fill it in."
 
   # Read the deployment's own configuration file. `set -a` exports each
@@ -81,6 +105,15 @@ preflight() {
   done
   (( ${#missing[@]} == 0 )) || die ".env is missing: ${missing[*]}"
 
+  # Not in REQUIRED: the site runs without it. But it is baked into every
+  # prerendered page's canonical URL at build time, so a deploy without it
+  # publishes a site that tells search engines it lives on localhost. Warned
+  # about here and again at the end, because the end is what gets read.
+  if [[ -z "${NEXT_PUBLIC_SITE_URL:-}" ]]; then
+    SITE_URL_MISSING=1
+    printf '    %sNEXT_PUBLIC_SITE_URL is not set — canonical URLs will say localhost.%s\n' "$RED" "$OFF"
+  fi
+
   info "docker $(docker version --format '{{.Server.Version}}')"
   info "compose $(docker compose version --short)"
   info "release $(git rev-parse --short HEAD 2>/dev/null || echo 'not a git checkout')"
@@ -89,18 +122,72 @@ preflight() {
 # ---------------------------------------------------------------------------
 # Migrate, then build
 # ---------------------------------------------------------------------------
+# What is on disk that the database has not recorded, and whether Payload's
+# dev-push marker is still sitting in the table.
+#
+# Asked directly rather than by running `migrate` and seeing what it says,
+# because `migrate` is interactive: with the marker present it stops on a
+# yes/no prompt about data loss, which a deploy has no way to answer and no
+# business answering. Knowing there is nothing to apply means never reaching
+# that question.
+survey_migrations() {
+  docker run --rm -e DATABASE_URL --entrypoint node "$IMAGE:migrator" -e '
+    const fs = require("fs"), pg = require("pg");
+    (async () => {
+      const files = fs.readdirSync("/app/cms/migrations")
+        .filter((f) => f.endsWith(".ts") && f !== "index.ts")
+        .map((f) => f.slice(0, -3));
+      const c = new pg.Client({ connectionString: process.env.DATABASE_URL });
+      await c.connect();
+      const applied = await c.query(
+        "select name, batch from payload.payload_migrations",
+      );
+      await c.end();
+      const done = new Set(applied.rows.filter((r) => r.batch >= 0).map((r) => r.name));
+      const marker = applied.rows.some((r) => r.batch < 0) ? "1" : "0";
+      console.log(files.filter((f) => !done.has(f)).length + " " + marker);
+    })().catch((e) => { console.error(e.message); process.exit(1); });
+  '
+}
+
 migrate() {
-  step "Applying database migrations"
+  step "Checking database migrations"
 
   DOCKER_BUILDKIT=1 docker build ${NO_CACHE[@]+"${NO_CACHE[@]}"} --target migrator -t "$IMAGE:migrator" . \
     || die "could not build the migrator image."
 
+  local survey pending marker
+  survey="$(survey_migrations)" || die "could not read the migration table. Is DATABASE_URL right, and is Supabase reachable from this host?"
+  pending="${survey% *}"
+  marker="${survey#* }"
+
+  if (( marker )); then
+    printf '    %sPayload'"'"'s dev-push marker is still in payload_migrations.%s\n' "$RED" "$OFF"
+    printf '    %sIt makes `migrate` stop on a data-loss prompt. Clearing it is one row:%s\n' "$DIM" "$OFF"
+    printf '    %sdelete from payload.payload_migrations where batch < 0;%s\n' "$DIM" "$OFF"
+  fi
+
+  if (( pending == 0 )); then
+    info "schema is up to date — nothing to apply"
+    return 0
+  fi
+
+  info "$pending migration(s) to apply"
+  (( marker == 0 )) || die "$pending migration(s) are pending, but the dev-push marker above would turn this into an interactive data-loss prompt. Clear the marker first, then deploy again."
+
   # --rm because this container has done its job the moment it exits; the
   # migrations it applied live in Postgres, not here.
+  #
+  # stdin is closed deliberately. Without `-i` the container has no stdin to
+  # read anyway, so anything that stops to ask a question renders the prompt,
+  # ignores every keystroke — the terminal echoes them, which makes it look
+  # like it is listening — and waits forever. Handing it EOF turns that hang
+  # into an error the `|| die` below can report. The survey above is what
+  # keeps it from being asked in the first place.
   docker run --rm \
     -e DATABASE_URL \
     -e PAYLOAD_SECRET \
-    "$IMAGE:migrator" migrate \
+    "$IMAGE:migrator" migrate < /dev/null \
     || die "migrations failed. The database is unchanged past the last successful one, and nothing has been released."
 }
 
@@ -114,6 +201,7 @@ build() {
     --target runner \
     --build-arg "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL" \
     --build-arg "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
+    --build-arg "NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-}" \
     --secret "id=DATABASE_URL,env=DATABASE_URL" \
     --secret "id=PAYLOAD_SECRET,env=PAYLOAD_SECRET" \
     -t "$IMAGE:build" \
@@ -239,8 +327,13 @@ main() {
 
   cleanup
 
-  printf '\n%sLive.%s %s\n\n' "$GRN$B" "$OFF" \
+  printf '\n%sLive.%s %s\n' "$GRN$B" "$OFF" \
     "http://127.0.0.1:${PORT:-3000} — behind whatever proxy terminates TLS."
+
+  if (( SITE_URL_MISSING )); then
+    printf '\n%sOne thing before you announce it.%s NEXT_PUBLIC_SITE_URL was not set,\nso every page it just built names http://localhost:3000 as its canonical\nURL. Put the real origin in .env and deploy again — it is read at build\ntime, so restarting the container will not pick it up.\n' "$RED$B" "$OFF"
+  fi
+  printf '\n'
 }
 
 main "$@"

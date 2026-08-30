@@ -59,6 +59,15 @@ ARG NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
 
+# The site's own origin, and it has to be here rather than only at runtime.
+# The public pages are prerendered, so their canonical URL, hreflang set and
+# Open Graph tags are written during this build — see the comment in
+# lib/seo.ts. Left unset, every page ships claiming to live at
+# http://localhost:3000, which is invisible rather than broken: the site looks
+# perfect and search engines index nothing.
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
+
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
