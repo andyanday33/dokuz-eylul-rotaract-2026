@@ -1,12 +1,4 @@
-"use client";
-
-import React from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { FourWayTestBlock } from "@/cms/payload-types";
-
-gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 // Reused paper tooth — same fractal noise as the President's broadsheet.
 const GRAIN =
@@ -33,49 +25,9 @@ export const FourWayTest = ({ block }: { block: FourWayTestBlock }) => {
     ...(PLATES[i] ?? NO_PLATE),
     ...item,
   }));
-  const scope = React.useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      // Each verdict stamp slams onto the paper, settling from a hard hit.
-      gsap.utils.toArray<HTMLElement>("[data-stamp]").forEach((el) => {
-        gsap.fromTo(
-          el,
-          { scale: 1.7, opacity: 0, rotate: 16 },
-          {
-            scale: 1,
-            opacity: 1,
-            rotate: 0,
-            duration: 0.45,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 82%",
-              toggleActions: "play none none none",
-            },
-          },
-        );
-      });
-
-      // The colossal ghost question mark drifts against the scroll.
-      gsap.to("[data-ghost]", {
-        yPercent: -10,
-        ease: "none",
-        scrollTrigger: {
-          trigger: scope.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-    },
-    { scope },
-  );
-
   return (
     <section
       id="four-way-test"
-      ref={scope}
       className="relative overflow-hidden border-y border-foreground/10 bg-[oklch(0.945_0.016_85)] text-foreground"
     >
       {/* Aged-paper vignette + grain tooth */}
@@ -91,7 +43,7 @@ export const FourWayTest = ({ block }: { block: FourWayTestBlock }) => {
 
       {/* Colossal ghost query watermark */}
       <span
-        data-ghost
+        data-drift-y="-10"
         aria-hidden
         className="font-editorial pointer-events-none absolute -right-[4vw] top-[8vw] select-none text-[46vw] italic leading-none text-foreground/[0.04]"
       >

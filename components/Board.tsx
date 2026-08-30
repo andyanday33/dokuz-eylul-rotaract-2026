@@ -1,17 +1,13 @@
 "use client";
 
 import React from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import { fill, type Dictionary } from "@/i18n/config";
 import type { BoardBlock } from "@/cms/payload-types";
 import { Grain } from "./Editorial";
 import { shortTerm } from "@/lib/presidents";
 import type { Seat } from "@/lib/cms/queries";
 import type { BoardRole } from "@/cms/roles";
-
-gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /** Stands in until a portrait has been uploaded for a seat. */
 const PLACEHOLDER = "/board/placeholder.jpg";
@@ -57,83 +53,6 @@ export const Board = ({
   const [rotation, setRotation] = React.useState(0);
   const step = count === 0 ? 0 : 360 / count;
 
-  useGSAP(() => {
-    const arrowStroke = document.querySelector(
-      "#arrow-stroke",
-    ) as SVGPathElement;
-    const arrowHead = document.querySelector("#arrow-head") as SVGPathElement;
-    const arrowText = document.querySelector("#arrow-text");
-
-    if (!arrowStroke || !arrowHead || !arrowText) return;
-
-    const strokeLen = arrowStroke.getTotalLength();
-    const headLen = arrowHead.getTotalLength();
-
-    gsap.set(arrowStroke, {
-      strokeDasharray: strokeLen,
-      strokeDashoffset: strokeLen,
-    });
-    gsap.set(arrowHead, {
-      strokeDasharray: headLen,
-      strokeDashoffset: headLen,
-    });
-    gsap.set(arrowText, { opacity: 0 });
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#board-arrow",
-        start: "top 80%",
-        toggleActions: "play none none none",
-      },
-    });
-
-    tl.to(arrowText, { opacity: 1, duration: 0.4 })
-      .to(
-        arrowStroke,
-        { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" },
-        "<0.1",
-      )
-      .to(
-        arrowHead,
-        { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" },
-        "-=0.1",
-      );
-
-    // Desktop: the ring and its centre mark fade up, then the busts arrive.
-    // The ring is no longer inked on stroke by stroke — that animation works
-    // by overwriting strokeDasharray with the path length, which leaves the
-    // circle solid once it lands, and this one has to stay dashed.
-    const plate = "#board-plate";
-    const busts = gsap.utils.toArray("[data-board] article");
-    const fades = gsap.utils.toArray(`${plate} [data-fade]`);
-    if (!busts.length) return;
-
-    gsap.set(fades, { opacity: 0 });
-    gsap.set(busts, { opacity: 0, scale: 0.8 });
-
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: plate,
-          start: "top 82%",
-          toggleActions: "play none none none",
-        },
-      })
-      .to(fades, { opacity: 1, duration: 0.8, ease: "power2.out" })
-      .to(
-        busts,
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 0.45,
-          stagger: 0.07,
-          ease: "back.out(1.6)",
-          clearProps: "transform",
-        },
-        "-=0.45",
-      );
-  }, {});
-
   const prev = () => {
     setActive((i) => (i - 1 + count) % (count || 1));
     setRotation((r) => r - step);
@@ -148,7 +67,11 @@ export const Board = ({
     setRotation((r) => r + diff * step);
   };
 
-  const touchRef = React.useRef<{ x: number; y: number; locked: boolean | null } | null>(null);
+  const touchRef = React.useRef<{
+    x: number;
+    y: number;
+    locked: boolean | null;
+  } | null>(null);
   const swipeRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -160,7 +83,10 @@ export const Board = ({
       const dx = e.touches[0].clientX - touchRef.current.x;
       const dy = e.touches[0].clientY - touchRef.current.y;
       // First significant move: decide if horizontal or vertical
-      if (touchRef.current.locked === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      if (
+        touchRef.current.locked === null &&
+        (Math.abs(dx) > 8 || Math.abs(dy) > 8)
+      ) {
         touchRef.current.locked = Math.abs(dx) > Math.abs(dy);
       }
       if (touchRef.current.locked) {
@@ -173,7 +99,11 @@ export const Board = ({
   }, []);
 
   const onTouchStart = (e: React.TouchEvent) => {
-    touchRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY, locked: null };
+    touchRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+      locked: null,
+    };
   };
   const onTouchEnd = (e: React.TouchEvent) => {
     if (!touchRef.current) return;
@@ -260,7 +190,12 @@ export const Board = ({
         </div>
 
         {/* ===== MOBILE: arc wheel peeking from top ===== */}
-        <div ref={swipeRef} className="sm:hidden" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <div
+          ref={swipeRef}
+          className="sm:hidden"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
           {/* Clip container — shows the top arc of the wheel. Height and the
               centre offset below are tuned together: the flanking members sit
               74px below centre and the hub crown 75px, so they enter the frame
@@ -305,11 +240,15 @@ export const Board = ({
                           : "h-14 w-14 border-foreground/20 opacity-50"
                       }`}
                     >
-                      <img
+                      {/* 96px at its largest, on the seat the wheel has
+                          turned to; 56px for the rest. `sizes` is what stops
+                          the optimiser handing a 200px file to a 56px hole. */}
+                      <Image
                         src={m.photo}
                         alt={m.alt}
                         width={200}
                         height={200}
+                        sizes="96px"
                         className="h-full w-full object-cover"
                       />
                     </div>
@@ -339,19 +278,38 @@ export const Board = ({
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/20 transition-colors hover:border-primary hover:text-primary"
                 aria-label={block.prevLabel}
               >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M10 12L6 8L10 4" />
                 </svg>
               </button>
               <span className="eyebrow text-muted-foreground">
-                {String(active + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
+                {String(active + 1).padStart(2, "0")} /{" "}
+                {String(count).padStart(2, "0")}
               </span>
               <button
                 onClick={next}
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-foreground/20 transition-colors hover:border-primary hover:text-primary"
                 aria-label={block.nextLabel}
               >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M6 4L10 8L6 12" />
                 </svg>
               </button>
@@ -411,12 +369,12 @@ export const Board = ({
                 >
                   {/* the paper halo knocks the orbit line out behind each bust */}
                   <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border border-foreground/20 shadow-[0_0_0_9px_var(--paper)] ring-1 ring-transparent transition-all duration-500 group-hover:border-primary group-hover:ring-primary/40 lg:h-36 lg:w-36">
-                    <img
+                    <Image
                       src={m.photo}
                       alt={m.alt}
-                      loading="lazy"
                       width={400}
                       height={400}
+                      sizes="144px"
                       className="board-photo h-full w-full object-cover group-hover:scale-105 group-hover:[filter:grayscale(0)_contrast(1.05)_brightness(1)]"
                     />
                   </div>

@@ -28,6 +28,10 @@ export function Wordmark({
       alt={alt}
       width={790}
       height={318}
+      // The masthead runs from 16rem to 42rem while the hero animation plays
+      // and parks at 6.5rem for the rest of the site. Without this every one
+      // of those states pulled the 790w file.
+      sizes="(min-width: 1280px) 42rem, (min-width: 1024px) 36rem, (min-width: 768px) 30rem, (min-width: 640px) 24rem, 18rem"
       priority={priority}
       className="h-auto w-full"
     />

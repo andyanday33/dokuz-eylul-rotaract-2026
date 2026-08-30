@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { fill, getDictionary } from "@/i18n/dictionaries";
 import type { CommitteesBlock } from "@/cms/payload-types";
 import { getCommitteeChairs } from "@/lib/cms/queries";
@@ -53,11 +54,14 @@ export const Committees = async ({ block }: { block: CommitteesBlock }) => {
               key={c.role}
               className="group relative flex-[1_1_0%] overflow-hidden rounded-sm bg-black transition-[flex-grow] duration-700 ease-out hover:flex-[3.4_1_0%]"
             >
-              <img
+              {/* A slat is a tenth of the row at rest and about a third of
+                  it open, so the widest it is ever painted is ~480px. */}
+              <Image
                 src={c.photo}
                 alt={c.alt}
-                loading="lazy"
-                className="chair-photo absolute inset-0 h-full w-full object-cover grayscale group-hover:grayscale-0 group-hover:[filter:sepia(0)_saturate(1.05)]"
+                fill
+                sizes="(min-width: 640px) 480px, 100vw"
+                className="chair-photo object-cover grayscale group-hover:grayscale-0 group-hover:[filter:sepia(0)_saturate(1.05)]"
               />
               <div className="absolute inset-0 bg-ink/55 transition-opacity duration-700 group-hover:opacity-0" />
               <span className="absolute left-3 top-3 eyebrow text-paper/80">
@@ -90,11 +94,12 @@ export const Committees = async ({ block }: { block: CommitteesBlock }) => {
               className="group relative h-24 overflow-hidden rounded-sm"
               style={{ marginLeft: `${(i % 3) * 12}px` }}
             >
-              <img
+              <Image
                 src={c.photo}
                 alt={c.alt}
-                loading="lazy"
-                className="chair-photo absolute inset-0 h-full w-full object-cover object-[50%_40%] grayscale"
+                fill
+                sizes="90vw"
+                className="chair-photo object-cover object-[50%_40%] grayscale"
               />
               <div className="absolute inset-0 bg-ink/55" />
               <div className="absolute inset-0 flex items-center justify-between gap-3 px-4">

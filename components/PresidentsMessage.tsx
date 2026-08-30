@@ -1,25 +1,12 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Media, PresidentsMessageBlock } from "@/cms/payload-types";
 import { shortTerm } from "@/lib/presidents";
 import { PresidentSignature } from "./PresidentSignature";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
-
 // Fine-grain film noise, inlined so the broadsheet never looks flat.
 const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
-
-/**
- * How long the signature takes to write itself, start to finish. Shared out
- * across the strokes by length rather than spent per stroke — see `useGSAP`.
- */
-const SIGNATURE_SECONDS = 2.8;
 
 /**
  * Circumference of the r=44 circle the wax seal's label is set on. The label is
@@ -66,101 +53,9 @@ export const PresidentsMessage = ({
   // on the figure rather than the image inside it.
   const portraitImage =
     typeof block.portrait === "object" ? (block.portrait as Media) : null;
-  const scope = React.useRef<HTMLElement>(null);
-  const portrait = React.useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      // The signature inks itself in as it enters view. These are the mask
-      // strokes inside `PresidentSignature` — dashing them on uncovers the
-      // traced outline beneath, so what appears has the real pen's weight.
-      //
-      // One timeline for all of them, in document order, because a signature
-      // is written in a set order and thirty-odd strokes arriving at once
-      // would read as a smudge. Each stroke's duration is its share of the
-      // total ink, which is what holds the pen to a single speed: given a
-      // fixed duration the dot on an "i" would take as long as a long
-      // descender. `ease: "none"` for the same reason — easing each stroke
-      // would make the pen hesitate at both ends of every one of them.
-      const strokes = gsap.utils.toArray<SVGPathElement>("[data-sig]");
-      if (strokes.length) {
-        const lengths = strokes.map((p) => p.getTotalLength());
-        const ink = lengths.reduce((total, len) => total + len, 0);
-
-        // Each stroke is hidden outright until its turn, not merely dashed out
-        // of sight. A stroke parked at `strokeDashoffset === length` is a
-        // zero-length dash, and a zero-length dash under a round cap is a dot:
-        // Chrome paints one for every stroke, so the signature sits there as a
-        // scatter of points waiting to be joined up. Unhiding each as its tween
-        // starts leaves the only round cap on screen the one under the nib —
-        // where it belongs, since that one reads as the pen touching down.
-        strokes.forEach((p, i) =>
-          gsap.set(p, {
-            strokeDasharray: lengths[i],
-            strokeDashoffset: lengths[i],
-            strokeOpacity: 0,
-          }),
-        );
-
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-          // Signed already, rather than signing.
-          gsap.set(strokes, { strokeDashoffset: 0, strokeOpacity: 1 });
-        } else {
-          const draw = gsap.timeline({
-            scrollTrigger: {
-              trigger: strokes[0].ownerSVGElement,
-              start: "top 88%",
-              toggleActions: "play none none none",
-            },
-          });
-          // Placed at explicit times rather than with `">"`. Two entries go in
-          // per stroke, and `">"` means "the end of the entry inserted last" —
-          // which, once the unhiding `set` is that entry, is the *start* of the
-          // stroke it belongs to. The strokes would then pile up at time zero
-          // and the signature would arrive already written.
-          let at = 0;
-          strokes.forEach((p, i) => {
-            const duration = (lengths[i] / ink) * SIGNATURE_SECONDS;
-            draw.set(p, { strokeOpacity: 1 }, at);
-            draw.to(p, { strokeDashoffset: 0, ease: "none", duration }, at);
-            at += duration;
-          });
-        }
-      }
-
-      // Portrait drifts against the scroll for depth.
-      if (portrait.current) {
-        gsap.to(portrait.current, {
-          yPercent: -12,
-          ease: "none",
-          scrollTrigger: {
-            trigger: scope.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.6,
-          },
-        });
-      }
-
-      // The colossal ghost word slides the opposite way.
-      gsap.to("[data-ghost]", {
-        xPercent: -8,
-        ease: "none",
-        scrollTrigger: {
-          trigger: scope.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-    },
-    { scope },
-  );
-
   return (
     <section
       id="president"
-      ref={scope}
       className="relative overflow-hidden bg-[oklch(0.16_0.02_350)] text-background"
     >
       {/* Grain + column rules for the printed-page atmosphere */}
@@ -176,7 +71,7 @@ export const PresidentsMessage = ({
 
       {/* Colossal ghost wordmark bleeding off the bottom edge */}
       <span
-        data-ghost
+        data-drift-x="-8"
         aria-hidden
         className="font-editorial pointer-events-none absolute -bottom-[6vw] left-1/2 -translate-x-1/2 select-none whitespace-nowrap text-[42vw] italic leading-none text-background/[0.035]"
       >
@@ -205,7 +100,9 @@ export const PresidentsMessage = ({
 
         <div className="mt-16 grid gap-14 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-start lg:gap-20">
           {/* ===== Portrait: duotone print that develops on hover ===== */}
-          <div ref={portrait} className="relative">
+          {/* Drifts against the scroll for depth. Named apart from the
+              figure inside it, which is the thing that rotates on hover. */}
+          <div data-drift-y="-12" data-drift-scrub="0.6" className="relative">
             <figure className="group relative w-full max-w-sm rotate-[-4deg] transition-transform duration-700 ease-out will-change-transform hover:rotate-0">
               <div className="relative aspect-4/5 overflow-hidden border border-background/15 bg-black shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)]">
                 <Image
@@ -278,7 +175,10 @@ export const PresidentsMessage = ({
                 ))}
               </p>
               {block.openingParagraphs.map((para, i) => (
-                <p key={para.id ?? i} className={i === 0 ? DROP_CAP : undefined}>
+                <p
+                  key={para.id ?? i}
+                  className={i === 0 ? DROP_CAP : undefined}
+                >
                   {para.text}
                 </p>
               ))}
@@ -311,10 +211,8 @@ export const PresidentsMessage = ({
               </p>
               <PresidentSignature className="-ml-1 mt-1 w-56 text-primary sm:w-72" />
               <p className="mt-2 border-t border-background/15 pt-3 text-sm text-background/60">
-                <span className="font-semibold text-background">
-                  {name}
-                </span>{" "}
-                · {block.signatureCredit}
+                <span className="font-semibold text-background">{name}</span> ·{" "}
+                {block.signatureCredit}
               </p>
             </div>
           </div>
