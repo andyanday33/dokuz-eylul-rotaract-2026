@@ -234,7 +234,13 @@ export const Board = ({
                     className="absolute text-center"
                   >
                     <div
-                      className={`mx-auto overflow-hidden rounded-full border-2 shadow-[0_0_0_7px_var(--paper)] transition-all duration-500 ${
+                      // 700ms and ease-out to match the wheel's own transition
+                      // exactly. On 500ms the seat finished growing while the
+                      // wheel was still turning, so the bust arrived at its
+                      // final size a fifth of a second before its final
+                      // position — which reads as a small settle just short of
+                      // the end rather than as one movement.
+                      className={`mx-auto overflow-hidden rounded-full border-2 shadow-[0_0_0_7px_var(--paper)] transition-all duration-700 ease-out ${
                         i === active
                           ? "h-24 w-24 border-primary ring-2 ring-primary/30"
                           : "h-14 w-14 border-foreground/20 opacity-50"
