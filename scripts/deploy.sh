@@ -12,6 +12,19 @@
 # wrongly. The release only replaces the running container once the new image
 # has answered a health check, and puts the old one back if it does not.
 
+# Started with `sh deploy.sh` this would run under dash on Ubuntu, which has no
+# arrays and no ${BASH_SOURCE} — and says so as "Bad substitution" on line 17,
+# which is not a useful way to learn you used the wrong interpreter. Re-exec
+# under bash rather than make anyone work that out. Everything above, including
+# this block, is POSIX, so dash gets this far before handing over.
+if [ -z "${BASH_VERSION:-}" ]; then
+  command -v bash >/dev/null 2>&1 || {
+    echo "This script needs bash. Install it: apt-get install -y bash" >&2
+    exit 1
+  }
+  exec bash "$0" "$@"
+fi
+
 set -Eeuo pipefail
 
 readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
