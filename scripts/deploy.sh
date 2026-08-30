@@ -112,6 +112,15 @@ preflight() {
   if [[ -z "${NEXT_PUBLIC_SITE_URL:-}" ]]; then
     SITE_URL_MISSING=1
     printf '    %sNEXT_PUBLIC_SITE_URL is not set — canonical URLs will say localhost.%s\n' "$RED" "$OFF"
+  elif [[ ! "$NEXT_PUBLIC_SITE_URL" =~ ^https?://[A-Za-z0-9] ]]; then
+    # `new URL()` in lib/seo.ts needs a scheme, and a bare host does not have
+    # one. Fatal rather than a warning: the build gets through compiling and
+    # typechecking before prerendering reaches generateMetadata and throws
+    # `TypeError: Invalid URL`, which on a small box is two minutes spent to
+    # learn that eight characters are missing.
+    die "NEXT_PUBLIC_SITE_URL is '$NEXT_PUBLIC_SITE_URL', which has no scheme.
+       It is handed to new URL() when the pages are prerendered, so it needs the
+       protocol:  NEXT_PUBLIC_SITE_URL=https://$NEXT_PUBLIC_SITE_URL"
   fi
 
   info "docker $(docker version --format '{{.Server.Version}}')"
