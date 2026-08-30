@@ -21,6 +21,14 @@ const GRAIN =
  */
 const SIGNATURE_SECONDS = 2.8;
 
+/**
+ * Circumference of the r=44 circle the wax seal's label is set on. The label is
+ * CMS copy of no fixed length, and a `textPath` silently clips whatever runs off
+ * the end of its path — so the text is set to this length rather than left to
+ * fall where its natural width lands.
+ */
+const SEAL_ARC_LENGTH = 2 * Math.PI * 44;
+
 /** Opening paragraph carries the drop cap; the rest of the letter is plain. */
 const DROP_CAP =
   "first-letter:font-editorial first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:text-[5.5rem] first-letter:font-medium first-letter:not-italic first-letter:leading-[0.66] first-letter:text-primary sm:first-letter:text-[7rem]";
@@ -235,11 +243,16 @@ export const PresidentsMessage = ({
                   style={{
                     fontWeight: 700,
                     textTransform: "uppercase",
-                    letterSpacing: "0.24em",
-                    fontSize: "10px",
+                    letterSpacing: "0.1em",
+                    fontSize: "8px",
                   }}
                 >
-                  <textPath href="#seal-arc" startOffset="0">
+                  <textPath
+                    href="#seal-arc"
+                    startOffset="0"
+                    textLength={SEAL_ARC_LENGTH}
+                    lengthAdjust="spacing"
+                  >
                     {block.sealText}
                   </textPath>
                 </text>
