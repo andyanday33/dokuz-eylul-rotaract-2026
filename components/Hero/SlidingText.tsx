@@ -15,15 +15,32 @@ const RULE_TOP = '[data-masthead-rule="top"]';
 const RULE_FOOT = '[data-masthead-rule="foot"]';
 
 export const SlidingText = ({ src, alt }: Props) => {
-  // Hacky way to reset sliding text position by refreshing
-  // the page on resize, shouldn't affect the normal user
-  // tl.scrollTrigger.refresh is not working properly.
+  /**
+   * Reload when the window is resized, because the travel below is measured
+   * once and a new viewport invalidates it. `ScrollTrigger.refresh()` was
+   * tried first and did not restore the position correctly.
+   *
+   * Width only. On a phone this listener does not fire because the window
+   * changed — it fires because the address bar slid away, which is a change in
+   * *height* and happens on the first flick of a scroll. The hero is exactly
+   * where that scroll starts, so the page reloaded underneath anyone reading
+   * it, which then re-showed the address bar, which fired it again.
+   *
+   * Rotating the device changes the width and still reloads, which is the case
+   * this was written for. A height-only change is a browser chrome animation
+   * and nothing here needs to know about it.
+   */
   React.useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
+    let width = window.innerWidth;
+
     const onResize = () => {
+      if (window.innerWidth === width) return;
+      width = window.innerWidth;
       clearTimeout(timer);
       timer = setTimeout(() => window.location.reload(), 200);
     };
+
     window.addEventListener("resize", onResize);
     return () => {
       clearTimeout(timer);
