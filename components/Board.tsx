@@ -49,23 +49,50 @@ export const Board = ({
     alt: fill(block.portraitAlt, { name: m.name }),
   }));
   const count = members.length;
-  const [active, setActive] = React.useState(0);
-  const [rotation, setRotation] = React.useState(0);
   const step = count === 0 ? 0 : 360 / count;
 
-  const prev = () => {
-    setActive((i) => (i - 1 + count) % (count || 1));
-    setRotation((r) => r - step);
-  };
-  const next = () => {
-    setActive((i) => (i + 1) % (count || 1));
-    setRotation((r) => r + step);
-  };
-  const goTo = (i: number) => {
-    const diff = i - active;
-    setActive(i);
-    setRotation((r) => r + diff * step);
-  };
+  /**
+   * Which seat is at the top, and how far the wheel has turned to put it
+   * there. One piece of state, not two, because they are one fact.
+   *
+   * Held separately they drifted apart. Both were set from the same handler,
+   * but `goTo` read `active` from the render it was created in while writing
+   * `rotation` through an updater — so two taps inside one frame measured
+   * against a stale seat, and the wheel turned by an amount that matched
+   * neither. Nothing put them back in step afterwards: `prev` and `next` only
+   * ever add to whatever `rotation` already held, so a single desynchronised
+   * tap left the wheel permanently pointing at the wrong bust. Updating them
+   * together, from the same previous value, is what makes that impossible
+   * rather than unlikely.
+   */
+  const [seatState, setSeatState] = React.useState({ active: 0, rotation: 0 });
+  const { active, rotation } = seatState;
+
+  /** Turn by whole seats, carrying the highlight with it. */
+  const turn = (delta: number) =>
+    setSeatState((current) => ({
+      active: count === 0 ? 0 : (current.active + delta + count) % count,
+      rotation: current.rotation + delta * step,
+    }));
+
+  const prev = () => turn(-1);
+  const next = () => turn(1);
+
+  /**
+   * Go to a seat the short way round.
+   *
+   * The old arithmetic was `i - active`, which is the distance along the array
+   * rather than around the wheel: tapping seat 7 of 8 while seat 0 was up sent
+   * it +315 degrees clockwise, the whole way round, instead of 45 degrees
+   * back. Anything more than half a turn is shorter in the other direction.
+   */
+  const goTo = (i: number) =>
+    setSeatState((current) => {
+      if (count === 0) return current;
+      const forward = (i - current.active + count) % count;
+      const delta = forward > count / 2 ? forward - count : forward;
+      return { active: i, rotation: current.rotation + delta * step };
+    });
 
   const touchRef = React.useRef<{
     x: number;
