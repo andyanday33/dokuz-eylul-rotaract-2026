@@ -121,13 +121,6 @@ export const SlidingText = ({ src, alt }: Props) => {
           if (el) observer.observe(el);
         }
 
-        // The end of the travel is the same size every other masthead renders the
-        // wordmark at; read it rather than repeating the number here.
-        const parkedWidth =
-          getComputedStyle(document.documentElement)
-            .getPropertyValue("--masthead-logo-parked")
-            .trim() || "6.5rem";
-
         // The wordmark becomes clickable only once it has arrived in the masthead.
         ScrollTrigger.create({
           trigger: "#hero",
@@ -171,25 +164,63 @@ export const SlidingText = ({ src, alt }: Props) => {
          * refresh, so a resized window re-measures instead of animating to the
          * old viewport's number.
          */
-        const parkedLeft = () => {
+        const travel = () => {
+          const logo = document.querySelector<HTMLElement>("#slidingText");
           const slot = document.querySelector("[data-masthead-park]");
-          // The masthead is `position: fixed`, so its box is already in the
-          // viewport coordinates that a fixed `left` is expressed in.
-          return slot
-            ? `${slot.getBoundingClientRect().left}px`
-            : "5vw";
+          if (!logo || !slot) return { scale: 1, x: 0, y: 0 };
+
+          // Layout size, so unaffected by whatever transform is on the element
+          // at the moment this runs — which matters because it runs again on
+          // every refresh, by which time a scrub may be mid-flight.
+          const w = logo.offsetWidth;
+          const h = logo.offsetHeight;
+
+          // Where the element sits with no transform of ours: `left: 50%` less
+          // the resting `translateX(-50%)`. `clientWidth` rather than
+          // `innerWidth` because a desktop scrollbar is inside one and not the
+          // other, and `left: 50%` resolves against the narrower of the two.
+          const restLeft = document.documentElement.clientWidth / 2 - w / 2;
+
+          const end = slot.getBoundingClientRect();
+          const scale = end.width / w;
+
+          return {
+            scale,
+            x: end.left - restLeft,
+            // Centred on the slot: the masthead centres it vertically, and
+            // after scaling the element is `h * scale` tall.
+            y: end.top + end.height / 2 - (h * scale) / 2 - placed,
+          };
         };
 
         // yPercent belongs to the end state only — the start keeps the Y axis free
         // of percentages so GSAP has nothing to re-derive. See globals.css.
+        /**
+         * The travel is a transform, and nothing else.
+         *
+         * It used to animate `top`, `left` and `width`. Those are layout
+         * properties: every scrubbed frame made the browser lay the page out
+         * again, repaint it, and only then composite — sixty times a second,
+         * on a phone, while it is also scrolling. That is what the jank was.
+         * `x`, `y` and `scale` compose into one matrix the compositor can
+         * apply on its own, touching neither layout nor paint.
+         *
+         * Functions rather than values, for the same reason as before: the
+         * timeline sets `invalidateOnRefresh`, so each is re-measured on
+         * refresh instead of being frozen at the first viewport.
+         *
+         * `transformOrigin` is the top-left corner so the arithmetic above can
+         * stay simple — scaling about the centre would move the corner too,
+         * and both offsets would have to account for it.
+         */
+        gsap.set("#slidingText", { transformOrigin: "0 0", force3D: true });
+
         tl.to(
           "#slidingText",
           {
-            top: "2rem",
-            left: parkedLeft,
-            xPercent: 0,
-            yPercent: -50,
-            width: parkedWidth,
+            scale: () => travel().scale,
+            x: () => travel().x,
+            y: () => travel().y,
           },
           "<",
         );
