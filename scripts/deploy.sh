@@ -46,6 +46,10 @@ readonly REQUIRED=(
 )
 readonly HEALTH_TIMEOUT=120
 
+# RAM plus swap the build needs, in MB. Overridable from the environment for
+# the case where this is wrong about a particular machine.
+MEMORY_FLOOR_MB="${MEMORY_FLOOR_MB:-2048}"
+
 # Set by preflight, read by the closing message. Initialised here rather than
 # in main() so that `set -u` has something to find on the path where preflight
 # never assigns it — which is the successful one.
@@ -127,9 +131,53 @@ preflight() {
        protocol:  NEXT_PUBLIC_SITE_URL=https://$NEXT_PUBLIC_SITE_URL"
   fi
 
+  check_memory
+
   info "docker $(docker version --format '{{.Server.Version}}')"
   info "compose $(docker compose version --short)"
   info "release $(git rev-parse --short HEAD 2>/dev/null || echo 'not a git checkout')"
+}
+
+# Is there enough memory to compile at all?
+#
+# This exists because the alternative is finding out slowly. `next build` holds
+# the whole module graph, then type-checks, then prerenders each page in a
+# worker that loads React and the app afresh — on 1 GB that is not slow, it is
+# impossible: the kernel kills it, or it thrashes swap for half an hour and
+# then the kernel kills it. Measured on this project: 1 GB dies at ~78s, 4 GB
+# compiles in ~85s.
+#
+# Nothing here frees memory, because there is nothing to free — the only thing
+# on the machine holding any is the site itself, and stopping that to build
+# means taking the site down for the length of the build. So this reports and
+# refuses rather than pretending to fix it.
+check_memory() {
+  [[ -r /proc/meminfo ]] || return 0   # not Linux; nothing to read
+
+  local available swap_free total
+  available=$(awk '/^MemAvailable:/ {print int($2/1024)}' /proc/meminfo)
+  swap_free=$(awk '/^SwapFree:/ {print int($2/1024)}' /proc/meminfo)
+  total=$(( available + swap_free ))
+
+  info "memory: ${available}MB available + ${swap_free}MB swap = ${total}MB"
+
+  if (( swap_free == 0 )); then
+    printf '    %sno swap. A build that overruns RAM is killed rather than slowed.%s\n' "$DIM" "$OFF"
+  fi
+
+  (( total >= MEMORY_FLOOR_MB )) || die "only ${total}MB of memory is available (RAM + swap), and the build needs about ${MEMORY_FLOOR_MB}MB.
+       It would be killed part-way through, most likely without a clear error.
+
+       Either give the machine more memory — on DigitalOcean, resize with
+       \"CPU and RAM only\" so it can be reversed, then size back down after —
+       or add swap, which makes the build slow rather than fatal:
+         fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
+         echo '/swapfile none swap sw 0 0' >> /etc/fstab
+
+       The lasting fix is not to build here at all: build where there is memory,
+       push the image, and let this machine only pull and run.
+
+       To override this check anyway:  MEMORY_FLOOR_MB=0 ./scripts/deploy.sh"
 }
 
 # ---------------------------------------------------------------------------
