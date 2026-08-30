@@ -15,8 +15,15 @@ export const Navbar = ({
   return (
     <header className="fixed navbar inset-x-0 top-0 z-40 border-b border-transparent">
       <nav className="wrapper flex h-16 items-center justify-between">
-        {/* holds the space the travelling wordmark parks in */}
-        <div className="h-7 w-(--masthead-logo-parked)" aria-hidden />
+        {/* Holds the space the travelling wordmark parks in — and, being the
+            first thing inside the wrapper, marks where the wrapper's left edge
+            actually falls. SlidingText measures this rather than repeating the
+            wrapper's geometry in JavaScript. */}
+        <div
+          data-masthead-park
+          className="h-7 w-(--masthead-logo-parked)"
+          aria-hidden
+        />
         <div className="flex items-center gap-5 sm:gap-7">
           <ul className="hidden items-center gap-6 xl:flex">
             {nav.links.map((l) => (

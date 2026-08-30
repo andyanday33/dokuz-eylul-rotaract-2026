@@ -138,13 +138,38 @@ export const SlidingText = ({ src, alt }: Props) => {
 
         tl.to(".hero-fade", { opacity: 0 });
 
+        /**
+         * Where the travel ends, read off the slot the masthead reserves for
+         * it rather than worked out again here.
+         *
+         * `left: "5vw"` was right only up to 1600px. The wrapper is `90vw`
+         * until it hits a `max-width: 90rem` and then centres, so past that
+         * its left edge is `(100vw - 90rem) / 2` — 240px at 1920, where 5vw is
+         * 96px, and the wordmark sat 144px outside the column everything else
+         * lines up to. Measuring the slot is also why changing the wrapper's
+         * width will not quietly desynchronise the two again.
+         *
+         * A function rather than a value because the timeline sets
+         * `invalidateOnRefresh`: GSAP re-runs it on every ScrollTrigger
+         * refresh, so a resized window re-measures instead of animating to the
+         * old viewport's number.
+         */
+        const parkedLeft = () => {
+          const slot = document.querySelector("[data-masthead-park]");
+          // The masthead is `position: fixed`, so its box is already in the
+          // viewport coordinates that a fixed `left` is expressed in.
+          return slot
+            ? `${slot.getBoundingClientRect().left}px`
+            : "5vw";
+        };
+
         // yPercent belongs to the end state only — the start keeps the Y axis free
         // of percentages so GSAP has nothing to re-derive. See globals.css.
         tl.to(
           "#slidingText",
           {
             top: "2rem",
-            left: "5vw",
+            left: parkedLeft,
             xPercent: 0,
             yPercent: -50,
             width: parkedWidth,
