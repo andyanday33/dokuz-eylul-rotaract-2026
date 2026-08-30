@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
+  // Emit a self-contained server in `.next/standalone` — the built app plus
+  // only the node_modules it actually traced. This is what the Docker runtime
+  // stage copies, so the shipped image carries neither the build toolchain nor
+  // the ~1 GB of dependencies that produced it.
+  output: "standalone",
+
   // The version is a fact about the stack that only helps someone scanning for
   // an unpatched Next; nothing on the site needs it.
   poweredByHeader: false,

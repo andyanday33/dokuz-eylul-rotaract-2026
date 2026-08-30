@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the template, which documents what a deploy needs and holds no
+# values. `.env.example` is the one file a new checkout has to be told about.
+!.env.example
 
 # vercel
 .vercel

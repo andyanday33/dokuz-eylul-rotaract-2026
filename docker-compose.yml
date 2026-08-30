@@ -1,0 +1,66 @@
+# Runtime only. The image is built by `scripts/deploy.sh`, not by Compose.
+#
+# The build needs DATABASE_URL and PAYLOAD_SECRET — `next build` prerenders the
+# public pages out of Payload — and passing those through Compose would mean
+# either baking them into a layer as build args or relying on Compose 2.23+ for
+# secrets sourced from the environment. The script uses BuildKit secrets
+# instead, which work on every Docker that can build this file at all. So there
+# is no `build:` key here on purpose: one way to build, and it is the script.
+#
+# There is no database service either. Postgres is the project's Supabase
+# instance, reached over the network by DATABASE_URL, and a local one would be
+# a second empty database that nothing reads.
+
+services:
+  web:
+    image: ${IMAGE_NAME:-rotaract-frontend}:${IMAGE_TAG:-current}
+    container_name: rotaract-web
+    restart: unless-stopped
+
+    # SUPABASE_SECRET_KEY, DATABASE_URL and PAYLOAD_SECRET are read at runtime.
+    # The two NEXT_PUBLIC_ values are already inlined into the client bundle at
+    # build time; they are listed again because the server half of the app
+    # reads them too.
+    env_file: .env
+
+    ports:
+      # Bound to the loopback interface: the container is expected to sit
+      # behind a reverse proxy terminating TLS on the host. Publishing on
+      # 0.0.0.0 would put the Payload admin panel on the open internet over
+      # plain HTTP.
+      - "127.0.0.1:${PORT:-3000}:3000"
+
+    volumes:
+      # Uploads. This is the only state the container owns — everything else
+      # lives in Supabase — so it is the one thing a backup has to cover.
+      - media:/app/media
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/robots.txt').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 45s
+
+    # Without a cap, a container that leaks writes until the host's disk is
+    # full and takes the reverse proxy down with it.
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+    # Node sizes its heap against the *host's* memory, not the container's, so
+    # a limit without this is a limit the process does not know about: it grows
+    # past it and is killed rather than collecting.
+    mem_limit: 1g
+    environment:
+      NODE_OPTIONS: --max-old-space-size=768
+
+volumes:
+  media:
+    name: rotaract-media

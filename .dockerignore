@@ -1,0 +1,34 @@
+# Everything the image builds from is source. Anything that is generated,
+# secret, or specific to one machine stays out — a smaller context is a faster
+# build, and `COPY . .` is otherwise an easy way to bake a `.env` into a layer.
+
+.git
+.gitignore
+.github
+
+node_modules
+.next
+out
+build
+*.tsbuildinfo
+next-env.d.ts
+
+# Secrets. DATABASE_URL and PAYLOAD_SECRET reach the build as BuildKit secrets
+# instead, which are mounted for one RUN and never written to a layer.
+.env
+.env.*
+!.env.example
+*.pem
+
+# Uploads. The named volume in docker-compose.yml is where these live in
+# production; copying a developer's local ones in would put a stale portrait
+# in the image and quietly shadow the volume's own history.
+media
+
+.claude
+.vscode
+.idea
+.DS_Store
+npm-debug.log*
+docs
+README.md
