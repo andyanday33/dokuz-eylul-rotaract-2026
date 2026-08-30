@@ -1,8 +1,18 @@
 import type { FourWayTestBlock } from "@/cms/payload-types";
 
 // Reused paper tooth — same fractal noise as the President's broadsheet.
-const GRAIN =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+/**
+ * Paper tooth, as a tile rather than a filter.
+ *
+ * This was an inline `feTurbulence` SVG, which Chromium rasterises once and
+ * WebKit re-evaluates on every repaint. On an iPhone-sized WebKit that single
+ * difference held the board wheel at 11fps; with the grain drawn from a raster
+ * tile instead it runs at 60. See scripts/make-grain.mjs.
+ *
+ * `repeat` at the tile's own size, so the grain stays the same size in every
+ * section instead of stretching with the element as the SVG did.
+ */
+const GRAIN = "url(/grain.png)";
 
 /**
  * The numeral each question is set under, and how far its stamp is knocked off

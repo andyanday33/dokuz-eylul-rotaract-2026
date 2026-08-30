@@ -239,13 +239,6 @@ export const Board = ({
                 translate: "-50% -50%",
                 transform: `rotate(${rotation}deg)`,
                 transition: "transform 0.7s ease-out",
-                // The wheel turns while all five riders counter-turn inside
-                // it, so every frame is six transforms over images, borders
-                // and ring shadows. Chromium composites that; WebKit was
-                // repainting it and the turn arrived in a few lurches rather
-                // than as a movement. Promoting them says in advance that the
-                // transform is what changes, so the work is done once.
-                willChange: "transform",
               }}
             >
               {/* the ring the members ride, arcing overhead */}
@@ -264,7 +257,6 @@ export const Board = ({
                       translate: "-50% -50%",
                       transform: `rotate(${-rotation}deg)`,
                       transition: "transform 0.7s ease-out",
-                      willChange: "transform",
                     }}
                     className="absolute text-center"
                   >
