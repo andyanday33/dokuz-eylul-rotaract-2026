@@ -32,12 +32,12 @@ export const Committees = async ({ block }: { block: CommitteesBlock }) => {
             <p className="eyebrow rise text-primary">{block.eyebrow}</p>
             <h2
               data-chars
-              className="font-editorial mt-3 max-w-2xl text-4xl italic leading-[1.1] sm:text-5xl"
+              className="font-editorial mt-3 max-w-2xl text-balance text-4xl italic leading-[1.1] sm:text-5xl"
             >
               {block.heading}
             </h2>
           </div>
-          <p className="rise max-w-md text-sm font-light text-paper/60">
+          <p className="prose-copy rise max-w-md text-sm font-light text-paper/60">
             {block.intro}
           </p>
         </div>
@@ -97,8 +97,8 @@ export const Committees = async ({ block }: { block: CommitteesBlock }) => {
                 className="chair-photo absolute inset-0 h-full w-full object-cover object-[50%_40%] grayscale"
               />
               <div className="absolute inset-0 bg-ink/55" />
-              <div className="absolute inset-0 flex items-center justify-between px-4">
-                <div>
+              <div className="absolute inset-0 flex items-center justify-between gap-3 px-4">
+                <div className="min-w-0">
                   <p className="eyebrow text-paper/75">{c.title}</p>
                   <h3 className="font-editorial mt-0.5 text-lg italic text-paper">
                     {c.name}

@@ -16,7 +16,9 @@ export const Numbers = ({ block }: { block: NumbersBlock }) => (
             >
               {stat.big}
             </p>
-            <p className="mt-4 text-sm font-light text-paper/60">{stat.label}</p>
+            <p className="prose-copy mt-4 text-sm font-light text-paper/60">
+              {stat.label}
+            </p>
           </div>
         ))}
       </div>

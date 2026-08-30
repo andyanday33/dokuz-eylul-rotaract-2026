@@ -62,7 +62,7 @@ export const PastPresidents = async ({
 
         <h2
           data-chars
-          className="font-editorial mt-8 max-w-2xl text-[10vw] italic leading-[1.05] tracking-[-0.015em] sm:text-5xl"
+          className="display-5 font-editorial mt-8 max-w-2xl italic leading-[1.05] tracking-[-0.015em]"
         >
           {block.heading}
         </h2>

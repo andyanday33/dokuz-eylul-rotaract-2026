@@ -37,7 +37,7 @@ export const AreasOfFocus = async ({ block }: { block: AreasOfFocusBlock }) => {
 
         <h2
           data-chars
-          className="font-editorial mt-8 max-w-3xl text-[10vw] italic leading-[1.05] tracking-[-0.015em] sm:text-5xl lg:text-6xl"
+          className="display-4 font-editorial mt-8 max-w-3xl italic leading-[1.05] tracking-[-0.015em]"
         >
           {block.heading}
         </h2>
@@ -55,11 +55,11 @@ export const AreasOfFocus = async ({ block }: { block: AreasOfFocusBlock }) => {
                 <p lang={block.altLang} className="eyebrow text-primary">
                   {a.alt}
                 </p>
-                <h3 className="font-editorial mt-2 text-3xl italic leading-[1.02] tracking-[-0.01em] transition-transform duration-500 group-hover:md:translate-x-2 motion-reduce:transition-none sm:text-5xl lg:text-[3.5rem]">
+                <h3 className="font-editorial mt-2 text-balance text-3xl italic leading-[1.02] tracking-[-0.01em] transition-transform duration-500 group-hover:md:translate-x-2 motion-reduce:transition-none sm:text-5xl lg:text-[3.5rem]">
                   {a.title}
                 </h3>
               </div>
-              <p className="max-w-md text-sm font-light leading-relaxed text-foreground/65 md:pb-2">
+              <p className="prose-copy max-w-md text-sm font-light leading-relaxed text-foreground/65 md:pb-2">
                 {a.body}
               </p>
             </li>

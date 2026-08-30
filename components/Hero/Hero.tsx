@@ -60,13 +60,13 @@ export const Hero = ({ block }: { block: HeroBlock }) => {
           >
             <div>
               <h1 className="sr-only">{block.srTitle}</h1>
-              <p className="font-editorial max-w-2xl text-[8vw] italic leading-[1.08] sm:text-4xl lg:text-5xl">
+              <p className="display-5 font-editorial max-w-2xl italic leading-[1.08]">
                 {block.taglineLead}{" "}
                 <span className="text-primary">{block.taglineAccent}</span>
               </p>
             </div>
             <div className="flex flex-col items-start gap-5 md:items-end md:text-right">
-              <p className="max-w-xs text-sm font-light leading-relaxed text-foreground/60">
+              <p className="prose-copy max-w-xs text-sm font-light leading-relaxed text-foreground/60">
                 {block.meetingNote}
               </p>
               <a

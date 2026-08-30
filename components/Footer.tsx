@@ -15,7 +15,7 @@ export const Footer = async () => {
       <Grain variant="ink" />
 
       <div className="wrapper relative z-10 py-16 sm:py-20">
-        <p className="font-editorial max-w-4xl text-[9vw] italic leading-[1.05] sm:text-5xl lg:text-6xl">
+        <p className="display-4 font-editorial max-w-4xl italic leading-[1.05]">
           {footer.tagline}
         </p>
 

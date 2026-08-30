@@ -107,7 +107,7 @@ export const FourWayTest = ({ block }: { block: FourWayTestBlock }) => {
 
         <h2
           data-chars
-          className="font-editorial mt-8 max-w-5xl text-[11vw] italic leading-[1.12] tracking-[-0.015em] sm:text-6xl lg:text-8xl"
+          className="display-2 font-editorial mt-8 max-w-5xl italic leading-[1.12] tracking-[-0.015em]"
         >
           {block.heading}
         </h2>
@@ -128,12 +128,12 @@ export const FourWayTest = ({ block }: { block: FourWayTestBlock }) => {
               <div className="max-w-2xl sm:pr-36 md:pr-0">
                 <h3
                   data-chars
-                  className="font-editorial text-4xl italic leading-[1.1] tracking-[-0.01em] sm:text-5xl"
+                  className="font-editorial text-balance text-4xl italic leading-[1.1] tracking-[-0.01em] sm:text-5xl"
                 >
                   {item.q}
                 </h3>
                 <div className="rule rule-cranberry mt-5 h-0.5 w-full" />
-                <p className="rise mt-5 text-lg font-light leading-relaxed text-foreground/70">
+                <p className="prose-copy rise mt-5 text-lg font-light leading-relaxed text-foreground/70">
                   {item.a}
                 </p>
               </div>

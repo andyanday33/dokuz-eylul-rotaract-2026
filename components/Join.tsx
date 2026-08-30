@@ -20,11 +20,11 @@ export const Join = ({ block }: { block: JoinBlock }) => {
         <p className="eyebrow rise">{block.eyebrow}</p>
         <h2
           data-chars
-          className="font-editorial mt-6 max-w-3xl text-[13vw] italic leading-[1.05] sm:text-6xl lg:text-7xl"
+          className="display-3 font-editorial mt-6 max-w-3xl italic leading-[1.05]"
         >
           {block.heading}
         </h2>
-        <p className="rise mt-8 max-w-lg text-lg font-light opacity-90">
+        <p className="prose-copy rise mt-8 max-w-lg text-lg font-light opacity-90">
           {block.body}
         </p>
         <a

@@ -145,6 +145,66 @@
   font-size: 0.6875rem;
 }
 
+/* Display type scale — the Bodoni settings, one step per size the page
+   actually uses, largest first.
+
+   These exist because the headings they replace were sized in `vw` on phones
+   and in fixed `rem` steps from `sm:` up, and the two curves crossed: at 639px
+   the president's letter heading was 15vw = 96px, and at 640px the `sm:` step
+   took over at 72px. Every display heading on the site got SMALLER as the
+   viewport got BIGGER, by 10px at best and 24px at worst, which reads as the
+   page flinching when a tablet is turned.
+
+   One `clamp()` per step removes the seam: it grows with the viewport and
+   stops, so the curve only ever goes up. Each is solved through the two
+   anchors its heading already had — its size on a 390px phone and its size at
+   1024px — so the phone and the desktop look as they did and only the middle
+   is repaired.
+
+   `balance` belongs here rather than at each call site: these are all short,
+   two-to-six-word lines set large, which is exactly the case where the last
+   line is otherwise left holding one word. `break-word` is a guard, not a
+   style — Turkish sets long compounds ("Uluslararası", "Gerçekleştirdiğimiz")
+   and at 15vw a single one can outrun a 340px screen. It only acts when a word
+   cannot fit at all, so it never breaks type that had room. */
+@utility display-1 {
+  font-size: clamp(3.25rem, 1.24rem + 9.78vw, 7.5rem);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+@utility display-2 {
+  font-size: clamp(2.5rem, 0.75rem + 8.2vw, 6rem);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+@utility display-3 {
+  font-size: clamp(2.25rem, 1.67rem + 4.42vw, 4.5rem);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+@utility display-4 {
+  font-size: clamp(2rem, 1.53rem + 3.47vw, 3.75rem);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+@utility display-5 {
+  font-size: clamp(1.875rem, 1.69rem + 2.05vw, 3rem);
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+/* The letter, the pillar blurbs, the answers under the Four-Way Test: running
+   prose, where `balance` is the wrong tool (it is capped at a handful of lines
+   and would even out a whole paragraph's rag) and `pretty` is the right one —
+   it only works the last lines, so a paragraph never ends on a single word. */
+@utility prose-copy {
+  text-wrap: pretty;
+}
+
 @utility wrapper {
   width: 90vw;
   max-width: 90rem;

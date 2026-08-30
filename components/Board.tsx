@@ -199,12 +199,12 @@ export const Board = ({
             <p className="eyebrow rise text-primary">{block.eyebrow}</p>
             <h2
               data-chars
-              className="font-editorial mt-3 max-w-2xl text-4xl italic leading-[1.1] sm:text-5xl"
+              className="font-editorial mt-3 max-w-2xl text-balance text-4xl italic leading-[1.1] sm:text-5xl"
             >
               {block.heading}
             </h2>
           </div>
-          <p className="rise max-w-md text-sm font-light text-foreground/60">
+          <p className="prose-copy rise max-w-md text-sm font-light text-foreground/60">
             {block.intro}
           </p>
         </div>

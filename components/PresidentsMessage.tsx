@@ -196,7 +196,7 @@ export const PresidentsMessage = ({
 
         <h2
           data-stagger
-          className="font-editorial mt-6 max-w-[15ch] text-[15vw] italic leading-[1.15] tracking-[-0.01em] sm:text-7xl lg:text-[7.5rem]"
+          className="display-1 font-editorial mt-6 max-w-[15ch] italic leading-[1.15] tracking-[-0.01em]"
         >
           {block.heading}
         </h2>
@@ -267,7 +267,7 @@ export const PresidentsMessage = ({
           <div className="relative">
             <div
               data-stagger
-              className="space-y-6 text-lg font-light leading-relaxed text-background/70"
+              className="prose-copy max-w-[66ch] space-y-6 text-lg font-light leading-relaxed text-background/70"
             >
               <p className="font-editorial text-xl italic text-background/85 sm:text-2xl">
                 {block.salutation.split("\n").map((line, i) => (
@@ -294,7 +294,7 @@ export const PresidentsMessage = ({
 
             <div
               data-stagger
-              className="space-y-6 text-lg font-light leading-relaxed text-background/70"
+              className="prose-copy max-w-[66ch] space-y-6 text-lg font-light leading-relaxed text-background/70"
             >
               {block.closingParagraphs.map((para, i) => (
                 <p key={para.id ?? i}>{para.text}</p>

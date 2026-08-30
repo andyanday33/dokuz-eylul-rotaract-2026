@@ -61,9 +61,14 @@ export const SiteMenu = ({
         }}
         aria-expanded={open}
         aria-controls="site-menu"
-        className="eyebrow flex items-center gap-2.5 text-muted-foreground transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary xl:hidden"
+        // The rules are the whole control now that the word has gone, so the
+        // name it is announced by has to be carried here instead of read off
+        // the label. Padding pulled back out by the negative margin: it is
+        // there to give the two hairlines a thumb-sized target, not to move
+        // them off the masthead's baseline.
+        aria-label={nav.menu}
+        className="-m-2.5 flex items-center p-2.5 text-muted-foreground transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary xl:hidden"
       >
-        {nav.menu}
         <span aria-hidden className="relative block h-3.5 w-5">
           <span className="absolute inset-x-0 top-0.5 h-px bg-current" />
           <span className="absolute inset-x-0 bottom-0.5 h-px bg-current" />

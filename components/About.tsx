@@ -35,19 +35,21 @@ export const About = ({ block }: { block: AboutBlock }) => (
 
       <h2
         data-chars
-        className="font-editorial mt-8 max-w-4xl text-[11vw] italic leading-[1.1] tracking-[-0.015em] sm:text-6xl lg:text-7xl"
+        className="display-3 font-editorial mt-8 max-w-4xl italic leading-[1.1] tracking-[-0.015em]"
       >
         {block.heading}
       </h2>
 
-      <div className="mt-16 grid gap-x-12 gap-y-12 border-t border-foreground/15 pt-12 md:grid-cols-3">
+      <div className="mt-16 grid gap-x-12 gap-y-12 border-t border-foreground/15 pt-12 lg:grid-cols-3">
         {block.pillars.map((p) => (
           <article key={p.id ?? p.n} className="rise">
             <span className="font-editorial text-5xl italic text-primary">
               {p.n}
             </span>
-            <h3 className="font-editorial mt-4 text-2xl italic">{p.title}</h3>
-            <p className="mt-3 font-light leading-relaxed text-foreground/70">
+            <h3 className="font-editorial mt-4 text-balance text-2xl italic">
+              {p.title}
+            </h3>
+            <p className="prose-copy mt-3 max-w-[60ch] font-light leading-relaxed text-foreground/70">
               {p.body}
             </p>
           </article>
