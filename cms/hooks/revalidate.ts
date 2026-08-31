@@ -4,6 +4,7 @@ import type {
   CollectionAfterDeleteHook,
 } from "payload";
 import { LOCALES } from "../../i18n/config";
+import { HOME_PATH } from "../home";
 
 /**
  * Pushes an edit out to the public site.
@@ -31,6 +32,17 @@ const revalidate = (paths: string[]) => {
 };
 
 const revalidateSite = () => revalidate(["", "/presidents"]);
+
+/**
+ * A page document's `path` is not its address.
+ *
+ * The home page is stored as a page at `home` but answers at `/tr` and `/en` —
+ * `app/(site)/[lang]/page.tsx` asks for it by name and the catch-all refuses
+ * it, so `/tr/home` is a 404 with no cache entry behind it. Revalidating the
+ * stored path would clear nothing and leave the one page everybody sees
+ * serving its build-time render until the next deploy.
+ */
+const addressOf = (path: string) => (path === HOME_PATH ? "" : `/${path}`);
 
 export const revalidateAfterChange: CollectionAfterChangeHook = ({ doc }) => {
   revalidateSite();
@@ -60,7 +72,7 @@ export const revalidatePage: CollectionAfterChangeHook &
   const previous = (rest as { previousDoc?: { path?: string } }).previousDoc;
   const paths = new Set<string>();
   for (const path of [doc?.path, previous?.path])
-    if (typeof path === "string" && path) paths.add(`/${path}`);
+    if (typeof path === "string" && path) paths.add(addressOf(path));
   revalidate([...paths]);
   return doc;
 };
